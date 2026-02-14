@@ -1,0 +1,1562 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EDEN DRIVE — Chauffeur Privé VTC Marseille | Tesla Model 3</title>
+    <meta name="description" content="EDEN DRIVE, votre chauffeur privé VTC à Marseille. Transferts aéroport Marignane, Gare Saint-Charles, mise à disposition. Tesla Model 3. Réservez en ligne 24h/24.">
+    <meta name="keywords" content="VTC Marseille, chauffeur privé Marseille, transfert aéroport Marignane, Tesla VTC, chauffeur privé aéroport Marseille, VTC gare Saint-Charles, Eden Drive">
+    <meta name="robots" content="index, follow">
+    <meta name="author" content="Eden Drive">
+    <meta property="og:title" content="EDEN DRIVE — Chauffeur Privé VTC Marseille">
+    <meta property="og:description" content="Service premium de chauffeur privé en Tesla Model 3. Transferts aéroport, gare, mise à disposition. Réservez en ligne.">
+    <meta property="og:type" content="website">
+    <meta property="og:locale" content="fr_FR">
+    <link rel="canonical" href="https://www.edendrive.fr">
+
+    <!-- Schema.org LocalBusiness -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "LocalBusiness",
+        "name": "Eden Drive",
+        "description": "Chauffeur privé VTC à Marseille. Service premium en Tesla Model 3. Transferts aéroport Marignane, Gare Saint-Charles, mise à disposition.",
+        "url": "https://www.edendrive.fr",
+        "telephone": "+33620821890",
+        "email": "contact@edendrive.fr",
+        "address": {
+            "@type": "PostalAddress",
+            "streetAddress": "18 avenue de la Côte d'Azur",
+            "addressLocality": "Marseille",
+            "addressRegion": "Provence-Alpes-Côte d'Azur",
+            "postalCode": "13008",
+            "addressCountry": "FR"
+        },
+        "geo": {
+            "@type": "GeoCoordinates",
+            "latitude": 43.2965,
+            "longitude": 5.3698
+        },
+        "areaServed": ["Marseille", "Aix-en-Provence", "Marignane", "Bouches-du-Rhône", "PACA"],
+        "priceRange": "€€",
+        "openingHoursSpecification": {
+            "@type": "OpeningHoursSpecification",
+            "dayOfWeek": ["Monday","Tuesday","Wednesday","Thursday","Friday","Saturday","Sunday"],
+            "opens": "00:00",
+            "closes": "23:59"
+        },
+        "sameAs": []
+    }
+    </script>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400&family=Outfit:wght@200;300;400;500;600&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --gold: #C9A84C;
+            --gold-light: #E2CB7D;
+            --gold-dark: #A8872E;
+            --cream: #FAF7F0;
+            --cream-dark: #F0EBE0;
+            --white: #FFFFFF;
+            --charcoal: #1A1A1A;
+            --charcoal-light: #2D2D2D;
+            --text-dark: #1A1A1A;
+            --text-medium: #5A5A5A;
+            --text-light: #8A8A8A;
+            --bg-overlay: rgba(26, 26, 26, 0.55);
+            --serif: 'Cormorant Garamond', Georgia, serif;
+            --sans: 'Outfit', system-ui, sans-serif;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+            font-size: 16px;
+        }
+
+        body {
+            font-family: var(--sans);
+            background: var(--cream);
+            color: var(--text-dark);
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* ===== PRELOADER ===== */
+        .preloader {
+            position: fixed;
+            inset: 0;
+            background: var(--charcoal);
+            z-index: 10000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: opacity 0.8s ease, visibility 0.8s ease;
+        }
+        .preloader.hidden {
+            opacity: 0;
+            visibility: hidden;
+        }
+        .preloader-logo {
+            font-family: var(--serif);
+            font-size: 2.5rem;
+            font-weight: 300;
+            color: var(--gold);
+            letter-spacing: 0.4em;
+            animation: preloaderPulse 1.5s ease-in-out infinite;
+        }
+        @keyframes preloaderPulse {
+            0%, 100% { opacity: 0.4; }
+            50% { opacity: 1; }
+        }
+
+        /* ===== NAVBAR ===== */
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            padding: 1.25rem 3rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            transition: all 0.5s ease;
+            background: transparent;
+        }
+        .navbar.scrolled {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            box-shadow: 0 1px 30px rgba(0,0,0,0.06);
+            padding: 0.8rem 3rem;
+        }
+        .nav-logo {
+            font-family: var(--serif);
+            font-size: 1.6rem;
+            font-weight: 300;
+            letter-spacing: 0.3em;
+            color: var(--white);
+            text-decoration: none;
+            transition: color 0.5s ease;
+        }
+        .navbar.scrolled .nav-logo {
+            color: var(--charcoal);
+        }
+        .nav-links {
+            display: flex;
+            gap: 2.5rem;
+            list-style: none;
+            align-items: center;
+        }
+        .nav-links a {
+            font-family: var(--sans);
+            font-size: 0.8rem;
+            font-weight: 400;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            color: rgba(255,255,255,0.85);
+            text-decoration: none;
+            transition: color 0.3s ease;
+            position: relative;
+        }
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -4px;
+            left: 0;
+            width: 0;
+            height: 1px;
+            background: var(--gold);
+            transition: width 0.3s ease;
+        }
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+        .navbar.scrolled .nav-links a {
+            color: var(--text-medium);
+        }
+        .navbar.scrolled .nav-links a:hover {
+            color: var(--charcoal);
+        }
+        .nav-cta {
+            padding: 0.65rem 1.8rem;
+            background: var(--gold);
+            color: var(--white) !important;
+            border-radius: 0;
+            font-weight: 500;
+            letter-spacing: 0.12em;
+            transition: all 0.3s ease !important;
+        }
+        .nav-cta::after { display: none !important; }
+        .nav-cta:hover {
+            background: var(--gold-dark) !important;
+            transform: translateY(-1px);
+        }
+
+        /* Mobile menu */
+        .nav-toggle {
+            display: none;
+            flex-direction: column;
+            gap: 5px;
+            cursor: pointer;
+            z-index: 1001;
+        }
+        .nav-toggle span {
+            width: 24px;
+            height: 1.5px;
+            background: var(--white);
+            transition: all 0.3s ease;
+        }
+        .navbar.scrolled .nav-toggle span {
+            background: var(--charcoal);
+        }
+
+        /* ===== HERO ===== */
+        .hero {
+            position: relative;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+        .hero-bg {
+            position: absolute;
+            inset: 0;
+            background: 
+                linear-gradient(135deg, rgba(26,26,26,0.7) 0%, rgba(26,26,26,0.3) 50%, rgba(26,26,26,0.6) 100%),
+                linear-gradient(to bottom, transparent 60%, var(--cream) 100%);
+            background-color: #2a2a2a;
+            z-index: 1;
+        }
+        .hero-pattern {
+            position: absolute;
+            inset: 0;
+            background-image: 
+                radial-gradient(ellipse at 20% 50%, rgba(201,168,76,0.12) 0%, transparent 50%),
+                radial-gradient(ellipse at 80% 20%, rgba(201,168,76,0.08) 0%, transparent 40%);
+            z-index: 2;
+        }
+        .hero-content {
+            position: relative;
+            z-index: 3;
+            text-align: center;
+            padding: 0 2rem;
+            max-width: 900px;
+        }
+        .hero-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem 1.5rem;
+            border: 1px solid rgba(201,168,76,0.4);
+            margin-bottom: 2rem;
+            font-family: var(--sans);
+            font-size: 0.7rem;
+            letter-spacing: 0.25em;
+            text-transform: uppercase;
+            color: var(--gold-light);
+            opacity: 0;
+            animation: fadeInUp 1s ease forwards 0.5s;
+        }
+        .hero-badge .dot {
+            width: 6px;
+            height: 6px;
+            background: var(--gold);
+            border-radius: 50%;
+            animation: pulse 2s ease-in-out infinite;
+        }
+        @keyframes pulse {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.5; transform: scale(0.8); }
+        }
+        .hero h1 {
+            font-family: var(--serif);
+            font-size: clamp(3rem, 8vw, 6.5rem);
+            font-weight: 300;
+            color: var(--white);
+            line-height: 1.05;
+            margin-bottom: 0.5rem;
+            opacity: 0;
+            animation: fadeInUp 1s ease forwards 0.7s;
+        }
+        .hero h1 .gold {
+            color: var(--gold);
+            font-style: italic;
+        }
+        .hero-sub {
+            font-family: var(--sans);
+            font-size: 1.05rem;
+            font-weight: 300;
+            color: rgba(255,255,255,0.65);
+            letter-spacing: 0.08em;
+            margin-bottom: 3rem;
+            opacity: 0;
+            animation: fadeInUp 1s ease forwards 0.9s;
+        }
+        .hero-ctas {
+            display: flex;
+            gap: 1.2rem;
+            justify-content: center;
+            flex-wrap: wrap;
+            opacity: 0;
+            animation: fadeInUp 1s ease forwards 1.1s;
+        }
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Buttons */
+        .btn-primary {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.6rem;
+            padding: 1rem 2.5rem;
+            background: var(--gold);
+            color: var(--white);
+            font-family: var(--sans);
+            font-size: 0.78rem;
+            font-weight: 500;
+            letter-spacing: 0.18em;
+            text-transform: uppercase;
+            text-decoration: none;
+            border: none;
+            cursor: pointer;
+            transition: all 0.4s ease;
+        }
+        .btn-primary:hover {
+            background: var(--gold-dark);
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(201,168,76,0.3);
+        }
+        .btn-secondary {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.6rem;
+            padding: 1rem 2.5rem;
+            background: transparent;
+            color: var(--white);
+            font-family: var(--sans);
+            font-size: 0.78rem;
+            font-weight: 400;
+            letter-spacing: 0.18em;
+            text-transform: uppercase;
+            text-decoration: none;
+            border: 1px solid rgba(255,255,255,0.3);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        .btn-secondary:hover {
+            border-color: var(--gold);
+            color: var(--gold-light);
+        }
+
+        /* ===== SCROLL INDICATOR ===== */
+        .scroll-indicator {
+            position: absolute;
+            bottom: 3rem;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 3;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.5rem;
+            opacity: 0;
+            animation: fadeInUp 1s ease forwards 1.5s;
+        }
+        .scroll-line {
+            width: 1px;
+            height: 40px;
+            background: linear-gradient(to bottom, var(--gold), transparent);
+            animation: scrollDown 2s ease-in-out infinite;
+        }
+        @keyframes scrollDown {
+            0% { transform: scaleY(0); transform-origin: top; }
+            50% { transform: scaleY(1); transform-origin: top; }
+            50.01% { transform-origin: bottom; }
+            100% { transform: scaleY(0); transform-origin: bottom; }
+        }
+
+        /* ===== SECTION STYLES ===== */
+        section {
+            padding: 7rem 2rem;
+        }
+        .section-inner {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        .section-label {
+            font-family: var(--sans);
+            font-size: 0.7rem;
+            font-weight: 500;
+            letter-spacing: 0.3em;
+            text-transform: uppercase;
+            color: var(--gold);
+            margin-bottom: 1rem;
+        }
+        .section-title {
+            font-family: var(--serif);
+            font-size: clamp(2rem, 4vw, 3.2rem);
+            font-weight: 300;
+            color: var(--text-dark);
+            line-height: 1.15;
+            margin-bottom: 1.5rem;
+        }
+        .section-subtitle {
+            font-family: var(--sans);
+            font-size: 1rem;
+            font-weight: 300;
+            color: var(--text-medium);
+            line-height: 1.7;
+            max-width: 600px;
+        }
+
+        /* ===== SERVICES ===== */
+        #services {
+            background: var(--white);
+        }
+        .services-header {
+            text-align: center;
+            margin-bottom: 4rem;
+        }
+        .services-header .section-subtitle {
+            margin: 0 auto;
+        }
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2rem;
+        }
+        .service-card {
+            padding: 2.5rem;
+            background: var(--cream);
+            border: 1px solid transparent;
+            transition: all 0.5s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        .service-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: linear-gradient(90deg, var(--gold), var(--gold-light), var(--gold));
+            transform: scaleX(0);
+            transition: transform 0.5s ease;
+        }
+        .service-card:hover::before {
+            transform: scaleX(1);
+        }
+        .service-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 60px rgba(0,0,0,0.06);
+            border-color: rgba(201,168,76,0.15);
+        }
+        .service-icon {
+            font-size: 2rem;
+            margin-bottom: 1.5rem;
+        }
+        .service-card h3 {
+            font-family: var(--serif);
+            font-size: 1.5rem;
+            font-weight: 400;
+            margin-bottom: 0.8rem;
+            color: var(--text-dark);
+        }
+        .service-card p {
+            font-size: 0.9rem;
+            font-weight: 300;
+            color: var(--text-medium);
+            line-height: 1.7;
+        }
+        .service-price {
+            display: inline-block;
+            margin-top: 1.2rem;
+            padding: 0.4rem 1rem;
+            background: rgba(201,168,76,0.1);
+            color: var(--gold-dark);
+            font-size: 0.8rem;
+            font-weight: 500;
+            letter-spacing: 0.05em;
+        }
+
+        /* ===== TESLA SECTION ===== */
+        #vehicule {
+            background: var(--charcoal);
+            position: relative;
+            overflow: hidden;
+        }
+        #vehicule::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(ellipse at 70% 50%, rgba(201,168,76,0.08) 0%, transparent 60%);
+        }
+        .tesla-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: center;
+        }
+        .tesla-text .section-label {
+            color: var(--gold-light);
+        }
+        .tesla-text .section-title {
+            color: var(--white);
+        }
+        .tesla-text .section-subtitle {
+            color: rgba(255,255,255,0.6);
+        }
+        .tesla-features {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.5rem;
+            margin-top: 2.5rem;
+        }
+        .tesla-feature {
+            display: flex;
+            align-items: flex-start;
+            gap: 0.8rem;
+        }
+        .tesla-feature-icon {
+            width: 36px;
+            height: 36px;
+            border: 1px solid rgba(201,168,76,0.3);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            color: var(--gold);
+            font-size: 0.9rem;
+        }
+        .tesla-feature-text h4 {
+            font-family: var(--sans);
+            font-size: 0.85rem;
+            font-weight: 500;
+            color: var(--white);
+            margin-bottom: 0.2rem;
+        }
+        .tesla-feature-text p {
+            font-size: 0.78rem;
+            font-weight: 300;
+            color: rgba(255,255,255,0.45);
+        }
+        .tesla-visual {
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .tesla-card {
+            width: 100%;
+            aspect-ratio: 4/3;
+            background: linear-gradient(135deg, #1f1f1f 0%, #2d2d2d 50%, #1a1a1a 100%);
+            border: 1px solid rgba(201,168,76,0.15);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+        }
+        .tesla-card::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(ellipse at 50% 80%, rgba(201,168,76,0.05) 0%, transparent 70%);
+        }
+        .tesla-silhouette {
+            font-size: 5rem;
+            margin-bottom: 1rem;
+            filter: drop-shadow(0 0 40px rgba(201,168,76,0.15));
+        }
+        .tesla-card-label {
+            font-family: var(--serif);
+            font-size: 1.4rem;
+            font-weight: 300;
+            color: var(--white);
+            letter-spacing: 0.1em;
+        }
+        .tesla-card-sub {
+            font-family: var(--sans);
+            font-size: 0.75rem;
+            font-weight: 300;
+            color: rgba(255,255,255,0.4);
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            margin-top: 0.3rem;
+        }
+
+        /* ===== BOOKING ===== */
+        #reservation {
+            background: var(--cream);
+            position: relative;
+        }
+        .booking-container {
+            display: grid;
+            grid-template-columns: 1fr 1.2fr;
+            gap: 4rem;
+            align-items: start;
+        }
+        .booking-form-wrapper {
+            background: var(--white);
+            padding: 3rem;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.06);
+            border: 1px solid rgba(201,168,76,0.1);
+        }
+        .form-title {
+            font-family: var(--serif);
+            font-size: 1.8rem;
+            font-weight: 400;
+            margin-bottom: 0.5rem;
+        }
+        .form-sub {
+            font-size: 0.85rem;
+            font-weight: 300;
+            color: var(--text-light);
+            margin-bottom: 2rem;
+        }
+        .form-group {
+            margin-bottom: 1.3rem;
+        }
+        .form-group label {
+            display: block;
+            font-size: 0.72rem;
+            font-weight: 500;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            color: var(--text-medium);
+            margin-bottom: 0.5rem;
+        }
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 0.9rem 1rem;
+            border: 1px solid #E5E2DB;
+            background: var(--cream);
+            font-family: var(--sans);
+            font-size: 0.9rem;
+            font-weight: 300;
+            color: var(--text-dark);
+            outline: none;
+            transition: border-color 0.3s ease;
+        }
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            border-color: var(--gold);
+        }
+        .form-group input::placeholder {
+            color: var(--text-light);
+        }
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+        }
+        .form-submit {
+            width: 100%;
+            padding: 1.1rem;
+            background: var(--gold);
+            color: var(--white);
+            border: none;
+            font-family: var(--sans);
+            font-size: 0.8rem;
+            font-weight: 500;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 0.5rem;
+        }
+        .form-submit:hover {
+            background: var(--gold-dark);
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(201,168,76,0.25);
+        }
+        .form-note {
+            text-align: center;
+            margin-top: 1rem;
+            font-size: 0.75rem;
+            color: var(--text-light);
+        }
+
+        /* Booking info side */
+        .booking-info {
+            padding-top: 1rem;
+        }
+        .booking-info .section-subtitle {
+            margin-bottom: 3rem;
+        }
+        .info-items {
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+        }
+        .info-item {
+            display: flex;
+            gap: 1.2rem;
+            align-items: flex-start;
+        }
+        .info-icon {
+            width: 48px;
+            height: 48px;
+            background: rgba(201,168,76,0.08);
+            border: 1px solid rgba(201,168,76,0.15);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            font-size: 1.2rem;
+        }
+        .info-item h4 {
+            font-family: var(--sans);
+            font-size: 0.95rem;
+            font-weight: 500;
+            color: var(--text-dark);
+            margin-bottom: 0.3rem;
+        }
+        .info-item p {
+            font-size: 0.85rem;
+            font-weight: 300;
+            color: var(--text-medium);
+            line-height: 1.6;
+        }
+
+        /* Price examples */
+        .price-grid {
+            margin-top: 3rem;
+            padding: 2rem;
+            background: var(--white);
+            border: 1px solid rgba(201,168,76,0.1);
+        }
+        .price-grid h4 {
+            font-family: var(--serif);
+            font-size: 1.2rem;
+            font-weight: 400;
+            margin-bottom: 1.2rem;
+            color: var(--text-dark);
+        }
+        .price-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.8rem 0;
+            border-bottom: 1px solid rgba(0,0,0,0.04);
+        }
+        .price-row:last-child {
+            border-bottom: none;
+        }
+        .price-route {
+            font-size: 0.88rem;
+            font-weight: 300;
+            color: var(--text-dark);
+        }
+        .price-amount {
+            font-family: var(--sans);
+            font-size: 0.9rem;
+            font-weight: 500;
+            color: var(--gold-dark);
+        }
+
+        /* ===== TRUST SECTION ===== */
+        #confiance {
+            background: var(--white);
+        }
+        .trust-header {
+            text-align: center;
+            margin-bottom: 4rem;
+        }
+        .trust-header .section-subtitle {
+            margin: 0 auto;
+        }
+        .trust-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 2rem;
+            text-align: center;
+        }
+        .trust-item {
+            padding: 2rem 1rem;
+        }
+        .trust-number {
+            font-family: var(--serif);
+            font-size: 3rem;
+            font-weight: 300;
+            color: var(--gold);
+            line-height: 1;
+            margin-bottom: 0.5rem;
+        }
+        .trust-label {
+            font-size: 0.8rem;
+            font-weight: 400;
+            color: var(--text-medium);
+            letter-spacing: 0.05em;
+        }
+
+        /* Divider */
+        .gold-divider {
+            width: 50px;
+            height: 1px;
+            background: var(--gold);
+            margin: 2rem auto;
+        }
+
+        /* ===== TESTIMONIALS ===== */
+        .testimonials {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2rem;
+            margin-top: 4rem;
+        }
+        .testimonial {
+            padding: 2rem;
+            background: var(--cream);
+            border: 1px solid transparent;
+            transition: border-color 0.3s ease;
+        }
+        .testimonial:hover {
+            border-color: rgba(201,168,76,0.2);
+        }
+        .testimonial-stars {
+            color: var(--gold);
+            font-size: 0.85rem;
+            margin-bottom: 1rem;
+            letter-spacing: 0.1em;
+        }
+        .testimonial p {
+            font-size: 0.9rem;
+            font-weight: 300;
+            color: var(--text-medium);
+            line-height: 1.7;
+            font-style: italic;
+            margin-bottom: 1.2rem;
+        }
+        .testimonial-author {
+            font-size: 0.8rem;
+            font-weight: 500;
+            color: var(--text-dark);
+        }
+        .testimonial-source {
+            font-size: 0.72rem;
+            color: var(--text-light);
+        }
+
+        /* ===== CTA BANNER ===== */
+        .cta-banner {
+            background: var(--charcoal);
+            padding: 5rem 2rem;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        .cta-banner::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(ellipse at 50% 50%, rgba(201,168,76,0.1) 0%, transparent 60%);
+        }
+        .cta-banner * {
+            position: relative;
+        }
+        .cta-banner h2 {
+            font-family: var(--serif);
+            font-size: clamp(1.8rem, 3.5vw, 2.8rem);
+            font-weight: 300;
+            color: var(--white);
+            margin-bottom: 1rem;
+        }
+        .cta-banner p {
+            font-size: 1rem;
+            font-weight: 300;
+            color: rgba(255,255,255,0.55);
+            margin-bottom: 2.5rem;
+        }
+        .cta-phone {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.8rem;
+            font-family: var(--serif);
+            font-size: 1.8rem;
+            font-weight: 400;
+            color: var(--gold);
+            text-decoration: none;
+            margin-bottom: 2rem;
+            transition: color 0.3s ease;
+        }
+        .cta-phone:hover {
+            color: var(--gold-light);
+        }
+        .cta-channels {
+            display: flex;
+            gap: 1.5rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+        .cta-channel {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.7rem 1.5rem;
+            border: 1px solid rgba(255,255,255,0.15);
+            color: rgba(255,255,255,0.7);
+            font-size: 0.78rem;
+            font-weight: 400;
+            letter-spacing: 0.08em;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+        .cta-channel:hover {
+            border-color: var(--gold);
+            color: var(--gold-light);
+        }
+
+        /* ===== FOOTER ===== */
+        footer {
+            background: #111;
+            padding: 4rem 2rem 2rem;
+        }
+        .footer-inner {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr 1fr;
+            gap: 3rem;
+        }
+        .footer-brand .nav-logo {
+            display: block;
+            margin-bottom: 1rem;
+            color: var(--white);
+        }
+        .footer-brand p {
+            font-size: 0.85rem;
+            font-weight: 300;
+            color: rgba(255,255,255,0.4);
+            line-height: 1.7;
+        }
+        .footer-col h4 {
+            font-family: var(--sans);
+            font-size: 0.72rem;
+            font-weight: 500;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            color: var(--gold);
+            margin-bottom: 1.2rem;
+        }
+        .footer-col a {
+            display: block;
+            font-size: 0.85rem;
+            font-weight: 300;
+            color: rgba(255,255,255,0.45);
+            text-decoration: none;
+            margin-bottom: 0.6rem;
+            transition: color 0.3s ease;
+        }
+        .footer-col a:hover {
+            color: var(--white);
+        }
+        .footer-bottom {
+            max-width: 1200px;
+            margin: 3rem auto 0;
+            padding-top: 2rem;
+            border-top: 1px solid rgba(255,255,255,0.06);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.75rem;
+            color: rgba(255,255,255,0.25);
+        }
+
+        /* ===== ANIMATIONS on scroll ===== */
+        .reveal {
+            opacity: 0;
+            transform: translateY(40px);
+            transition: opacity 0.8s ease, transform 0.8s ease;
+        }
+        .reveal.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* ===== RESPONSIVE ===== */
+        @media (max-width: 1024px) {
+            .services-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            .tesla-grid {
+                grid-template-columns: 1fr;
+                gap: 3rem;
+            }
+            .booking-container {
+                grid-template-columns: 1fr;
+            }
+            .trust-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            .testimonials {
+                grid-template-columns: 1fr 1fr;
+            }
+            .footer-inner {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .navbar {
+                padding: 1rem 1.5rem;
+            }
+            .navbar.scrolled {
+                padding: 0.8rem 1.5rem;
+            }
+            .nav-links {
+                display: none;
+                position: fixed;
+                inset: 0;
+                background: rgba(26,26,26,0.97);
+                flex-direction: column;
+                align-items: center;
+                justify-content: center;
+                gap: 2rem;
+                z-index: 999;
+            }
+            .nav-links.open {
+                display: flex;
+            }
+            .nav-links a {
+                color: var(--white) !important;
+                font-size: 1rem;
+            }
+            .nav-toggle {
+                display: flex;
+            }
+            section {
+                padding: 4rem 1.5rem;
+            }
+            .services-grid {
+                grid-template-columns: 1fr;
+            }
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+            .trust-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+            .testimonials {
+                grid-template-columns: 1fr;
+            }
+            .tesla-features {
+                grid-template-columns: 1fr;
+            }
+            .footer-inner {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+            .footer-bottom {
+                flex-direction: column;
+                gap: 0.5rem;
+                text-align: center;
+            }
+            .booking-form-wrapper {
+                padding: 2rem 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- PRELOADER -->
+    <div class="preloader" id="preloader">
+        <div class="preloader-logo">EDEN DRIVE</div>
+    </div>
+
+    <!-- NAVBAR -->
+    <nav class="navbar" id="navbar">
+        <a href="#" class="nav-logo">EDEN DRIVE</a>
+        <ul class="nav-links" id="navLinks">
+            <li><a href="#services">Services</a></li>
+            <li><a href="#vehicule">Véhicule</a></li>
+            <li><a href="#reservation">Réserver</a></li>
+            <li><a href="#confiance">Confiance</a></li>
+            <li><a href="tel:+33620821890" class="nav-cta">Appeler</a></li>
+        </ul>
+        <div class="nav-toggle" id="navToggle" onclick="toggleNav()">
+            <span></span><span></span><span></span>
+        </div>
+    </nav>
+
+    <!-- HERO -->
+    <section class="hero" id="hero">
+        <div class="hero-bg"></div>
+        <div class="hero-pattern"></div>
+        <div class="hero-content">
+            <div class="hero-badge">
+                <span class="dot"></span>
+                Chauffeur privé VTC — Marseille
+            </div>
+            <h1>Votre chauffeur<br><span class="gold">de confiance</span></h1>
+            <p class="hero-sub">Transferts aéroport · Gare Saint-Charles · Mise à disposition · Tesla Model 3</p>
+            <div class="hero-ctas">
+                <a href="#reservation" class="btn-primary">Réserver maintenant ↗</a>
+                <a href="tel:+33620821890" class="btn-secondary">☎ Appeler directement</a>
+            </div>
+        </div>
+        <div class="scroll-indicator">
+            <div class="scroll-line"></div>
+        </div>
+    </section>
+
+    <!-- SERVICES -->
+    <section id="services">
+        <div class="section-inner">
+            <div class="services-header reveal">
+                <div class="section-label">Nos prestations</div>
+                <h2 class="section-title">Un service pensé<br>pour chaque besoin</h2>
+                <p class="section-subtitle">Ponctualité absolue, discrétion totale, confort premium. Chaque trajet est une expérience Eden Drive.</p>
+            </div>
+            <div class="services-grid">
+                <div class="service-card reveal">
+                    <div class="service-icon">✈️</div>
+                    <h3>Transfert Aéroport</h3>
+                    <p>Prise en charge à l'Aéroport Marseille-Provence (Marignane). Suivi de vol en temps réel, accueil personnalisé en zone d'arrivée, aide aux bagages.</p>
+                    <span class="service-price">À partir de 55 €</span>
+                </div>
+                <div class="service-card reveal">
+                    <div class="service-icon">🚄</div>
+                    <h3>Gare Saint-Charles</h3>
+                    <p>Navettes vers et depuis la Gare Saint-Charles et toutes les gares de la région. Ponctualité garantie, attente offerte en cas de retard de train.</p>
+                    <span class="service-price">À partir de 25 €</span>
+                </div>
+                <div class="service-card reveal">
+                    <div class="service-icon">⏱️</div>
+                    <h3>Mise à disposition</h3>
+                    <p>Votre chauffeur privé à votre entière disposition pour la journée ou la demi-journée. Idéal pour vos rendez-vous, événements ou visites.</p>
+                    <span class="service-price">Sur devis</span>
+                </div>
+                <div class="service-card reveal">
+                    <div class="service-icon">💼</div>
+                    <h3>Déplacements business</h3>
+                    <p>Service dédié aux professionnels : séminaires, colloques, déplacements d'affaires. Discrétion et ponctualité sont notre signature.</p>
+                    <span class="service-price">Sur devis</span>
+                </div>
+                <div class="service-card reveal">
+                    <div class="service-icon">🎊</div>
+                    <h3>Événements privés</h3>
+                    <p>Mariages, célébrations, fêtes familiales. Un chauffeur élégant et ponctuel pour rendre vos moments importants encore plus spéciaux.</p>
+                    <span class="service-price">Sur devis</span>
+                </div>
+                <div class="service-card reveal">
+                    <div class="service-icon">🌍</div>
+                    <h3>Longue distance</h3>
+                    <p>Nice, Aix-en-Provence, Avignon, Lyon et au-delà. Voyagez confortablement en Tesla sur toute la région PACA et la France entière.</p>
+                    <span class="service-price">Sur devis</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- TESLA / VEHICULE -->
+    <section id="vehicule">
+        <div class="section-inner">
+            <div class="tesla-grid">
+                <div class="tesla-text reveal">
+                    <div class="section-label">Le véhicule</div>
+                    <h2 class="section-title" style="color: var(--white);">Tesla Model 3<br><span style="color: var(--gold);">Full Black</span></h2>
+                    <p class="section-subtitle" style="color: rgba(255,255,255,0.55);">Une berline 100% électrique, silencieuse et raffinée. Vitres teintées, intérieur noir, une expérience de conduite unique pour chacun de vos trajets.</p>
+                    <div class="tesla-features">
+                        <div class="tesla-feature">
+                            <div class="tesla-feature-icon">⚡</div>
+                            <div class="tesla-feature-text">
+                                <h4>100% Électrique</h4>
+                                <p>Zéro émission, zéro bruit</p>
+                            </div>
+                        </div>
+                        <div class="tesla-feature">
+                            <div class="tesla-feature-icon">🛡️</div>
+                            <div class="tesla-feature-text">
+                                <h4>Vitres teintées</h4>
+                                <p>Discrétion & intimité totale</p>
+                            </div>
+                        </div>
+                        <div class="tesla-feature">
+                            <div class="tesla-feature-icon">❄️</div>
+                            <div class="tesla-feature-text">
+                                <h4>Climatisation</h4>
+                                <p>Confort optimal toute l'année</p>
+                            </div>
+                        </div>
+                        <div class="tesla-feature">
+                            <div class="tesla-feature-icon">📱</div>
+                            <div class="tesla-feature-text">
+                                <h4>Chargeurs USB-C</h4>
+                                <p>Restez connecté en route</p>
+                            </div>
+                        </div>
+                        <div class="tesla-feature">
+                            <div class="tesla-feature-icon">💧</div>
+                            <div class="tesla-feature-text">
+                                <h4>Eau offerte</h4>
+                                <p>Bouteilles fraîches à bord</p>
+                            </div>
+                        </div>
+                        <div class="tesla-feature">
+                            <div class="tesla-feature-icon">✨</div>
+                            <div class="tesla-feature-text">
+                                <h4>Nettoyé chaque jour</h4>
+                                <p>Véhicule impeccable garanti</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="tesla-visual reveal">
+                    <div class="tesla-card">
+                        <div class="tesla-silhouette">🖤</div>
+                        <div class="tesla-card-label">Tesla Model 3</div>
+                        <div class="tesla-card-sub">Full Black Edition</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- BOOKING -->
+    <section id="reservation">
+        <div class="section-inner">
+            <div class="booking-container">
+                <div class="booking-info reveal">
+                    <div class="section-label">Réservation</div>
+                    <h2 class="section-title">Réservez votre<br>chauffeur privé</h2>
+                    <p class="section-subtitle">Remplissez le formulaire ci-contre et recevez une confirmation sous 30 minutes. Vous pouvez aussi nous appeler directement.</p>
+
+                    <div class="info-items" style="margin-top: 2.5rem;">
+                        <div class="info-item">
+                            <div class="info-icon">📞</div>
+                            <div>
+                                <h4>Par téléphone</h4>
+                                <p>Appelez-nous 24h/24 et 7j/7 pour une réservation immédiate ou un devis personnalisé.</p>
+                            </div>
+                        </div>
+                        <div class="info-item">
+                            <div class="info-icon">💬</div>
+                            <div>
+                                <h4>Par WhatsApp</h4>
+                                <p>Envoyez-nous un message pour une réponse rapide et une confirmation instantanée.</p>
+                            </div>
+                        </div>
+                        <div class="info-item">
+                            <div class="info-icon">💳</div>
+                            <div>
+                                <h4>Paiement flexible</h4>
+                                <p>CB, espèces ou virement. Le tarif est fixé à l'avance, sans surprise.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="price-grid">
+                        <h4>Exemples de tarifs</h4>
+                        <div class="price-row">
+                            <span class="price-route">Aéroport Marignane → Marseille Centre</span>
+                            <span class="price-amount">à partir de 55 €</span>
+                        </div>
+                        <div class="price-row">
+                            <span class="price-route">Gare Saint-Charles → Aéroport</span>
+                            <span class="price-amount">à partir de 50 €</span>
+                        </div>
+                        <div class="price-row">
+                            <span class="price-route">Marseille → Aix-en-Provence</span>
+                            <span class="price-amount">à partir de 65 €</span>
+                        </div>
+                        <div class="price-row">
+                            <span class="price-route">Marseille → Cassis</span>
+                            <span class="price-amount">à partir de 45 €</span>
+                        </div>
+                        <div class="price-row">
+                            <span class="price-route">Mise à disposition (demi-journée)</span>
+                            <span class="price-amount">à partir de 180 €</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="booking-form-wrapper reveal">
+                    <h3 class="form-title">Demande de réservation</h3>
+                    <p class="form-sub">Remplissez ce formulaire, nous vous recontactons rapidement.</p>
+                    <form id="bookingForm" onsubmit="handleBooking(event)">
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>Prénom</label>
+                                <input type="text" name="prenom" placeholder="Votre prénom" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Nom</label>
+                                <input type="text" name="nom" placeholder="Votre nom" required>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>Téléphone</label>
+                                <input type="tel" name="telephone" placeholder="06 20 82 18 90" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Email</label>
+                                <input type="email" name="email" placeholder="votre@email.com">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label>Type de prestation</label>
+                            <select name="type" required>
+                                <option value="">Choisir...</option>
+                                <option value="aeroport">Transfert Aéroport Marignane</option>
+                                <option value="gare">Transfert Gare Saint-Charles</option>
+                                <option value="disposition">Mise à disposition</option>
+                                <option value="evenement">Événement privé</option>
+                                <option value="business">Déplacement professionnel</option>
+                                <option value="longue-distance">Longue distance</option>
+                                <option value="autre">Autre</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Lieu de départ</label>
+                            <input type="text" name="depart" placeholder="Adresse ou lieu de prise en charge" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Lieu d'arrivée</label>
+                            <input type="text" name="arrivee" placeholder="Adresse ou lieu de destination" required>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>Date</label>
+                                <input type="date" name="date" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Heure</label>
+                                <input type="time" name="heure" required>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>Passagers</label>
+                                <select name="passagers">
+                                    <option value="1">1 passager</option>
+                                    <option value="2">2 passagers</option>
+                                    <option value="3">3 passagers</option>
+                                    <option value="4">4 passagers</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label>Bagages</label>
+                                <select name="bagages">
+                                    <option value="0">Aucun bagage</option>
+                                    <option value="1">1 bagage</option>
+                                    <option value="2">2 bagages</option>
+                                    <option value="3">3+ bagages</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label>Informations complémentaires</label>
+                            <textarea name="message" rows="3" placeholder="Numéro de vol, besoins spécifiques, siège enfant..."></textarea>
+                        </div>
+                        <button type="submit" class="form-submit">Envoyer ma demande</button>
+                        <p class="form-note">Réponse garantie sous 30 minutes • Annulation gratuite 24h avant</p>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- TRUST -->
+    <section id="confiance">
+        <div class="section-inner">
+            <div class="trust-header reveal">
+                <div class="section-label">Pourquoi nous choisir</div>
+                <h2 class="section-title">La confiance se mérite</h2>
+                <p class="section-subtitle">Eden Drive, c'est avant tout une promesse : celle d'un service irréprochable, à chaque trajet.</p>
+            </div>
+            <div class="trust-grid reveal">
+                <div class="trust-item">
+                    <div class="trust-number">24/7</div>
+                    <div class="trust-label">Disponible jour et nuit</div>
+                </div>
+                <div class="trust-item">
+                    <div class="trust-number">30'</div>
+                    <div class="trust-label">Délai de réponse max</div>
+                </div>
+                <div class="trust-item">
+                    <div class="trust-number">0 €</div>
+                    <div class="trust-label">Annulation sous 24h</div>
+                </div>
+                <div class="trust-item">
+                    <div class="trust-number">100%</div>
+                    <div class="trust-label">Électrique & silencieux</div>
+                </div>
+            </div>
+
+            <div class="gold-divider"></div>
+
+            <div class="testimonials reveal">
+                <div class="testimonial">
+                    <div class="testimonial-stars">★★★★★</div>
+                    <p>« Un service impeccable. Voiture propre, chauffeur ponctuel et très aimable. Je recommande les yeux fermés pour l'aéroport. »</p>
+                    <div class="testimonial-author">Sarah M.</div>
+                    <div class="testimonial-source">Transfert Aéroport</div>
+                </div>
+                <div class="testimonial">
+                    <div class="testimonial-stars">★★★★★</div>
+                    <p>« La Tesla est un vrai plaisir. Silencieuse, confortable, et le chauffeur connaît parfaitement Marseille. Un service premium accessible. »</p>
+                    <div class="testimonial-author">David L.</div>
+                    <div class="testimonial-source">Mise à disposition</div>
+                </div>
+                <div class="testimonial">
+                    <div class="testimonial-stars">★★★★★</div>
+                    <p>« Ponctualité parfaite pour un déplacement professionnel important. Discrétion totale. Je ne prends plus que Eden Drive. »</p>
+                    <div class="testimonial-author">Marc B.</div>
+                    <div class="testimonial-source">Déplacement business</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA BANNER -->
+    <section class="cta-banner">
+        <h2>Prêt à voyager<br>avec <span style="color: var(--gold); font-style: italic;">Eden Drive</span> ?</h2>
+        <p>Réservez dès maintenant ou appelez-nous pour un devis personnalisé</p>
+        <a href="tel:+33620821890" class="cta-phone">📞 06 20 82 18 90</a>
+        <div class="cta-channels">
+            <a href="#reservation" class="cta-channel">📝 Réserver en ligne</a>
+            <a href="https://wa.me/33620821890" class="cta-channel" target="_blank">💬 WhatsApp</a>
+            <a href="mailto:contact@edendrive.fr" class="cta-channel">✉️ Email</a>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer>
+        <div class="footer-inner">
+            <div class="footer-brand">
+                <a href="#" class="nav-logo">EDEN DRIVE</a>
+                <p>Votre chauffeur privé de confiance à Marseille. Service premium en Tesla Model 3. Disponible 24h/24, 7j/7.</p>
+            </div>
+            <div class="footer-col">
+                <h4>Services</h4>
+                <a href="#services">Transfert Aéroport</a>
+                <a href="#services">Gare Saint-Charles</a>
+                <a href="#services">Mise à disposition</a>
+                <a href="#services">Événements</a>
+                <a href="#services">Longue distance</a>
+            </div>
+            <div class="footer-col">
+                <h4>Destinations</h4>
+                <a href="#">Marseille Centre</a>
+                <a href="#">Aix-en-Provence</a>
+                <a href="#">Cassis</a>
+                <a href="#">Nice</a>
+                <a href="#">Avignon</a>
+            </div>
+            <div class="footer-col">
+                <h4>Contact</h4>
+                <a href="tel:+33620821890">06 20 82 18 90</a>
+                <a href="mailto:contact@edendrive.fr">contact@edendrive.fr</a>
+                <a href="https://wa.me/33620821890">WhatsApp</a>
+                <a href="#">Marseille, France</a>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <span>© 2026 Eden Drive — Tous droits réservés</span>
+            <span>VTC Marseille • SIRET : 793 610 981 00029</span>
+        </div>
+    </footer>
+
+    <script>
+        // Preloader
+        window.addEventListener('load', () => {
+            setTimeout(() => {
+                document.getElementById('preloader').classList.add('hidden');
+            }, 1200);
+        });
+
+        // Navbar scroll
+        const navbar = document.getElementById('navbar');
+        window.addEventListener('scroll', () => {
+            navbar.classList.toggle('scrolled', window.scrollY > 60);
+        });
+
+        // Mobile nav
+        function toggleNav() {
+            document.getElementById('navLinks').classList.toggle('open');
+        }
+        document.querySelectorAll('.nav-links a').forEach(link => {
+            link.addEventListener('click', () => {
+                document.getElementById('navLinks').classList.remove('open');
+            });
+        });
+
+        // Reveal on scroll
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
+
+        document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+        // Form handling
+        function handleBooking(e) {
+            e.preventDefault();
+            const form = e.target;
+            const data = new FormData(form);
+            const btn = form.querySelector('.form-submit');
+            
+            // Build WhatsApp message
+            let msg = `🚗 *Nouvelle réservation Eden Drive*\n\n`;
+            msg += `👤 ${data.get('prenom')} ${data.get('nom')}\n`;
+            msg += `📞 ${data.get('telephone')}\n`;
+            msg += `📧 ${data.get('email') || 'Non renseigné'}\n\n`;
+            msg += `📋 *Prestation :* ${data.get('type')}\n`;
+            msg += `📍 *Départ :* ${data.get('depart')}\n`;
+            msg += `🏁 *Arrivée :* ${data.get('arrivee')}\n`;
+            msg += `📅 *Date :* ${data.get('date')}\n`;
+            msg += `🕐 *Heure :* ${data.get('heure')}\n`;
+            msg += `👥 *Passagers :* ${data.get('passagers')}\n`;
+            msg += `🧳 *Bagages :* ${data.get('bagages')}\n`;
+            if (data.get('message')) {
+                msg += `\n💬 *Notes :* ${data.get('message')}`;
+            }
+
+            btn.textContent = '✓ DEMANDE ENVOYÉE !';
+            btn.style.background = '#2a7a3a';
+            
+            setTimeout(() => {
+                // Open WhatsApp with the message
+                window.open(`https://wa.me/33620821890?text=${encodeURIComponent(msg)}`, '_blank');
+                
+                setTimeout(() => {
+                    btn.textContent = 'ENVOYER MA DEMANDE';
+                    btn.style.background = '';
+                    form.reset();
+                }, 3000);
+            }, 800);
+        }
+
+        // Set min date to today
+        const dateInput = document.querySelector('input[name="date"]');
+        if (dateInput) {
+            const today = new Date().toISOString().split('T')[0];
+            dateInput.setAttribute('min', today);
+        }
+    </script>
+
+</body>
+</html>

@@ -1,0 +1,832 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>EDEN DRIVE — Chauffeur Privé VTC Marseille | Tesla Model 3</title>
+<meta name="description" content="EDEN DRIVE, votre chauffeur privé VTC à Marseille. Transferts aéroport Marignane, Gare Saint-Charles, mise à disposition. Tesla Model 3. Réservez en ligne 24h/24.">
+<meta name="keywords" content="VTC Marseille, chauffeur privé Marseille, transfert aéroport Marignane, Tesla VTC, Eden Drive">
+<meta name="robots" content="index, follow">
+<meta property="og:title" content="EDEN DRIVE — Chauffeur Privé VTC Marseille">
+<meta property="og:description" content="Service premium de chauffeur privé en Tesla Model 3. Réservez en ligne.">
+<meta property="og:type" content="website">
+<meta property="og:locale" content="fr_FR">
+<link rel="canonical" href="https://www.edendrive.fr">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"LocalBusiness","name":"Eden Drive","description":"Chauffeur privé VTC à Marseille. Service premium en Tesla Model 3.","url":"https://www.edendrive.fr","telephone":"+33620821890","email":"contact@edendrive.fr","address":{"@type":"PostalAddress","streetAddress":"18 avenue de la Côte d Azur","addressLocality":"Marseille","addressRegion":"PACA","postalCode":"13008","addressCountry":"FR"},"areaServed":["Marseille","Aix-en-Provence","Marignane","PACA"],"priceRange":"€€","openingHoursSpecification":{"@type":"OpeningHoursSpecification","dayOfWeek":["Monday","Tuesday","Wednesday","Thursday","Friday","Saturday","Sunday"],"opens":"00:00","closes":"23:59"}}</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400&family=Outfit:wght@200;300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root {
+    --gold: #C9A84C;
+    --gold-light: #E2CB7D;
+    --gold-dark: #A8872E;
+    --cream: #FAF7F0;
+    --cream-dark: #F0EBE0;
+    --white: #FFFFFF;
+    --charcoal: #1A1A1A;
+    --text-dark: #1A1A1A;
+    --text-medium: #5A5A5A;
+    --text-light: #8A8A8A;
+    --green: #2a7a3a;
+    --serif: 'Cormorant Garamond', Georgia, serif;
+    --sans: 'Outfit', system-ui, sans-serif;
+}
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; font-size: 16px; }
+body { font-family: var(--sans); background: var(--cream); color: var(--text-dark); overflow-x: hidden; -webkit-font-smoothing: antialiased; }
+
+/* === PRELOADER === */
+.preloader { position: fixed; inset: 0; background: var(--charcoal); z-index: 10000; display: flex; align-items: center; justify-content: center; transition: opacity 0.8s ease, visibility 0.8s ease; }
+.preloader.hidden { opacity: 0; visibility: hidden; }
+.preloader-logo { font-family: var(--serif); font-size: 2.5rem; font-weight: 300; color: var(--gold); letter-spacing: 0.4em; animation: preloaderPulse 1.5s ease-in-out infinite; }
+@keyframes preloaderPulse { 0%, 100% { opacity: 0.4; } 50% { opacity: 1; } }
+
+/* === NAVBAR === */
+.navbar { position: fixed; top: 0; left: 0; right: 0; z-index: 1000; padding: 1.25rem 3rem; display: flex; align-items: center; justify-content: space-between; transition: all 0.5s ease; background: transparent; }
+.navbar.scrolled { background: rgba(255,255,255,0.95); backdrop-filter: blur(20px); box-shadow: 0 1px 30px rgba(0,0,0,0.06); padding: 0.8rem 3rem; }
+.nav-logo { font-family: var(--serif); font-size: 1.6rem; font-weight: 300; letter-spacing: 0.3em; color: var(--white); text-decoration: none; transition: color 0.5s ease; }
+.navbar.scrolled .nav-logo { color: var(--charcoal); }
+.nav-links { display: flex; gap: 2.5rem; list-style: none; align-items: center; }
+.nav-links a { font-family: var(--sans); font-size: 0.8rem; font-weight: 400; letter-spacing: 0.15em; text-transform: uppercase; color: rgba(255,255,255,0.85); text-decoration: none; transition: color 0.3s ease; position: relative; }
+.nav-links a::after { content: ''; position: absolute; bottom: -4px; left: 0; width: 0; height: 1px; background: var(--gold); transition: width 0.3s ease; }
+.nav-links a:hover::after { width: 100%; }
+.navbar.scrolled .nav-links a { color: var(--text-medium); }
+.nav-cta { padding: 0.65rem 1.8rem !important; background: var(--gold); color: var(--white) !important; border-radius: 0; font-weight: 500 !important; letter-spacing: 0.12em; transition: all 0.3s ease !important; }
+.nav-cta::after { display: none !important; }
+.nav-cta:hover { background: var(--gold-dark) !important; transform: translateY(-1px); }
+.nav-toggle { display: none; flex-direction: column; gap: 5px; cursor: pointer; z-index: 1001; }
+.nav-toggle span { width: 24px; height: 1.5px; background: var(--white); transition: all 0.3s ease; }
+.navbar.scrolled .nav-toggle span { background: var(--charcoal); }
+
+/* === HERO === */
+.hero { position: relative; min-height: 100vh; display: flex; align-items: center; justify-content: center; overflow: hidden; }
+.hero-bg { position: absolute; inset: 0; background: linear-gradient(135deg, rgba(26,26,26,0.7) 0%, rgba(26,26,26,0.3) 50%, rgba(26,26,26,0.6) 100%); background-color: #2a2a2a; z-index: 1; }
+.hero-pattern { position: absolute; inset: 0; background-image: radial-gradient(ellipse at 20% 50%, rgba(201,168,76,0.12) 0%, transparent 50%), radial-gradient(ellipse at 80% 20%, rgba(201,168,76,0.08) 0%, transparent 40%); z-index: 2; }
+.hero-content { position: relative; z-index: 3; text-align: center; padding: 0 2rem; max-width: 900px; }
+.hero-badge { display: inline-flex; align-items: center; gap: 0.5rem; padding: 0.5rem 1.5rem; border: 1px solid rgba(201,168,76,0.4); margin-bottom: 2rem; font-size: 0.7rem; letter-spacing: 0.25em; text-transform: uppercase; color: var(--gold-light); opacity: 0; animation: fadeInUp 1s ease forwards 0.5s; }
+.hero-badge .dot { width: 6px; height: 6px; background: var(--gold); border-radius: 50%; animation: pulse 2s ease-in-out infinite; }
+@keyframes pulse { 0%, 100% { opacity: 1; transform: scale(1); } 50% { opacity: 0.5; transform: scale(0.8); } }
+.hero h1 { font-family: var(--serif); font-size: clamp(3rem, 8vw, 6.5rem); font-weight: 300; color: var(--white); line-height: 1.05; margin-bottom: 0.5rem; opacity: 0; animation: fadeInUp 1s ease forwards 0.7s; }
+.hero h1 .gold { color: var(--gold); font-style: italic; }
+.hero-sub { font-size: 1.05rem; font-weight: 300; color: rgba(255,255,255,0.65); letter-spacing: 0.08em; margin-bottom: 3rem; opacity: 0; animation: fadeInUp 1s ease forwards 0.9s; }
+.hero-ctas { display: flex; gap: 1.2rem; justify-content: center; flex-wrap: wrap; opacity: 0; animation: fadeInUp 1s ease forwards 1.1s; }
+@keyframes fadeInUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
+
+/* === BUTTONS === */
+.btn-primary { display: inline-flex; align-items: center; gap: 0.6rem; padding: 1rem 2.5rem; background: var(--gold); color: var(--white); font-family: var(--sans); font-size: 0.78rem; font-weight: 500; letter-spacing: 0.18em; text-transform: uppercase; text-decoration: none; border: none; cursor: pointer; transition: all 0.4s ease; }
+.btn-primary:hover { background: var(--gold-dark); transform: translateY(-2px); box-shadow: 0 10px 30px rgba(201,168,76,0.3); }
+.btn-secondary { display: inline-flex; align-items: center; gap: 0.6rem; padding: 1rem 2.5rem; background: transparent; color: var(--white); font-family: var(--sans); font-size: 0.78rem; font-weight: 400; letter-spacing: 0.18em; text-transform: uppercase; text-decoration: none; border: 1px solid rgba(255,255,255,0.3); cursor: pointer; transition: all 0.3s ease; }
+.btn-secondary:hover { border-color: var(--gold); color: var(--gold-light); }
+
+.scroll-indicator { position: absolute; bottom: 3rem; left: 50%; transform: translateX(-50%); z-index: 3; display: flex; flex-direction: column; align-items: center; gap: 0.5rem; opacity: 0; animation: fadeInUp 1s ease forwards 1.5s; }
+.scroll-line { width: 1px; height: 40px; background: linear-gradient(to bottom, var(--gold), transparent); animation: scrollDown 2s ease-in-out infinite; }
+@keyframes scrollDown { 0% { transform: scaleY(0); transform-origin: top; } 50% { transform: scaleY(1); transform-origin: top; } 50.01% { transform-origin: bottom; } 100% { transform: scaleY(0); transform-origin: bottom; } }
+
+/* === SECTIONS === */
+section { padding: 7rem 2rem; }
+.section-inner { max-width: 1200px; margin: 0 auto; }
+.section-label { font-size: 0.7rem; font-weight: 500; letter-spacing: 0.3em; text-transform: uppercase; color: var(--gold); margin-bottom: 1rem; }
+.section-title { font-family: var(--serif); font-size: clamp(2rem, 4vw, 3.2rem); font-weight: 300; color: var(--text-dark); line-height: 1.15; margin-bottom: 1.5rem; }
+.section-subtitle { font-size: 1rem; font-weight: 300; color: var(--text-medium); line-height: 1.7; max-width: 600px; }
+
+/* === SERVICES === */
+#services { background: var(--white); }
+.services-header { text-align: center; margin-bottom: 4rem; }
+.services-header .section-subtitle { margin: 0 auto; }
+.services-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2rem; }
+.service-card { padding: 2.5rem; background: var(--cream); border: 1px solid transparent; transition: all 0.5s ease; position: relative; overflow: hidden; }
+.service-card::before { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 2px; background: linear-gradient(90deg, var(--gold), var(--gold-light), var(--gold)); transform: scaleX(0); transition: transform 0.5s ease; }
+.service-card:hover::before { transform: scaleX(1); }
+.service-card:hover { transform: translateY(-5px); box-shadow: 0 20px 60px rgba(0,0,0,0.06); border-color: rgba(201,168,76,0.15); }
+.service-icon { font-size: 2rem; margin-bottom: 1.5rem; }
+.service-card h3 { font-family: var(--serif); font-size: 1.5rem; font-weight: 400; margin-bottom: 0.8rem; }
+.service-card p { font-size: 0.9rem; font-weight: 300; color: var(--text-medium); line-height: 1.7; }
+.service-price { display: inline-block; margin-top: 1.2rem; padding: 0.4rem 1rem; background: rgba(201,168,76,0.1); color: var(--gold-dark); font-size: 0.8rem; font-weight: 500; }
+
+/* === TESLA === */
+#vehicule { background: var(--charcoal); position: relative; overflow: hidden; }
+#vehicule::before { content: ''; position: absolute; inset: 0; background: radial-gradient(ellipse at 70% 50%, rgba(201,168,76,0.08) 0%, transparent 60%); }
+.tesla-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: center; }
+.tesla-features { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin-top: 2.5rem; }
+.tesla-feature { display: flex; align-items: flex-start; gap: 0.8rem; }
+.tesla-feature-icon { width: 36px; height: 36px; border: 1px solid rgba(201,168,76,0.3); display: flex; align-items: center; justify-content: center; flex-shrink: 0; color: var(--gold); font-size: 0.9rem; }
+.tesla-feature-text h4 { font-size: 0.85rem; font-weight: 500; color: var(--white); margin-bottom: 0.2rem; }
+.tesla-feature-text p { font-size: 0.78rem; font-weight: 300; color: rgba(255,255,255,0.45); }
+.tesla-visual { display: flex; align-items: center; justify-content: center; }
+.tesla-card { width: 100%; aspect-ratio: 4/3; background: linear-gradient(135deg, #1f1f1f 0%, #2d2d2d 50%, #1a1a1a 100%); border: 1px solid rgba(201,168,76,0.15); display: flex; flex-direction: column; align-items: center; justify-content: center; position: relative; overflow: hidden; }
+.tesla-card::after { content: ''; position: absolute; inset: 0; background: radial-gradient(ellipse at 50% 80%, rgba(201,168,76,0.05) 0%, transparent 70%); }
+.tesla-silhouette { font-size: 5rem; margin-bottom: 1rem; }
+.tesla-card-label { font-family: var(--serif); font-size: 1.4rem; font-weight: 300; color: var(--white); letter-spacing: 0.1em; }
+.tesla-card-sub { font-size: 0.75rem; font-weight: 300; color: rgba(255,255,255,0.4); letter-spacing: 0.15em; text-transform: uppercase; margin-top: 0.3rem; }
+/* === BOOKING SECTION === */
+#reservation { background: var(--cream); }
+.booking-layout { display: grid; grid-template-columns: 1fr 1.1fr; gap: 4rem; align-items: start; }
+.booking-info { padding-top: 1rem; }
+.info-items { display: flex; flex-direction: column; gap: 1.8rem; }
+.info-item { display: flex; gap: 1rem; align-items: flex-start; }
+.info-icon { width: 48px; height: 48px; background: rgba(201,168,76,0.08); border: 1px solid rgba(201,168,76,0.15); display: flex; align-items: center; justify-content: center; flex-shrink: 0; font-size: 1.2rem; }
+.info-item h4 { font-size: 0.95rem; font-weight: 500; margin-bottom: 0.3rem; }
+.info-item p { font-size: 0.85rem; font-weight: 300; color: var(--text-medium); line-height: 1.6; }
+.price-grid { margin-top: 2.5rem; padding: 2rem; background: var(--white); border: 1px solid rgba(201,168,76,0.1); }
+.price-grid h4 { font-family: var(--serif); font-size: 1.2rem; font-weight: 400; margin-bottom: 1.2rem; }
+.price-row { display: flex; justify-content: space-between; align-items: center; padding: 0.7rem 0; border-bottom: 1px solid rgba(0,0,0,0.04); }
+.price-row:last-child { border-bottom: none; }
+.price-route { font-size: 0.88rem; font-weight: 300; }
+.price-amount { font-size: 0.88rem; font-weight: 500; color: var(--gold-dark); }
+
+/* === WIZARD === */
+.booking-wizard { background: var(--white); box-shadow: 0 20px 60px rgba(0,0,0,0.06); border: 1px solid rgba(201,168,76,0.1); overflow: hidden; }
+.wizard-header { background: var(--charcoal); padding: 1.5rem 2rem; display: flex; align-items: center; justify-content: space-between; }
+.wizard-title { font-family: var(--serif); font-size: 1.3rem; font-weight: 400; color: var(--white); }
+.wizard-steps { display: flex; gap: 0.5rem; }
+.wizard-dot { width: 28px; height: 28px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 0.7rem; font-weight: 600; border: 1.5px solid rgba(255,255,255,0.2); color: rgba(255,255,255,0.3); transition: all 0.4s ease; }
+.wizard-dot.active { border-color: var(--gold); color: var(--gold); background: rgba(201,168,76,0.1); }
+.wizard-dot.done { border-color: var(--green); color: var(--white); background: var(--green); }
+.wizard-body { padding: 2rem; }
+.wizard-step { display: none; animation: wizardFade 0.4s ease; }
+.wizard-step.active { display: block; }
+@keyframes wizardFade { from { opacity: 0; transform: translateX(15px); } to { opacity: 1; transform: translateX(0); } }
+
+/* Type selector cards */
+.type-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0.8rem; margin-bottom: 1.5rem; }
+.type-card { padding: 1.2rem; border: 2px solid #E5E2DB; cursor: pointer; text-align: center; transition: all 0.3s ease; position: relative; }
+.type-card:hover { border-color: var(--gold-light); background: rgba(201,168,76,0.02); }
+.type-card.selected { border-color: var(--gold); background: rgba(201,168,76,0.05); }
+.type-card-icon { font-size: 1.5rem; margin-bottom: 0.5rem; }
+.type-card-name { font-size: 0.85rem; font-weight: 500; color: var(--text-dark); }
+.type-card-desc { font-size: 0.72rem; font-weight: 300; color: var(--text-light); margin-top: 0.2rem; }
+.type-card-check { position: absolute; top: 8px; right: 8px; width: 20px; height: 20px; border-radius: 50%; background: var(--gold); color: white; display: none; align-items: center; justify-content: center; font-size: 0.65rem; }
+.type-card.selected .type-card-check { display: flex; }
+
+/* Form fields */
+.field { margin-bottom: 1.2rem; }
+.field label { display: block; font-size: 0.72rem; font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase; color: var(--text-medium); margin-bottom: 0.5rem; }
+.field input, .field select, .field textarea { width: 100%; padding: 0.85rem 1rem; border: 1.5px solid #E5E2DB; background: var(--cream); font-family: var(--sans); font-size: 0.9rem; font-weight: 300; color: var(--text-dark); outline: none; transition: border-color 0.3s ease; border-radius: 0; -webkit-appearance: none; }
+.field input:focus, .field select:focus, .field textarea:focus { border-color: var(--gold); }
+.field input::placeholder { color: var(--text-light); }
+.field-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+.field-icon-wrap { position: relative; }
+.field-icon-wrap .field-ico { position: absolute; left: 12px; top: 50%; transform: translateY(-50%); font-size: 1rem; pointer-events: none; }
+.field-icon-wrap input, .field-icon-wrap select { padding-left: 2.5rem; }
+.field-locked { background: rgba(201,168,76,0.08) !important; border-color: var(--gold) !important; color: var(--text-dark) !important; font-weight: 400 !important; }
+.field-auto-badge { display: inline-flex; align-items: center; gap: 0.3rem; font-size: 0.68rem; color: var(--gold-dark); margin-top: 0.3rem; font-weight: 400; }
+
+/* Wizard navigation */
+.wizard-nav { display: flex; gap: 1rem; margin-top: 1.5rem; }
+.btn-wizard { flex: 1; padding: 1rem; font-family: var(--sans); font-size: 0.8rem; font-weight: 500; letter-spacing: 0.15em; text-transform: uppercase; border: none; cursor: pointer; transition: all 0.3s ease; text-align: center; }
+.btn-next { background: var(--gold); color: white; }
+.btn-next:hover { background: var(--gold-dark); transform: translateY(-1px); }
+.btn-next:disabled { background: #ccc; cursor: not-allowed; transform: none; }
+.btn-back { background: transparent; color: var(--text-medium); border: 1.5px solid #E5E2DB; }
+.btn-back:hover { border-color: var(--text-medium); }
+
+/* Summary */
+.summary-card { background: var(--cream); padding: 1.5rem; margin-bottom: 1.5rem; }
+.summary-row { display: flex; justify-content: space-between; padding: 0.6rem 0; border-bottom: 1px solid rgba(0,0,0,0.04); font-size: 0.88rem; }
+.summary-row:last-child { border-bottom: none; }
+.summary-label { font-weight: 300; color: var(--text-medium); }
+.summary-value { font-weight: 500; color: var(--text-dark); text-align: right; max-width: 55%; }
+
+/* Confirmation */
+.confirmation { text-align: center; padding: 2rem 0; }
+.confirmation-icon { font-size: 3.5rem; margin-bottom: 1rem; }
+.confirmation h3 { font-family: var(--serif); font-size: 1.6rem; font-weight: 400; color: var(--text-dark); margin-bottom: 0.5rem; }
+.confirmation p { font-size: 0.9rem; font-weight: 300; color: var(--text-medium); line-height: 1.6; }
+.confirmation-detail { background: var(--cream); padding: 1.5rem; margin-top: 1.5rem; text-align: left; }
+
+/* === TRUST === */
+#confiance { background: var(--white); }
+.trust-header { text-align: center; margin-bottom: 4rem; }
+.trust-header .section-subtitle { margin: 0 auto; }
+.trust-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 2rem; text-align: center; }
+.trust-number { font-family: var(--serif); font-size: 3rem; font-weight: 300; color: var(--gold); line-height: 1; margin-bottom: 0.5rem; }
+.trust-label { font-size: 0.8rem; font-weight: 400; color: var(--text-medium); }
+.gold-divider { width: 50px; height: 1px; background: var(--gold); margin: 2rem auto; }
+.testimonials { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2rem; margin-top: 4rem; }
+.testimonial { padding: 2rem; background: var(--cream); border: 1px solid transparent; transition: border-color 0.3s ease; }
+.testimonial:hover { border-color: rgba(201,168,76,0.2); }
+.testimonial-stars { color: var(--gold); font-size: 0.85rem; margin-bottom: 1rem; letter-spacing: 0.1em; }
+.testimonial p { font-size: 0.9rem; font-weight: 300; color: var(--text-medium); line-height: 1.7; font-style: italic; margin-bottom: 1.2rem; }
+.testimonial-author { font-size: 0.8rem; font-weight: 500; }
+.testimonial-source { font-size: 0.72rem; color: var(--text-light); }
+
+/* === CTA === */
+.cta-banner { background: var(--charcoal); padding: 5rem 2rem; text-align: center; position: relative; overflow: hidden; }
+.cta-banner::before { content: ''; position: absolute; inset: 0; background: radial-gradient(ellipse at 50% 50%, rgba(201,168,76,0.1) 0%, transparent 60%); }
+.cta-banner > * { position: relative; }
+.cta-banner h2 { font-family: var(--serif); font-size: clamp(1.8rem, 3.5vw, 2.8rem); font-weight: 300; color: var(--white); margin-bottom: 1rem; }
+.cta-banner > p { font-size: 1rem; font-weight: 300; color: rgba(255,255,255,0.55); margin-bottom: 2.5rem; }
+.cta-phone { display: inline-flex; align-items: center; gap: 0.8rem; font-family: var(--serif); font-size: 1.8rem; font-weight: 400; color: var(--gold); text-decoration: none; margin-bottom: 2rem; transition: color 0.3s ease; }
+.cta-phone:hover { color: var(--gold-light); }
+.cta-channels { display: flex; gap: 1.5rem; justify-content: center; flex-wrap: wrap; }
+.cta-channel { display: inline-flex; align-items: center; gap: 0.5rem; padding: 0.7rem 1.5rem; border: 1px solid rgba(255,255,255,0.15); color: rgba(255,255,255,0.7); font-size: 0.78rem; font-weight: 400; letter-spacing: 0.08em; text-decoration: none; transition: all 0.3s ease; }
+.cta-channel:hover { border-color: var(--gold); color: var(--gold-light); }
+
+/* === FOOTER === */
+footer { background: #111; padding: 4rem 2rem 2rem; }
+.footer-inner { max-width: 1200px; margin: 0 auto; display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 3rem; }
+.footer-brand p { font-size: 0.85rem; font-weight: 300; color: rgba(255,255,255,0.4); line-height: 1.7; margin-top: 1rem; }
+.footer-col h4 { font-size: 0.72rem; font-weight: 500; letter-spacing: 0.2em; text-transform: uppercase; color: var(--gold); margin-bottom: 1.2rem; }
+.footer-col a { display: block; font-size: 0.85rem; font-weight: 300; color: rgba(255,255,255,0.45); text-decoration: none; margin-bottom: 0.6rem; transition: color 0.3s ease; }
+.footer-col a:hover { color: var(--white); }
+.footer-bottom { max-width: 1200px; margin: 3rem auto 0; padding-top: 2rem; border-top: 1px solid rgba(255,255,255,0.06); display: flex; justify-content: space-between; font-size: 0.75rem; color: rgba(255,255,255,0.25); }
+
+/* === ANIMATIONS === */
+.reveal { opacity: 0; transform: translateY(40px); transition: opacity 0.8s ease, transform 0.8s ease; }
+.reveal.visible { opacity: 1; transform: translateY(0); }
+
+/* === RESPONSIVE === */
+@media (max-width: 1024px) {
+    .services-grid { grid-template-columns: repeat(2, 1fr); }
+    .tesla-grid, .booking-layout { grid-template-columns: 1fr; gap: 3rem; }
+    .trust-grid { grid-template-columns: repeat(2, 1fr); }
+    .testimonials { grid-template-columns: 1fr 1fr; }
+    .footer-inner { grid-template-columns: 1fr 1fr; }
+}
+@media (max-width: 768px) {
+    .navbar { padding: 1rem 1.5rem; }
+    .navbar.scrolled { padding: 0.8rem 1.5rem; }
+    .nav-links { display: none; position: fixed; inset: 0; background: rgba(26,26,26,0.97); flex-direction: column; align-items: center; justify-content: center; gap: 2rem; z-index: 999; }
+    .nav-links.open { display: flex; }
+    .nav-links a { color: var(--white) !important; font-size: 1rem; }
+    .nav-toggle { display: flex; }
+    section { padding: 4rem 1.5rem; }
+    .services-grid, .type-grid { grid-template-columns: 1fr; }
+    .field-row { grid-template-columns: 1fr; }
+    .trust-grid { grid-template-columns: 1fr 1fr; }
+    .testimonials { grid-template-columns: 1fr; }
+    .tesla-features { grid-template-columns: 1fr; }
+    .footer-inner { grid-template-columns: 1fr; gap: 2rem; }
+    .footer-bottom { flex-direction: column; gap: 0.5rem; text-align: center; }
+    .wizard-body { padding: 1.5rem; }
+}
+</style>
+<script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+</head>
+<body>
+<div class="preloader" id="preloader"><div class="preloader-logo">EDEN DRIVE</div></div>
+
+<!-- NAVBAR -->
+<nav class="navbar" id="navbar">
+    <a href="#" class="nav-logo">EDEN DRIVE</a>
+    <ul class="nav-links" id="navLinks">
+        <li><a href="#services">Services</a></li>
+        <li><a href="#vehicule">Véhicule</a></li>
+        <li><a href="#reservation">Réserver</a></li>
+        <li><a href="#confiance">Confiance</a></li>
+        <li><a href="tel:+33620821890" class="nav-cta">06 20 82 18 90</a></li>
+    </ul>
+    <div class="nav-toggle" id="navToggle" onclick="document.getElementById('navLinks').classList.toggle('open')">
+        <span></span><span></span><span></span>
+    </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+    <div class="hero-bg"></div>
+    <div class="hero-pattern"></div>
+    <div class="hero-content">
+        <div class="hero-badge"><span class="dot"></span> Chauffeur privé VTC — Marseille</div>
+        <h1>Votre chauffeur<br><span class="gold">de confiance</span></h1>
+        <p class="hero-sub">Transferts aéroport · Gare Saint-Charles · Mise à disposition · Tesla Model 3</p>
+        <div class="hero-ctas">
+            <a href="#reservation" class="btn-primary">Réserver maintenant ↗</a>
+            <a href="tel:+33620821890" class="btn-secondary">☎ 06 20 82 18 90</a>
+        </div>
+    </div>
+    <div class="scroll-indicator"><div class="scroll-line"></div></div>
+</section>
+
+<!-- SERVICES -->
+<section id="services">
+    <div class="section-inner">
+        <div class="services-header reveal">
+            <div class="section-label">Nos prestations</div>
+            <h2 class="section-title">Un service pensé<br>pour chaque besoin</h2>
+            <p class="section-subtitle">Ponctualité absolue, discrétion totale, confort premium. Chaque trajet est une expérience Eden Drive.</p>
+        </div>
+        <div class="services-grid">
+            <div class="service-card reveal"><div class="service-icon">✈️</div><h3>Transfert Aéroport</h3><p>Aéroport Marseille-Provence (Marignane). Suivi de vol en temps réel, accueil personnalisé, aide aux bagages.</p><span class="service-price">À partir de 55 €</span></div>
+            <div class="service-card reveal"><div class="service-icon">🚄</div><h3>Gare Saint-Charles</h3><p>Navettes vers et depuis la Gare Saint-Charles. Ponctualité garantie, attente offerte en cas de retard.</p><span class="service-price">À partir de 25 €</span></div>
+            <div class="service-card reveal"><div class="service-icon">⏱️</div><h3>Mise à disposition</h3><p>Votre chauffeur privé à disposition pour la journée ou la demi-journée. Rendez-vous, événements ou visites.</p><span class="service-price">Sur devis</span></div>
+            <div class="service-card reveal"><div class="service-icon">💼</div><h3>Déplacements business</h3><p>Service dédié aux professionnels : séminaires, déplacements d'affaires. Discrétion et ponctualité.</p><span class="service-price">Sur devis</span></div>
+            <div class="service-card reveal"><div class="service-icon">🎊</div><h3>Événements privés</h3><p>Mariages, célébrations, fêtes familiales. Un chauffeur élégant pour vos moments importants.</p><span class="service-price">Sur devis</span></div>
+            <div class="service-card reveal"><div class="service-icon">🌍</div><h3>Longue distance</h3><p>Nice, Aix-en-Provence, Avignon, Lyon et au-delà. Confort Tesla sur toute la France.</p><span class="service-price">Sur devis</span></div>
+        </div>
+    </div>
+</section>
+
+<!-- TESLA -->
+<section id="vehicule">
+    <div class="section-inner">
+        <div class="tesla-grid">
+            <div class="reveal">
+                <div class="section-label" style="color:var(--gold-light)">Le véhicule</div>
+                <h2 class="section-title" style="color:var(--white)">Tesla Model 3<br><span style="color:var(--gold)">Full Black</span></h2>
+                <p class="section-subtitle" style="color:rgba(255,255,255,0.55)">Berline 100% électrique, silencieuse et raffinée. Vitres teintées, intérieur noir, une expérience unique.</p>
+                <div class="tesla-features">
+                    <div class="tesla-feature"><div class="tesla-feature-icon">⚡</div><div class="tesla-feature-text"><h4>100% Électrique</h4><p>Zéro émission, zéro bruit</p></div></div>
+                    <div class="tesla-feature"><div class="tesla-feature-icon">🛡️</div><div class="tesla-feature-text"><h4>Vitres teintées</h4><p>Discrétion & intimité totale</p></div></div>
+                    <div class="tesla-feature"><div class="tesla-feature-icon">❄️</div><div class="tesla-feature-text"><h4>Climatisation</h4><p>Confort optimal toute l'année</p></div></div>
+                    <div class="tesla-feature"><div class="tesla-feature-icon">📱</div><div class="tesla-feature-text"><h4>Chargeurs USB-C</h4><p>Restez connecté en route</p></div></div>
+                    <div class="tesla-feature"><div class="tesla-feature-icon">💧</div><div class="tesla-feature-text"><h4>Eau offerte</h4><p>Bouteilles fraîches à bord</p></div></div>
+                    <div class="tesla-feature"><div class="tesla-feature-icon">✨</div><div class="tesla-feature-text"><h4>Nettoyé chaque jour</h4><p>Véhicule impeccable garanti</p></div></div>
+                </div>
+            </div>
+            <div class="tesla-visual reveal">
+                <div class="tesla-card">
+                    <div class="tesla-silhouette">🖤</div>
+                    <div class="tesla-card-label">Tesla Model 3</div>
+                    <div class="tesla-card-sub">Full Black Edition</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- BOOKING -->
+<section id="reservation">
+    <div class="section-inner">
+        <div class="booking-layout">
+            <div class="booking-info reveal">
+                <div class="section-label">Réservation</div>
+                <h2 class="section-title">Réservez votre<br>chauffeur privé</h2>
+                <p class="section-subtitle">3 étapes simples. Confirmation sous 15 minutes.</p>
+                <div class="info-items" style="margin-top:2.5rem">
+                    <div class="info-item"><div class="info-icon">⚡</div><div><h4>Confirmation rapide</h4><p>Réponse sous 15 min par WhatsApp ou email.</p></div></div>
+                    <div class="info-item"><div class="info-icon">💰</div><div><h4>Tarif fixe, sans surprise</h4><p>Prix communiqué avant la course. Pas de compteur.</p></div></div>
+                    <div class="info-item"><div class="info-icon">❌</div><div><h4>Annulation gratuite</h4><p>Sans frais jusqu'à 24h avant votre trajet.</p></div></div>
+                    <div class="info-item"><div class="info-icon">💳</div><div><h4>Paiement flexible</h4><p>CB, espèces ou virement.</p></div></div>
+                </div>
+                <div class="price-grid">
+                    <h4>Tarifs indicatifs</h4>
+                    <div class="price-row"><span class="price-route">Aéroport → Marseille Centre</span><span class="price-amount">dès 55 €</span></div>
+                    <div class="price-row"><span class="price-route">Gare Saint-Charles → Aéroport</span><span class="price-amount">dès 50 €</span></div>
+                    <div class="price-row"><span class="price-route">Marseille → Aix-en-Provence</span><span class="price-amount">dès 65 €</span></div>
+                    <div class="price-row"><span class="price-route">Marseille → Cassis</span><span class="price-amount">dès 45 €</span></div>
+                    <div class="price-row"><span class="price-route">Mise à disposition (½ journée)</span><span class="price-amount">dès 180 €</span></div>
+                </div>
+            </div>
+
+            <!-- WIZARD -->
+            <div class="booking-wizard reveal">
+                <div class="wizard-header">
+                    <div class="wizard-title">Réserver un trajet</div>
+                    <div class="wizard-steps">
+                        <div class="wizard-dot active" id="dot1">1</div>
+                        <div class="wizard-dot" id="dot2">2</div>
+                        <div class="wizard-dot" id="dot3">3</div>
+                        <div class="wizard-dot" id="dot4">✓</div>
+                    </div>
+                </div>
+                <div class="wizard-body">
+
+                    <!-- STEP 1: Type + Trajet -->
+                    <div class="wizard-step active" id="step1">
+                        <div class="field"><label>Quel type de trajet ?</label>
+                            <div class="type-grid">
+                                <div class="type-card" onclick="selectType(this,'aeroport-arrivee')">
+                                    <div class="type-card-check">✓</div>
+                                    <div class="type-card-icon">✈️→🏠</div>
+                                    <div class="type-card-name">Aéroport → Destination</div>
+                                    <div class="type-card-desc">Arrivée Marseille-Provence</div>
+                                </div>
+                                <div class="type-card" onclick="selectType(this,'aeroport-depart')">
+                                    <div class="type-card-check">✓</div>
+                                    <div class="type-card-icon">🏠→✈️</div>
+                                    <div class="type-card-name">Adresse → Aéroport</div>
+                                    <div class="type-card-desc">Départ Marseille-Provence</div>
+                                </div>
+                                <div class="type-card" onclick="selectType(this,'gare-arrivee')">
+                                    <div class="type-card-check">✓</div>
+                                    <div class="type-card-icon">🚄→🏠</div>
+                                    <div class="type-card-name">Gare → Destination</div>
+                                    <div class="type-card-desc">Gare Saint-Charles</div>
+                                </div>
+                                <div class="type-card" onclick="selectType(this,'gare-depart')">
+                                    <div class="type-card-check">✓</div>
+                                    <div class="type-card-icon">🏠→🚄</div>
+                                    <div class="type-card-name">Adresse → Gare</div>
+                                    <div class="type-card-desc">Gare Saint-Charles</div>
+                                </div>
+                                <div class="type-card" onclick="selectType(this,'trajet-libre')" style="grid-column:span 2">
+                                    <div class="type-card-check">✓</div>
+                                    <div class="type-card-icon">📍→📍</div>
+                                    <div class="type-card-name">Trajet libre / Mise à disposition</div>
+                                    <div class="type-card-desc">Événement, autre trajet</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div id="addressFields" style="display:none">
+                            <div class="field" id="departField">
+                                <label id="departLabel">Lieu de départ</label>
+                                <div class="field-icon-wrap">
+                                    <span class="field-ico">📍</span>
+                                    <input type="text" id="inputDepart" placeholder="Tapez une adresse..." autocomplete="off">
+                                </div>
+                                <div class="field-auto-badge" id="badgeDepart" style="display:none">✓ Rempli automatiquement</div>
+                            </div>
+                            <div class="field" id="arriveeField">
+                                <label id="arriveeLabel">Lieu d'arrivée</label>
+                                <div class="field-icon-wrap">
+                                    <span class="field-ico">🏁</span>
+                                    <input type="text" id="inputArrivee" placeholder="Tapez une adresse..." autocomplete="off">
+                                </div>
+                                <div class="field-auto-badge" id="badgeArrivee" style="display:none">✓ Rempli automatiquement</div>
+                            </div>
+                        </div>
+                        <div class="wizard-nav">
+                            <button class="btn-wizard btn-next" id="btnStep1" onclick="goStep(2)" disabled>Continuer →</button>
+                        </div>
+                    </div>
+
+                    <!-- STEP 2: Date/Heure/Options -->
+                    <div class="wizard-step" id="step2">
+                        <div class="field-row">
+                            <div class="field"><label>Date</label>
+                                <div class="field-icon-wrap"><span class="field-ico">📅</span>
+                                    <input type="date" id="bookDate">
+                                </div>
+                            </div>
+                            <div class="field"><label>Heure</label>
+                                <div class="field-icon-wrap"><span class="field-ico">🕐</span>
+                                    <input type="time" id="bookTime">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="field-row">
+                            <div class="field"><label>Passagers</label>
+                                <select id="bookPassengers"><option value="1">1 passager</option><option value="2">2 passagers</option><option value="3">3 passagers</option><option value="4">4 passagers</option></select>
+                            </div>
+                            <div class="field"><label>Bagages</label>
+                                <select id="bookBaggage"><option value="0">Aucun</option><option value="1">1 bagage</option><option value="2">2 bagages</option><option value="3">3+ bagages</option></select>
+                            </div>
+                        </div>
+                        <div class="field" id="flightField" style="display:none">
+                            <label>Numéro de vol (optionnel)</label>
+                            <div class="field-icon-wrap"><span class="field-ico">✈️</span>
+                                <input type="text" id="bookFlight" placeholder="Ex: AF1234">
+                            </div>
+                        </div>
+                        <div class="field">
+                            <label>Informations complémentaires (optionnel)</label>
+                            <textarea id="bookNotes" rows="2" placeholder="Siège enfant, demandes spéciales..."></textarea>
+                        </div>
+                        <div class="wizard-nav">
+                            <button class="btn-wizard btn-back" onclick="goStep(1)">← Retour</button>
+                            <button class="btn-wizard btn-next" onclick="goStep(3)">Continuer →</button>
+                        </div>
+                    </div>
+
+                    <!-- STEP 3: Contact + Summary -->
+                    <div class="wizard-step" id="step3">
+                        <div class="summary-card">
+                            <div class="summary-row"><span class="summary-label">Trajet</span><span class="summary-value" id="sumType"></span></div>
+                            <div class="summary-row"><span class="summary-label">Départ</span><span class="summary-value" id="sumDepart"></span></div>
+                            <div class="summary-row"><span class="summary-label">Arrivée</span><span class="summary-value" id="sumArrivee"></span></div>
+                            <div class="summary-row"><span class="summary-label">Date & Heure</span><span class="summary-value" id="sumDate"></span></div>
+                            <div class="summary-row"><span class="summary-label">Passagers / Bagages</span><span class="summary-value" id="sumOptions"></span></div>
+                        </div>
+                        <div class="field-row">
+                            <div class="field"><label>Prénom *</label><input type="text" id="bookFirstname" placeholder="Votre prénom"></div>
+                            <div class="field"><label>Nom *</label><input type="text" id="bookLastname" placeholder="Votre nom"></div>
+                        </div>
+                        <div class="field-row">
+                            <div class="field"><label>Téléphone *</label>
+                                <div class="field-icon-wrap"><span class="field-ico">📞</span>
+                                    <input type="tel" id="bookPhone" placeholder="06 00 00 00 00">
+                                </div>
+                            </div>
+                            <div class="field"><label>Email</label>
+                                <div class="field-icon-wrap"><span class="field-ico">✉️</span>
+                                    <input type="email" id="bookEmail" placeholder="votre@email.com">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="wizard-nav">
+                            <button class="btn-wizard btn-back" onclick="goStep(2)">← Retour</button>
+                            <button class="btn-wizard btn-next" id="btnSubmit" onclick="submitBooking()">Confirmer ma réservation ✓</button>
+                        </div>
+                    </div>
+
+                    <!-- STEP 4: Confirmation -->
+                    <div class="wizard-step" id="step4">
+                        <div class="confirmation">
+                            <div class="confirmation-icon">✅</div>
+                            <h3>Réservation envoyée !</h3>
+                            <p>Merci <strong id="confName"></strong> ! Votre demande a bien été transmise.<br>Vous recevez une confirmation sous 15 minutes.</p>
+                            <div class="confirmation-detail">
+                                <div class="summary-row"><span class="summary-label">Trajet</span><span class="summary-value" id="confType"></span></div>
+                                <div class="summary-row"><span class="summary-label">Date</span><span class="summary-value" id="confDate"></span></div>
+                                <div class="summary-row"><span class="summary-label">Contact</span><span class="summary-value" id="confPhone"></span></div>
+                            </div>
+                            <div style="margin-top:1.5rem;display:flex;gap:.8rem;justify-content:center;flex-wrap:wrap">
+                                <a href="tel:+33620821890" class="btn-primary" style="text-decoration:none">📞 Appeler</a>
+                                <a href="https://wa.me/33620821890" class="btn-secondary" style="text-decoration:none;color:var(--gold);border-color:var(--gold)" target="_blank">💬 WhatsApp</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- TRUST -->
+<section id="confiance">
+    <div class="section-inner">
+        <div class="trust-header reveal">
+            <div class="section-label">Pourquoi nous choisir</div>
+            <h2 class="section-title">La confiance se mérite</h2>
+            <p class="section-subtitle">Eden Drive, c'est une promesse : un service irréprochable, à chaque trajet.</p>
+        </div>
+        <div class="trust-grid reveal">
+            <div><div class="trust-number">24/7</div><div class="trust-label">Disponible jour et nuit</div></div>
+            <div><div class="trust-number">15'</div><div class="trust-label">Délai de confirmation</div></div>
+            <div><div class="trust-number">0 €</div><div class="trust-label">Annulation sous 24h</div></div>
+            <div><div class="trust-number">100%</div><div class="trust-label">Électrique & silencieux</div></div>
+        </div>
+        <div class="gold-divider"></div>
+        <div class="testimonials reveal">
+            <div class="testimonial"><div class="testimonial-stars">★★★★★</div><p>« Service impeccable. Voiture propre, chauffeur ponctuel et très aimable. Je recommande les yeux fermés. »</p><div class="testimonial-author">Sarah M.</div><div class="testimonial-source">Transfert Aéroport</div></div>
+            <div class="testimonial"><div class="testimonial-stars">★★★★★</div><p>« La Tesla est un vrai plaisir. Silencieuse, confortable, et le chauffeur connaît parfaitement Marseille. »</p><div class="testimonial-author">David L.</div><div class="testimonial-source">Mise à disposition</div></div>
+            <div class="testimonial"><div class="testimonial-stars">★★★★★</div><p>« Ponctualité parfaite pour un déplacement pro important. Discrétion totale. Je ne prends plus que Eden Drive. »</p><div class="testimonial-author">Marc B.</div><div class="testimonial-source">Déplacement business</div></div>
+        </div>
+    </div>
+</section>
+
+<!-- CTA -->
+<section class="cta-banner">
+    <h2>Prêt à voyager avec <span style="color:var(--gold);font-style:italic">Eden Drive</span> ?</h2>
+    <p>Réservez maintenant ou appelez-nous pour un devis personnalisé</p>
+    <a href="tel:+33620821890" class="cta-phone">📞 06 20 82 18 90</a>
+    <div class="cta-channels">
+        <a href="#reservation" class="cta-channel">📝 Réserver en ligne</a>
+        <a href="https://wa.me/33620821890" class="cta-channel" target="_blank">💬 WhatsApp</a>
+        <a href="mailto:contact@edendrive.fr" class="cta-channel">✉️ Email</a>
+    </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+    <div class="footer-inner">
+        <div class="footer-brand">
+            <a href="#" class="nav-logo" style="color:var(--white)">EDEN DRIVE</a>
+            <p>Votre chauffeur privé de confiance à Marseille. Service premium en Tesla Model 3. 24h/24, 7j/7.</p>
+        </div>
+        <div class="footer-col"><h4>Services</h4>
+            <a href="#services">Transfert Aéroport</a><a href="#services">Gare Saint-Charles</a><a href="#services">Mise à disposition</a><a href="#services">Événements</a><a href="#services">Longue distance</a>
+        </div>
+        <div class="footer-col"><h4>Destinations</h4>
+            <a href="#">Marseille Centre</a><a href="#">Aix-en-Provence</a><a href="#">Cassis</a><a href="#">Nice</a><a href="#">Avignon</a>
+        </div>
+        <div class="footer-col"><h4>Contact</h4>
+            <a href="tel:+33620821890">06 20 82 18 90</a><a href="mailto:contact@edendrive.fr">contact@edendrive.fr</a><a href="https://wa.me/33620821890">WhatsApp</a><a href="#">Marseille, 13008</a>
+        </div>
+    </div>
+    <div class="footer-bottom">
+        <span>© 2026 Eden Drive — Tous droits réservés</span>
+        <span>SIRET : 793 610 981 00029</span>
+    </div>
+</footer>
+<script>
+// ===== CONFIG =====
+const PHONE = '33620821890';
+const AEROPORT_ADDR = 'Aéroport Marseille-Provence, Marignane';
+const GARE_ADDR = 'Gare Saint-Charles, Marseille';
+let selectedType = '';
+
+// ===== EMAILJS CONFIG =====
+const EMAILJS_SERVICE = 'service_jebbd83';
+const EMAILJS_TEMPLATE = 'template_v7s6t29';
+const EMAILJS_KEY = 'BM6wporc9EBwplhGn';
+(function() { emailjs.init(EMAILJS_KEY); })();
+
+// ===== PRELOADER =====
+window.addEventListener('load', function() {
+    setTimeout(function() { document.getElementById('preloader').classList.add('hidden'); }, 1200);
+    var d = document.getElementById('bookDate');
+    if (d) d.setAttribute('min', new Date().toISOString().split('T')[0]);
+});
+
+// ===== NAVBAR SCROLL =====
+window.addEventListener('scroll', function() {
+    document.getElementById('navbar').classList.toggle('scrolled', window.scrollY > 60);
+});
+document.querySelectorAll('.nav-links a').forEach(function(l) {
+    l.addEventListener('click', function() { document.getElementById('navLinks').classList.remove('open'); });
+});
+
+// ===== SCROLL REVEAL =====
+var observer = new IntersectionObserver(function(entries) {
+    entries.forEach(function(e) { if (e.isIntersecting) e.target.classList.add('visible'); });
+}, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
+document.querySelectorAll('.reveal').forEach(function(el) { observer.observe(el); });
+
+// ===== ADDRESS INPUT LISTENERS =====
+document.getElementById('inputDepart').addEventListener('input', validateStep1);
+document.getElementById('inputArrivee').addEventListener('input', validateStep1);
+
+// ===== TYPE SELECTION =====
+function selectType(card, type) {
+    document.querySelectorAll('.type-card').forEach(function(c) { c.classList.remove('selected'); });
+    card.classList.add('selected');
+    selectedType = type;
+
+    var iDep = document.getElementById('inputDepart');
+    var iArr = document.getElementById('inputArrivee');
+    var bDep = document.getElementById('badgeDepart');
+    var bArr = document.getElementById('badgeArrivee');
+    var lDep = document.getElementById('departLabel');
+    var lArr = document.getElementById('arriveeLabel');
+    var fFlight = document.getElementById('flightField');
+
+    // Reset all
+    iDep.value = ''; iArr.value = '';
+    iDep.classList.remove('field-locked'); iArr.classList.remove('field-locked');
+    iDep.readOnly = false; iArr.readOnly = false;
+    bDep.style.display = 'none'; bArr.style.display = 'none';
+    fFlight.style.display = 'none';
+    document.getElementById('addressFields').style.display = 'block';
+
+    switch (type) {
+        case 'aeroport-arrivee':
+            iDep.value = AEROPORT_ADDR;
+            iDep.classList.add('field-locked');
+            iDep.readOnly = true;
+            bDep.style.display = 'flex';
+            lDep.textContent = 'Départ — Aéroport Marseille-Provence';
+            lArr.textContent = 'Votre destination';
+            iArr.placeholder = 'Où souhaitez-vous aller ?';
+            fFlight.style.display = 'block';
+            setTimeout(function() { iArr.focus(); }, 150);
+            break;
+        case 'aeroport-depart':
+            iArr.value = AEROPORT_ADDR;
+            iArr.classList.add('field-locked');
+            iArr.readOnly = true;
+            bArr.style.display = 'flex';
+            lDep.textContent = 'Votre adresse de départ';
+            lArr.textContent = 'Arrivée — Aéroport Marseille-Provence';
+            iDep.placeholder = "D'où partez-vous ?";
+            fFlight.style.display = 'block';
+            setTimeout(function() { iDep.focus(); }, 150);
+            break;
+        case 'gare-arrivee':
+            iDep.value = GARE_ADDR;
+            iDep.classList.add('field-locked');
+            iDep.readOnly = true;
+            bDep.style.display = 'flex';
+            lDep.textContent = 'Départ — Gare Saint-Charles';
+            lArr.textContent = 'Votre destination';
+            iArr.placeholder = 'Où souhaitez-vous aller ?';
+            setTimeout(function() { iArr.focus(); }, 150);
+            break;
+        case 'gare-depart':
+            iArr.value = GARE_ADDR;
+            iArr.classList.add('field-locked');
+            iArr.readOnly = true;
+            bArr.style.display = 'flex';
+            lDep.textContent = 'Votre adresse de départ';
+            lArr.textContent = 'Arrivée — Gare Saint-Charles';
+            iDep.placeholder = "D'où partez-vous ?";
+            setTimeout(function() { iDep.focus(); }, 150);
+            break;
+        case 'trajet-libre':
+            lDep.textContent = 'Lieu de départ';
+            lArr.textContent = "Lieu d'arrivée";
+            iDep.placeholder = 'Adresse de prise en charge...';
+            iArr.placeholder = 'Adresse de destination...';
+            setTimeout(function() { iDep.focus(); }, 150);
+            break;
+    }
+    validateStep1();
+}
+
+function validateStep1() {
+    var d = document.getElementById('inputDepart').value.trim();
+    var a = document.getElementById('inputArrivee').value.trim();
+    document.getElementById('btnStep1').disabled = !(selectedType && d.length > 3 && a.length > 3);
+}
+
+// ===== WIZARD NAVIGATION =====
+function goStep(n) {
+    if (n === 3) {
+        var dt = document.getElementById('bookDate').value;
+        var tm = document.getElementById('bookTime').value;
+        if (!dt || !tm) { alert('Veuillez renseigner la date et l\'heure.'); return; }
+    }
+    document.querySelectorAll('.wizard-step').forEach(function(s) { s.classList.remove('active'); });
+    document.getElementById('step' + n).classList.add('active');
+
+    for (var i = 1; i <= 4; i++) {
+        var dot = document.getElementById('dot' + i);
+        dot.classList.remove('active', 'done');
+        if (i < n) dot.classList.add('done');
+        if (i === n) dot.classList.add('active');
+    }
+
+    if (n === 3) {
+        var typeLabels = {
+            'aeroport-arrivee': '✈️ Aéroport → Destination',
+            'aeroport-depart': '🏠 Adresse → Aéroport',
+            'gare-arrivee': '🚄 Gare → Destination',
+            'gare-depart': '🏠 Adresse → Gare',
+            'trajet-libre': '📍 Trajet libre'
+        };
+        document.getElementById('sumType').textContent = typeLabels[selectedType] || selectedType;
+        document.getElementById('sumDepart').textContent = document.getElementById('inputDepart').value;
+        document.getElementById('sumArrivee').textContent = document.getElementById('inputArrivee').value;
+
+        var dateObj = new Date(document.getElementById('bookDate').value);
+        var dateStr = dateObj.toLocaleDateString('fr-FR', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
+        var time = document.getElementById('bookTime').value;
+        document.getElementById('sumDate').textContent = dateStr + ' à ' + time;
+
+        var pax = document.getElementById('bookPassengers').value;
+        var bag = document.getElementById('bookBaggage').value;
+        document.getElementById('sumOptions').textContent = pax + ' passager(s), ' + bag + ' bagage(s)';
+    }
+
+    document.querySelector('.booking-wizard').scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+
+// ===== SUBMIT BOOKING =====
+function submitBooking() {
+    var fn = document.getElementById('bookFirstname').value.trim();
+    var ln = document.getElementById('bookLastname').value.trim();
+    var ph = document.getElementById('bookPhone').value.trim();
+    var em = document.getElementById('bookEmail').value.trim();
+
+    if (!fn || !ln || !ph) { alert('Veuillez renseigner votre prénom, nom et téléphone.'); return; }
+
+    var btn = document.getElementById('btnSubmit');
+    btn.textContent = 'Envoi en cours...';
+    btn.disabled = true;
+
+    var typeLabels = {
+        'aeroport-arrivee': 'Aéroport → Destination',
+        'aeroport-depart': 'Adresse → Aéroport',
+        'gare-arrivee': 'Gare → Destination',
+        'gare-depart': 'Adresse → Gare',
+        'trajet-libre': 'Trajet libre'
+    };
+
+    var dep = document.getElementById('inputDepart').value;
+    var arr = document.getElementById('inputArrivee').value;
+    var dt = document.getElementById('bookDate').value;
+    var tm = document.getElementById('bookTime').value;
+    var pax = document.getElementById('bookPassengers').value;
+    var bag = document.getElementById('bookBaggage').value;
+    var flight = document.getElementById('bookFlight') ? document.getElementById('bookFlight').value : '';
+    var notes = document.getElementById('bookNotes').value;
+
+    var msg = '🚗 *EDEN DRIVE — Nouvelle réservation*\n\n';
+    msg += '📋 *' + typeLabels[selectedType] + '*\n';
+    msg += '📍 Départ : ' + dep + '\n';
+    msg += '🏁 Arrivée : ' + arr + '\n';
+    msg += '📅 ' + dt + ' à ' + tm + '\n';
+    msg += '👥 ' + pax + ' passager(s), ' + bag + ' bagage(s)\n';
+    if (flight) msg += '✈️ Vol : ' + flight + '\n';
+    if (notes) msg += '💬 ' + notes + '\n';
+    msg += '\n👤 *' + fn + ' ' + ln + '*\n';
+    msg += '📞 ' + ph + '\n';
+    if (em) msg += '📧 ' + em + '\n';
+
+    // Open WhatsApp
+    window.open('https://wa.me/' + PHONE + '?text=' + encodeURIComponent(msg), '_blank');
+
+    // Send email via EmailJS
+    try {
+        var dateObj = new Date(dt);
+        var dateStr = dateObj.toLocaleDateString('fr-FR', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
+        emailjs.send(EMAILJS_SERVICE, EMAILJS_TEMPLATE, {
+            booking_type: typeLabels[selectedType],
+            booking_depart: dep,
+            booking_arrivee: arr,
+            booking_date: dateStr + ' à ' + tm,
+            booking_passengers: pax + ' passager(s)',
+            booking_baggage: bag + ' bagage(s)',
+            booking_flight: flight || 'N/A',
+            booking_notes: notes || 'Aucune',
+            client_name: fn + ' ' + ln,
+            client_phone: ph,
+            client_email: em || 'Non renseigné'
+        }).then(function() {
+            console.log('Email envoyé avec succès');
+        }).catch(function(err) {
+            console.log('Erreur email:', err);
+        });
+    } catch(e) { console.log('EmailJS error:', e); }
+
+    // Show confirmation
+    var dateObj2 = new Date(dt);
+    var dateStr2 = dateObj2.toLocaleDateString('fr-FR', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
+    document.getElementById('confName').textContent = fn;
+    document.getElementById('confType').textContent = typeLabels[selectedType] + ' — ' + dep + ' → ' + arr;
+    document.getElementById('confDate').textContent = dateStr2 + ' à ' + tm;
+    document.getElementById('confPhone').textContent = ph;
+    goStep(4);
+}
+</script>
+</body>
+</html>

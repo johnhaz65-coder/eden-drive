@@ -2,10 +2,9 @@ import React, { useState, useEffect } from 'react';
 import { getAccount, saveAccount, deleteAccount, startScheduler, stopScheduler, getScheduler } from '../api.js';
 
 const CRON_OPTIONS = [
-  { label: 'Tous les jours à 8h00 (recommandé)', value: '0 8 * * *' },
-  { label: 'Tous les jours à 9h00', value: '0 9 * * *' },
-  { label: 'Tous les jours à 7h30', value: '30 7 * * *' },
-  { label: 'Lundi et vendredi à 8h00', value: '0 8 * * 1,5' },
+  { label: 'Tous les soirs à 21h30 (Cap 7 — recommandé)', value: '30 21 * * *' },
+  { label: 'Tous les soirs à 21h00', value: '0 21 * * *' },
+  { label: 'Tous les soirs à 22h00', value: '0 22 * * *' },
 ];
 
 export default function Account() {
@@ -148,7 +147,7 @@ export default function Account() {
               {CRON_OPTIONS.map(o => <option key={o.value} value={o.value}>{o.label}</option>)}
             </select>
             <div style={{ fontSize: 11, color: 'var(--gray-400)', marginTop: 6 }}>
-              L'app tentera de réserver automatiquement à ce moment.
+              Cap 7 Padel ouvre les réservations 8 jours à l'avance. Déclenchez à 21h30 pour être parmi les premiers.
             </div>
           </div>
 

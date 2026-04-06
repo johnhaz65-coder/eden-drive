@@ -1,13 +1,23 @@
 import React, { useState, useEffect } from 'react';
 import { getPreferences, addPreference, patchPreference, removePreference } from '../api.js';
 
-const JOURS = ['Dimanche', 'Lundi', 'Mardi', 'Mercredi', 'Jeudi', 'Vendredi', 'Samedi'];
-const HEURES = Array.from({ length: 15 }, (_, i) => {
+// Créneaux disponibles Cap 7 Padel (7h à 22h)
+const HEURES = Array.from({ length: 16 }, (_, i) => {
   const h = i + 7;
   return [`${String(h).padStart(2, '0')}:00`, `${String(h).padStart(2, '0')}:30`];
 }).flat();
 
-const DEFAULT_FORM = { dayOfWeek: 1, time: '10:00', duration: 90, daysInAdvance: 7 };
+// Jours (pour l'affichage de la cible J+8)
+const JOURS = ['dimanche', 'lundi', 'mardi', 'mercredi', 'jeudi', 'vendredi', 'samedi'];
+
+function getTargetDayLabel() {
+  const d = new Date();
+  d.setDate(d.getDate() + 8);
+  const jour = JOURS[d.getDay()];
+  return `${jour} ${d.getDate()}/${d.getMonth() + 1}`;
+}
+
+const DEFAULT_FORM = { time: '10:00', duration: 90, label: '' };
 
 export default function Preferences() {
   const [prefs, setPrefs]       = useState([]);
@@ -25,7 +35,8 @@ export default function Preferences() {
   async function handleSave() {
     setSaving(true);
     try {
-      const p = await addPreference(form);
+      // daysInAdvance fixé à 8 — c'est le fonctionnement Cap 7 Padel
+      const p = await addPreference({ ...form, daysInAdvance: 8 });
       setPrefs(prev => [...prev, p]);
       setShowForm(false);
       setForm(DEFAULT_FORM);
@@ -49,35 +60,42 @@ export default function Preferences() {
     setPrefs(prev => prev.filter(p => p.id !== id));
   }
 
+  const targetLabel = getTargetDayLabel();
+
   return (
     <div className="screen">
       <div className="page-title">
         <h1>Créneaux</h1>
-        <p className="page-subtitle">Configurez quand réserver automatiquement</p>
+        <p className="page-subtitle">Chaque soir à 21h30 → réservation J+8</p>
+      </div>
+
+      {/* Explication du mécanisme */}
+      <div className="card" style={{ borderColor: 'rgba(212,160,23,0.25)', background: 'rgba(212,160,23,0.06)', marginBottom: 16 }}>
+        <div style={{ display: 'flex', gap: 10 }}>
+          <span style={{ fontSize: 20 }}>🕘</span>
+          <div style={{ fontSize: 13, color: 'var(--gray-400)', lineHeight: 1.6 }}>
+            <strong style={{ color: 'var(--gold-light)' }}>Fonctionnement Cap 7 Padel</strong><br />
+            Les réservations s'ouvrent <strong style={{ color: 'white' }}>8 jours à l'avance</strong>.
+            L'automatisation se déclenche chaque soir à <strong style={{ color: 'white' }}>21h30</strong> pour réserver le créneau du <strong style={{ color: 'white' }}>{targetLabel}</strong>.
+            <br />Paiement : <strong style={{ color: 'white' }}>par participants</strong>.
+          </div>
+        </div>
       </div>
 
       <button className="btn btn-primary" style={{ marginBottom: 20 }} onClick={() => setShowForm(!showForm)}>
-        {showForm ? '✕ Annuler' : '+ Nouveau créneau'}
+        {showForm ? '✕ Annuler' : '+ Ajouter un créneau horaire'}
       </button>
 
       {/* Formulaire ajout */}
       {showForm && (
         <div className="card" style={{ borderColor: 'rgba(212,160,23,0.3)', marginBottom: 20 }}>
-          <h3 style={{ marginBottom: 16 }}>Nouveau créneau automatique</h3>
+          <h3 style={{ marginBottom: 4 }}>Nouveau créneau</h3>
+          <p style={{ fontSize: 12, color: 'var(--gray-400)', marginBottom: 16 }}>
+            Choisissez l'heure du créneau à réserver automatiquement.
+          </p>
 
           <div className="form-group">
-            <label className="form-label">Jour</label>
-            <select
-              className="form-input"
-              value={form.dayOfWeek}
-              onChange={e => setForm(f => ({ ...f, dayOfWeek: parseInt(e.target.value) }))}
-            >
-              {JOURS.map((j, i) => <option key={i} value={i}>{j}</option>)}
-            </select>
-          </div>
-
-          <div className="form-group">
-            <label className="form-label">Heure</label>
+            <label className="form-label">Heure du créneau</label>
             <select
               className="form-input"
               value={form.time}
@@ -101,25 +119,22 @@ export default function Preferences() {
           </div>
 
           <div className="form-group">
-            <label className="form-label">Réserver à l'avance</label>
-            <select
+            <label className="form-label">Label (optionnel)</label>
+            <input
               className="form-input"
-              value={form.daysInAdvance}
-              onChange={e => setForm(f => ({ ...f, daysInAdvance: parseInt(e.target.value) }))}
-            >
-              <option value={1}>1 jour avant</option>
-              <option value={3}>3 jours avant</option>
-              <option value={7}>7 jours avant</option>
-              <option value={14}>14 jours avant</option>
-            </select>
+              type="text"
+              placeholder="ex : Padel du soir"
+              value={form.label}
+              onChange={e => setForm(f => ({ ...f, label: e.target.value }))}
+            />
           </div>
 
           <div style={{ background: 'rgba(212,160,23,0.1)', borderRadius: 8, padding: '10px 14px', marginBottom: 16, fontSize: 13, color: 'var(--gold-light)' }}>
-            📅 Réservera automatiquement le prochain <strong>{JOURS[form.dayOfWeek]}</strong> à <strong>{form.time}</strong>, {form.daysInAdvance}j à l'avance.
+            Ce soir à 21h30 → réserve le <strong>{targetLabel}</strong> à <strong>{form.time}</strong>
           </div>
 
           <button className="btn btn-primary" onClick={handleSave} disabled={saving}>
-            {saving ? <><span className="spinner" /> Enregistrement...</> : '✓ Enregistrer ce créneau'}
+            {saving ? <><span className="spinner" /> Enregistrement...</> : '✓ Enregistrer'}
           </button>
         </div>
       )}
@@ -133,29 +148,29 @@ export default function Preferences() {
             <rect x="3" y="4" width="18" height="18" rx="2" />
             <path d="M16 2v4M8 2v4M3 10h18M12 13v4M10 15h4" strokeLinecap="round" />
           </svg>
-          <p>Aucun créneau configuré.<br />Ajoutez votre premier créneau !</p>
+          <p>Aucun créneau configuré.<br />Ajoutez l'heure que vous voulez réserver !</p>
         </div>
       ) : (
         prefs.map(p => (
           <div key={p.id} className="card">
             <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
-              {/* Toggle actif */}
               <label className="toggle">
                 <input type="checkbox" checked={p.active} onChange={() => toggleActive(p)} />
                 <span className="toggle-slider" />
               </label>
 
-              {/* Infos */}
               <div style={{ flex: 1 }}>
-                <div style={{ fontWeight: 600, fontSize: 15 }}>
-                  {JOURS[p.dayOfWeek]} à {p.time}
+                <div style={{ fontWeight: 600, fontSize: 16 }}>
+                  {p.time} <span style={{ fontWeight: 400, fontSize: 13, color: 'var(--gray-400)' }}>· {p.duration} min</span>
                 </div>
-                <div style={{ fontSize: 12, color: 'var(--gray-400)', marginTop: 2 }}>
-                  {p.duration} min · {p.daysInAdvance}j à l'avance
+                {p.label && (
+                  <div style={{ fontSize: 12, color: 'var(--gray-400)', marginTop: 2 }}>{p.label}</div>
+                )}
+                <div style={{ fontSize: 11, color: 'var(--green-accent)', marginTop: 3 }}>
+                  Réserve J+8 · paiement par participants
                 </div>
               </div>
 
-              {/* Supprimer */}
               <button
                 className="btn btn-danger btn-sm"
                 onClick={() => handleDelete(p.id)}

@@ -53,6 +53,12 @@ export default function Dashboard() {
   const activePrefs = prefs.filter(p => p.active);
   const nextRun = scheduler?.nextRun ? new Date(scheduler.nextRun) : null;
 
+  // Cible = aujourd'hui + 8 jours
+  const target8 = new Date();
+  target8.setDate(target8.getDate() + 8);
+  const JOURS_FR = ['dimanche','lundi','mardi','mercredi','jeudi','vendredi','samedi'];
+  const target8Label = `${JOURS_FR[target8.getDay()]} ${target8.getDate()}/${target8.getMonth() + 1}`;
+
   return (
     <div className="screen">
       {toast && <div className={`toast ${toast.type}`}>{toast.msg}</div>}
@@ -110,22 +116,24 @@ export default function Dashboard() {
         </div>
       </div>
 
-      {/* Prochain passage automatique */}
-      {nextRun && (
-        <div className="card">
-          <div style={{ display: 'flex', gap: 12, alignItems: 'center' }}>
-            <span style={{ fontSize: 24 }}>🕐</span>
-            <div>
-              <div style={{ fontSize: 13, color: 'var(--gray-400)', marginBottom: 2 }}>Prochain passage automatique</div>
-              <div style={{ fontSize: 15, fontWeight: 600 }}>
-                {nextRun.toLocaleDateString('fr-FR', { weekday: 'long', day: 'numeric', month: 'long' })}
-                {' à '}
-                {nextRun.toLocaleTimeString('fr-FR', { hour: '2-digit', minute: '2-digit' })}
-              </div>
+      {/* Prochaine réservation automatique */}
+      <div className="card" style={{ borderColor: 'rgba(61,158,94,0.3)', background: 'rgba(61,158,94,0.07)' }}>
+        <div style={{ display: 'flex', gap: 12, alignItems: 'flex-start' }}>
+          <span style={{ fontSize: 24 }}>🕘</span>
+          <div style={{ flex: 1 }}>
+            <div style={{ fontSize: 12, color: 'var(--gray-400)', marginBottom: 4 }}>Prochaine réservation automatique</div>
+            <div style={{ fontSize: 15, fontWeight: 700 }}>
+              Ce soir à 21h30
+            </div>
+            <div style={{ fontSize: 13, color: 'var(--gray-400)', marginTop: 3 }}>
+              → réservera le <strong style={{ color: 'white' }}>{target8Label}</strong> (J+8)
+            </div>
+            <div style={{ fontSize: 12, color: 'var(--green-accent)', marginTop: 4 }}>
+              Paiement : par participants · Valider automatique
             </div>
           </div>
         </div>
-      )}
+      </div>
 
       {/* Créneaux configurés */}
       <div style={{ marginTop: 8 }}>

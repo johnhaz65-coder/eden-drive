@@ -156,7 +156,7 @@ app.get('/api/scheduler', (req, res) => {
 });
 
 app.post('/api/scheduler/start', (req, res) => {
-  const { cron = '0 8 * * *' } = req.body;
+  const { cron = '30 21 * * *' } = req.body;
   startScheduler(cron, emitter);
   res.json({ success: true, cron, nextRun: getNextRun() });
 });
@@ -173,6 +173,6 @@ app.listen(PORT, () => {
   console.log(`\n🎾 Cap 7 Padel Booking API démarrée sur http://localhost:${PORT}`);
   console.log('   Copiez .env.example vers .env et remplissez vos identifiants.\n');
 
-  // Démarrer le planificateur automatiquement
-  startScheduler('0 8 * * *', emitter);
+  // Démarrer le planificateur : tous les soirs à 21h30 → réserve J+8
+  startScheduler('30 21 * * *', emitter);
 });

@@ -9,13 +9,15 @@ import { runAllBookings } from './automator.js';
 let currentTask = null;
 
 /**
- * Calcule la prochaine exécution
+ * Calcule la prochaine exécution à 21h30 le lendemain
  */
-function computeNextRun(cronExpr) {
-  // Estimation simple : +1 jour par défaut
+function computeNextRun() {
   const next = new Date();
-  next.setDate(next.getDate() + 1);
-  next.setHours(8, 0, 0, 0);
+  // Si on est déjà après 21h30, c'est demain soir
+  if (next.getHours() > 21 || (next.getHours() === 21 && next.getMinutes() >= 30)) {
+    next.setDate(next.getDate() + 1);
+  }
+  next.setHours(21, 30, 0, 0);
   return next.toISOString();
 }
 
@@ -50,21 +52,21 @@ export async function runNow(emitter) {
 
 /**
  * Démarre le planificateur automatique
- * Par défaut : tous les jours à 08:00 (moment d'ouverture des réservations)
+ * Par défaut : tous les soirs à 21h30 (ouverture des réservations J+8 sur Cap 7 Padel)
  */
-export function startScheduler(cronExpression = '0 8 * * *', emitter = null) {
+export function startScheduler(cronExpression = '30 21 * * *', emitter = null) {
   if (currentTask) {
     currentTask.stop();
   }
 
   console.log(`[Scheduler] Démarrage avec cron: "${cronExpression}"`);
-  setNextRun(computeNextRun(cronExpression));
+  setNextRun(computeNextRun());
 
   currentTask = cron.schedule(cronExpression, async () => {
-    console.log('[Scheduler] Déclenchement automatique...');
+    console.log('[Scheduler] Déclenchement automatique 21h30 → réservation J+8');
     await runNow(emitter);
-    setNextRun(computeNextRun(cronExpression));
-  });
+    setNextRun(computeNextRun());
+  }, { timezone: 'Europe/Paris' });
 
   return currentTask;
 }

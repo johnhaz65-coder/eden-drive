@@ -1,0 +1,166 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
+  <title>Eden Drive — Carte NFC</title>
+
+  <!-- IMPORTANT : après upload GitHub, remplace ces 3 URLs par tes vraies URLs GitHub Pages -->
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Eden Drive — John">
+  <meta property="og:description" content="Chauffeur privé à Marseille · Réservation WhatsApp en un scan">
+  <meta property="og:image" content="https://YOUR-USERNAME.github.io/eden-drive-nfc/preview.jpg">
+  <meta property="og:url" content="https://YOUR-USERNAME.github.io/eden-drive-nfc/">
+  <meta name="twitter:card" content="summary_large_image">
+
+  <meta name="theme-color" content="#050505">
+  <link rel="apple-touch-icon" href="preview.jpg">
+
+  <style>
+    :root{
+      --gold:#d9b65f;
+      --gold2:#f4dd8b;
+      --bg:#050505;
+      --text:#f7f3ea;
+      --muted:rgba(247,243,234,.62);
+    }
+    *{box-sizing:border-box}
+    body{
+      margin:0;
+      min-height:100svh;
+      font-family:-apple-system,BlinkMacSystemFont,"SF Pro Display","Segoe UI",Roboto,Arial,sans-serif;
+      color:var(--text);
+      background:
+        radial-gradient(circle at 50% -10%, rgba(217,182,95,.28), transparent 34%),
+        radial-gradient(circle at 10% 30%, rgba(255,255,255,.08), transparent 22%),
+        linear-gradient(160deg,#090909,#030303 70%);
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      padding:20px;
+    }
+    .phone-card{
+      width:min(430px,100%);
+      border-radius:34px;
+      overflow:hidden;
+      background:rgba(15,15,15,.76);
+      border:1px solid rgba(255,255,255,.12);
+      box-shadow:0 30px 90px rgba(0,0,0,.55), inset 0 1px 0 rgba(255,255,255,.08);
+      backdrop-filter: blur(22px);
+    }
+    .hero{
+      position:relative;
+      height:310px;
+      background:
+        linear-gradient(to bottom, rgba(0,0,0,.05), rgba(0,0,0,.82)),
+        url("preview.jpg") center/cover no-repeat;
+    }
+    .hero:after{
+      content:"";
+      position:absolute; inset:0;
+      background:linear-gradient(110deg, rgba(217,182,95,.12), transparent 42%);
+    }
+    .close{
+      position:absolute; right:16px; top:16px; z-index:2;
+      width:34px;height:34px;border-radius:50%;
+      background:rgba(0,0,0,.48);
+      display:grid;place-items:center;color:white;font-size:18px;
+    }
+    .content{padding:24px 24px 26px}
+    .brand{
+      font-size:13px;
+      letter-spacing:4px;
+      text-transform:uppercase;
+      color:var(--gold);
+      font-weight:700;
+    }
+    h1{
+      margin:10px 0 6px;
+      font-size:36px;
+      line-height:1;
+      letter-spacing:-1px;
+    }
+    .role{
+      color:var(--muted);
+      font-size:16px;
+      line-height:1.45;
+      margin-bottom:18px;
+    }
+    .badges{
+      display:flex; gap:8px; flex-wrap:wrap;
+      margin-bottom:20px;
+    }
+    .badge{
+      border:1px solid rgba(217,182,95,.24);
+      background:rgba(217,182,95,.08);
+      color:#f4df9a;
+      padding:8px 10px;
+      border-radius:999px;
+      font-size:13px;
+    }
+    .buttons{display:grid; gap:10px}
+    .btn{
+      text-decoration:none;
+      color:#080808;
+      background:linear-gradient(135deg,var(--gold2),var(--gold));
+      border-radius:16px;
+      padding:15px 16px;
+      font-weight:800;
+      text-align:center;
+      box-shadow:0 12px 25px rgba(217,182,95,.18);
+    }
+    .btn.secondary{
+      color:var(--text);
+      background:rgba(255,255,255,.08);
+      border:1px solid rgba(255,255,255,.12);
+      box-shadow:none;
+    }
+    .note{
+      margin-top:16px;
+      text-align:center;
+      color:rgba(247,243,234,.38);
+      font-size:12px;
+    }
+    .mini{
+      margin-top:14px;
+      display:flex;align-items:center;justify-content:center;gap:8px;
+      color:rgba(247,243,234,.5);
+      font-size:12px;
+    }
+    .dot{width:5px;height:5px;border-radius:50%;background:var(--gold)}
+  </style>
+</head>
+
+<body>
+  <main class="phone-card">
+    <section class="hero">
+      <div class="close">×</div>
+    </section>
+
+    <section class="content">
+      <div class="brand">Eden Drive</div>
+      <h1>John</h1>
+      <div class="role">Chauffeur privé à Marseille · Aéroport · Gare · Longue distance</div>
+
+      <div class="badges">
+        <span class="badge">✈️ Airport</span>
+        <span class="badge">🚄 Gare</span>
+        <span class="badge">💼 Business</span>
+        <span class="badge">🇬🇧 English spoken</span>
+      </div>
+
+      <div class="buttons">
+        <!-- Remplace 33600000000 par ton vrai numéro -->
+        <a class="btn" href="https://wa.me/33600000000?text=Bonjour%20John%2C%20je%20souhaite%20r%C3%A9server%20un%20trajet%20avec%20Eden%20Drive.">
+          Réserver sur WhatsApp
+        </a>
+        <a class="btn secondary" href="tel:+33600000000">Appeler maintenant</a>
+        <a class="btn secondary" href="https://www.instagram.com/">Instagram</a>
+      </div>
+
+      <div class="mini"><span class="dot"></span> NFC ready · QR ready · GitHub Pages</div>
+      <div class="note">Approchez votre téléphone de la plaque pour ouvrir cette carte.</div>
+    </section>
+  </main>
+</body>
+</html>

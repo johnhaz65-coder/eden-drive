@@ -1,0 +1,853 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>RÃ©servation VTC Marseille | EDEN DRIVE â Chauffeur PrivÃ© Tesla Model 3</title>
+<meta name="description" content="RÃ©servez votre VTC Ã  Marseille avec Eden Drive. Tarif 1,70â¬/km. Transfert aÃ©roport Marignane dÃ¨s 50â¬, Gare Saint-Charles, Aix-en-Provence. Paiement sÃ©curisÃ©. Bon de rÃ©servation et facture PDF.">
+<meta name="keywords" content="rÃ©servation VTC Marseille, rÃ©server chauffeur privÃ© Marseille, tarif VTC kilomÃ¨tre Marseille, book private driver Marseille, transfert aÃ©roport Marignane rÃ©servation, Eden Drive rÃ©servation">
+<link rel="canonical" href="https://eden-drive.vercel.app/reservation/">
+<meta property="og:title" content="RÃ©servation VTC Marseille | EDEN DRIVE">
+<meta property="og:description" content="RÃ©servez votre chauffeur privÃ© VTC Ã  Marseille. 1,70â¬/km. AÃ©roport dÃ¨s 50â¬. Paiement sÃ©curisÃ© SumUp.">
+<meta property="og:url" content="https://eden-drive.vercel.app/reservation/">
+<meta property="og:type" content="website">
+<meta property="og:image" content="https://eden-drive.vercel.app/Og%20image.jpg">
+<meta name="robots" content="index, follow">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=Outfit:wght@300;400;500&display=swap" rel="stylesheet">
+<!-- jsPDF pour gÃ©nÃ©ration PDF cÃ´tÃ© client -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "TaxiService",
+  "name": "Eden Drive",
+  "description": "Service VTC premium Ã  Marseille â Chauffeur privÃ© Tesla Model 3 â 1,70â¬/km",
+  "url": "https://eden-drive.vercel.app/reservation/",
+  "telephone": "+33687392632",
+  "address": { "@type": "PostalAddress", "addressLocality": "Marseille", "postalCode": "13008", "addressCountry": "FR" },
+  "areaServed": ["Marseille","Aix-en-Provence","Cassis","Marignane","Nice"],
+  "priceRange": "Ã partir de 50â¬ Â· 1,70â¬/km"
+}
+</script>
+
+<style>
+:root {
+  --gold: #C9A84C;
+  --gold-light: #E2CB7D;
+  --gold-dark: #A8872E;
+  --cream: #FAF7F0;
+  --cream-dark: #F0EBE0;
+  --white: #FFFFFF;
+  --charcoal: #1A1A1A;
+  --text-dark: #1A1A1A;
+  --text-medium: #5A5A5A;
+  --text-light: #8A8A8A;
+  --serif: 'Cormorant Garamond', Georgia, serif;
+  --sans: 'Outfit', system-ui, sans-serif;
+}
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; font-size: 16px; }
+body { font-family: var(--sans); background: var(--cream); color: var(--text-dark); overflow-x: hidden; -webkit-font-smoothing: antialiased; }
+
+/* NAVBAR */
+.navbar { position: fixed; top: 0; left: 0; right: 0; z-index: 1000; padding: 1.25rem 3rem; display: flex; align-items: center; justify-content: space-between; background: rgba(255,255,255,0.97); backdrop-filter: blur(20px); box-shadow: 0 1px 30px rgba(0,0,0,0.06); }
+.nav-logo { font-family: var(--serif); font-size: 1.6rem; font-weight: 300; letter-spacing: 0.3em; color: var(--charcoal); text-decoration: none; }
+.nav-links { display: flex; gap: 2.5rem; list-style: none; align-items: center; }
+.nav-links a { font-family: var(--sans); font-size: 0.8rem; font-weight: 400; letter-spacing: 0.15em; text-transform: uppercase; color: var(--text-medium); text-decoration: none; transition: color 0.3s; position: relative; }
+.nav-links a::after { content: ''; position: absolute; bottom: -4px; left: 0; width: 0; height: 1px; background: var(--gold); transition: width 0.3s; }
+.nav-links a:hover::after { width: 100%; }
+.nav-links a.active { color: var(--gold); }
+.nav-cta { padding: 0.65rem 1.8rem !important; background: var(--gold); color: var(--white) !important; font-weight: 500 !important; }
+.nav-cta::after { display: none !important; }
+.nav-cta:hover { background: var(--gold-dark) !important; }
+.nav-toggle { display: none; flex-direction: column; gap: 5px; cursor: pointer; background: none; border: none; }
+.nav-toggle span { width: 24px; height: 1.5px; background: var(--charcoal); display: block; transition: all 0.3s; }
+
+/* PAGE HEADER */
+.page-header { padding: 10rem 2rem 5rem; text-align: center; background: linear-gradient(180deg, #0f0f0f 0%, #1a1a1a 100%); position: relative; overflow: hidden; }
+.page-header::after { content: ''; position: absolute; inset: 0; background: radial-gradient(ellipse at 50% 100%, rgba(201,168,76,0.18) 0%, transparent 60%); pointer-events: none; }
+.page-header .label { display: inline-block; font-size: 0.68rem; letter-spacing: 0.3em; text-transform: uppercase; color: var(--gold); margin-bottom: 1.2rem; }
+.page-header h1 { font-family: var(--serif); font-size: clamp(2.5rem, 6vw, 4.5rem); font-weight: 300; color: var(--white); line-height: 1.1; }
+.page-header h1 em { color: var(--gold); font-style: italic; }
+.page-header p { margin-top: 1.2rem; font-size: 0.95rem; font-weight: 300; color: rgba(255,255,255,0.5); letter-spacing: 0.06em; }
+.km-badge { display: inline-flex; align-items: center; gap: 1rem; margin-top: 1.8rem; padding: 0.6rem 2rem; border: 1px solid rgba(201,168,76,0.25); color: var(--gold-light); font-size: 0.78rem; letter-spacing: 0.15em; text-transform: uppercase; }
+
+/* MAIN */
+.reservation-section { max-width: 1100px; margin: 0 auto; padding: 5rem 2rem 6rem; display: grid; grid-template-columns: 1.65fr 1fr; gap: 4rem; align-items: start; }
+
+/* FORM CARD */
+.form-card { background: var(--white); box-shadow: 0 4px 60px rgba(0,0,0,0.07); padding: 3rem; }
+.form-card h2 { font-family: var(--serif); font-size: 1.9rem; font-weight: 300; color: var(--charcoal); margin-bottom: 0.3rem; }
+.form-card .subtitle { font-size: 0.82rem; color: var(--text-light); letter-spacing: 0.04em; margin-bottom: 2.5rem; }
+.form-group { margin-bottom: 1.5rem; }
+.form-group label { display: block; font-size: 0.7rem; font-weight: 500; letter-spacing: 0.15em; text-transform: uppercase; color: var(--text-medium); margin-bottom: 0.5rem; }
+.form-group input, .form-group select, .form-group textarea {
+  width: 100%; padding: 0.85rem 1rem;
+  border: 1px solid #E0DBD2; background: var(--cream);
+  font-family: var(--sans); font-size: 0.9rem; color: var(--text-dark);
+  outline: none; transition: border-color 0.3s; -webkit-appearance: none; appearance: none;
+}
+.form-group input:focus, .form-group select:focus, .form-group textarea:focus { border-color: var(--gold); background: #fff; }
+.form-group textarea { resize: vertical; min-height: 80px; }
+.field-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+.form-divider { height: 1px; background: var(--cream-dark); margin: 2rem 0; }
+.form-section-title { font-size: 0.65rem; letter-spacing: 0.22em; text-transform: uppercase; color: var(--gold); margin-bottom: 1.4rem; font-weight: 500; }
+
+/* Service options */
+.options-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 0.75rem; }
+.option-card { border: 1px solid #E0DBD2; padding: 0.9rem; cursor: pointer; transition: all 0.25s; user-select: none; }
+.option-card:hover { border-color: var(--gold-light); }
+.option-card.selected { border-color: var(--gold); background: rgba(201,168,76,0.04); }
+.option-card input { display: none; }
+.option-card .icon { font-size: 1.2rem; margin-bottom: 0.25rem; display: block; }
+.option-card .name { font-size: 0.82rem; font-weight: 500; color: var(--text-dark); display: block; }
+.option-card .desc { font-size: 0.72rem; color: var(--text-light); display: block; }
+
+/* Price preview */
+.price-preview { background: var(--charcoal); padding: 1.5rem; margin: 2rem 0; display: flex; justify-content: space-between; align-items: center; }
+.price-preview .lbl { font-size: 0.7rem; letter-spacing: 0.15em; text-transform: uppercase; color: rgba(255,255,255,0.45); }
+.price-preview .amount { font-family: var(--serif); font-size: 2.2rem; font-weight: 300; color: var(--gold); margin-top: 0.2rem; }
+.price-preview .note-p { font-size: 0.7rem; color: rgba(255,255,255,0.3); margin-top: 0.2rem; }
+.price-details { text-align: right; }
+.price-details span { display: block; font-size: 0.7rem; color: rgba(255,255,255,0.3); letter-spacing: 0.08em; margin-bottom: 0.2rem; }
+
+/* Buttons */
+.btn-primary { display: flex; align-items: center; justify-content: center; gap: 0.6rem; width: 100%; padding: 1rem 2rem; background: var(--gold); color: var(--white); font-family: var(--sans); font-size: 0.78rem; font-weight: 500; letter-spacing: 0.18em; text-transform: uppercase; text-decoration: none; border: none; cursor: pointer; transition: all 0.3s; }
+.btn-primary:hover { background: var(--gold-dark); transform: translateY(-2px); box-shadow: 0 8px 25px rgba(201,168,76,0.3); }
+.btn-secondary { display: flex; align-items: center; justify-content: center; gap: 0.6rem; width: 100%; padding: 0.9rem; background: transparent; color: var(--text-medium); font-family: var(--sans); font-size: 0.78rem; letter-spacing: 0.15em; text-transform: uppercase; border: 1px solid #E0DBD2; cursor: pointer; transition: all 0.3s; margin-top: 0.8rem; text-decoration: none; }
+.btn-secondary:hover { border-color: var(--gold); color: var(--gold); }
+
+/* SIDEBAR */
+.sidebar { display: flex; flex-direction: column; gap: 1.5rem; }
+.info-card { background: var(--white); padding: 2rem; box-shadow: 0 2px 30px rgba(0,0,0,0.05); }
+.info-card h3 { font-family: var(--serif); font-size: 1.2rem; font-weight: 300; color: var(--charcoal); margin-bottom: 1.2rem; }
+.tarif-row { display: flex; justify-content: space-between; align-items: center; padding: 0.65rem 0; border-bottom: 1px solid var(--cream-dark); font-size: 0.84rem; }
+.tarif-row:last-child { border-bottom: none; }
+.tarif-row .dest { color: var(--text-medium); }
+.tarif-row .px { font-weight: 500; color: var(--gold); font-family: var(--serif); font-size: 1rem; }
+.km-note { font-size: 0.72rem; color: var(--text-light); text-align: center; margin-top: 1rem; padding-top: 0.8rem; border-top: 1px solid var(--cream-dark); letter-spacing: 0.05em; }
+.info-list { list-style: none; }
+.info-list li { display: flex; align-items: flex-start; gap: 0.7rem; font-size: 0.85rem; color: var(--text-medium); margin-bottom: 0.8rem; line-height: 1.5; }
+.info-list li .ic { color: var(--gold); flex-shrink: 0; font-style: normal; }
+.contact-block { background: var(--charcoal); padding: 2rem; color: var(--white); text-align: center; }
+.contact-block p { font-size: 0.78rem; color: rgba(255,255,255,0.45); margin-bottom: 0.8rem; letter-spacing: 0.05em; }
+.contact-block a.tel { display: block; font-family: var(--serif); font-size: 1.5rem; font-weight: 300; color: var(--gold); text-decoration: none; margin-bottom: 0.5rem; }
+.contact-block a.wa { font-size: 0.78rem; color: rgba(255,255,255,0.35); text-decoration: none; letter-spacing: 0.12em; text-transform: uppercase; }
+.contact-block a.wa:hover { color: var(--gold-light); }
+
+/* MODAL */
+.modal-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.75); z-index: 5000; align-items: center; justify-content: center; padding: 1.5rem; }
+.modal-overlay.open { display: flex; }
+.modal { background: var(--white); max-width: 700px; width: 100%; max-height: 92vh; overflow-y: auto; }
+.modal-header { background: var(--charcoal); padding: 2rem 2.5rem; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 2; }
+.modal-header h2 { font-family: var(--serif); font-size: 1.7rem; font-weight: 300; color: var(--white); }
+.close-btn { background: none; border: none; color: rgba(255,255,255,0.4); font-size: 1.4rem; cursor: pointer; line-height: 1; padding: 0.2rem 0.5rem; }
+.close-btn:hover { color: var(--white); }
+.modal-body { padding: 2.5rem; }
+.modal-ref { font-size: 0.7rem; letter-spacing: 0.22em; text-transform: uppercase; color: var(--gold); margin-bottom: 2rem; }
+.summary-block { border: 1px solid var(--cream-dark); padding: 1.5rem; margin-bottom: 1.2rem; }
+.summary-block h4 { font-size: 0.65rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--text-light); margin-bottom: 0.9rem; }
+.summary-row { display: flex; justify-content: space-between; font-size: 0.88rem; margin-bottom: 0.55rem; gap: 1rem; }
+.summary-row .key { color: var(--text-light); flex-shrink: 0; }
+.summary-row .val { color: var(--text-dark); font-weight: 400; text-align: right; }
+.summary-total { display: flex; justify-content: space-between; align-items: center; background: var(--cream); padding: 1.1rem 1.5rem; margin-bottom: 2rem; }
+.t-label { font-size: 0.78rem; text-transform: uppercase; letter-spacing: 0.12em; color: var(--text-medium); }
+.t-sub { font-size: 0.7rem; color: var(--text-light); margin-top: 0.2rem; }
+.t-price { font-family: var(--serif); font-size: 2.2rem; font-weight: 300; color: var(--gold); }
+.modal-actions { display: flex; flex-direction: column; gap: 0.8rem; }
+.btn-pay { display: flex; align-items: center; justify-content: center; gap: 0.8rem; padding: 1.1rem; background: var(--gold); color: var(--white); font-family: var(--sans); font-size: 0.82rem; font-weight: 500; letter-spacing: 0.15em; text-transform: uppercase; text-decoration: none; border: none; cursor: pointer; transition: all 0.3s; }
+.btn-pay:hover { background: var(--gold-dark); }
+.btn-doc { display: flex; align-items: center; justify-content: center; gap: 0.6rem; padding: 0.9rem; background: transparent; color: var(--text-medium); font-size: 0.8rem; letter-spacing: 0.12em; text-transform: uppercase; border: 1px solid #E0DBD2; cursor: pointer; font-family: var(--sans); transition: all 0.3s; }
+.btn-doc:hover { border-color: var(--gold); color: var(--gold); }
+.modal-note { font-size: 0.76rem; color: var(--text-light); text-align: center; margin-top: 1rem; line-height: 1.7; }
+
+/* FOOTER */
+footer { background: #111; padding: 4rem 2rem 2rem; margin-top: 2rem; }
+.footer-inner { max-width: 1200px; margin: 0 auto; display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 3rem; }
+.footer-brand p { font-size: 0.85rem; font-weight: 300; color: rgba(255,255,255,0.4); line-height: 1.7; margin-top: 1rem; }
+.footer-col h4 { font-size: 0.72rem; font-weight: 500; letter-spacing: 0.2em; text-transform: uppercase; color: var(--gold); margin-bottom: 1.2rem; }
+.footer-col a { display: block; font-size: 0.85rem; font-weight: 300; color: rgba(255,255,255,0.45); text-decoration: none; margin-bottom: 0.6rem; transition: color 0.3s; }
+.footer-col a:hover { color: var(--white); }
+.footer-bottom { max-width: 1200px; margin: 3rem auto 0; padding-top: 2rem; border-top: 1px solid rgba(255,255,255,0.06); display: flex; justify-content: space-between; font-size: 0.75rem; color: rgba(255,255,255,0.25); }
+
+/* RESPONSIVE */
+@media (max-width: 1024px) {
+  .reservation-section { grid-template-columns: 1fr; gap: 2.5rem; }
+  .footer-inner { grid-template-columns: 1fr 1fr; }
+}
+@media (max-width: 768px) {
+  .navbar { padding: 1rem 1.5rem; }
+  .nav-links { display: none; position: fixed; inset: 0; background: rgba(26,26,26,0.97); flex-direction: column; align-items: center; justify-content: center; gap: 2rem; z-index: 999; }
+  .nav-links.open { display: flex; }
+  .nav-links a { color: var(--white) !important; font-size: 1rem; }
+  .nav-toggle { display: flex; }
+  .field-row { grid-template-columns: 1fr; }
+  .footer-inner { grid-template-columns: 1fr; gap: 2rem; }
+  .footer-bottom { flex-direction: column; gap: 0.5rem; }
+  .modal-body { padding: 1.5rem; }
+  .modal-header { padding: 1.5rem; }
+}
+@media (max-width: 480px) {
+  .reservation-section { padding: 3rem 1.2rem; }
+  .form-card { padding: 1.8rem 1.2rem; }
+  .options-grid { grid-template-columns: 1fr 1fr; }
+}
+</style>
+</head>
+<body>
+
+<!-- NAVBAR -->
+<nav class="navbar" id="navbar">
+  <a href="/" class="nav-logo">EDEN DRIVE</a>
+  <ul class="nav-links" id="navLinks">
+    <li><a href="/#services">Services</a></li>
+    <li><a href="/#vehicule">VÃ©hicule</a></li>
+    <li><a href="/reservation/" class="active">RÃ©server</a></li>
+    <li><a href="tel:+33687392632" class="nav-cta">+33 6 87 39 26 32</a></li>
+  </ul>
+  <button class="nav-toggle" id="navToggle" onclick="document.getElementById('navLinks').classList.toggle('open')" aria-label="Menu">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+
+<!-- PAGE HEADER -->
+<header class="page-header">
+  <span class="label">RÃ©servation en ligne Â· 24h/24</span>
+  <h1>RÃ©servez votre <em>Transfert</em></h1>
+  <p>Chauffeur privÃ© Tesla Model 3 Â· Paiement sÃ©curisÃ© Â· Confirmation sous 15 min</p>
+  <div class="km-badge">
+    <span>â AÃ©roport dÃ¨s 50 â¬</span>
+    <span style="width:1px;height:14px;background:rgba(201,168,76,0.3)"></span>
+    <span>ð Tesla Model 3</span>
+  </div>
+</header>
+
+<!-- MAIN CONTENT -->
+<section class="reservation-section">
+
+  <!-- FORM -->
+  <div class="form-card">
+    <h2>Votre rÃ©servation</h2>
+    <p class="subtitle">Remplissez le formulaire â confirmation garantie sous 15 minutes</p>
+
+    <form id="reservationForm" onsubmit="handleSubmit(event)">
+
+      <p class="form-section-title">Vos coordonnÃ©es</p>
+      <div class="field-row">
+        <div class="form-group">
+          <label>PrÃ©nom & Nom *</label>
+          <input type="text" id="clientName" placeholder="Jean Dupont" required>
+        </div>
+        <div class="form-group">
+          <label>TÃ©lÃ©phone *</label>
+          <input type="tel" id="clientPhone" placeholder="+33 6 00 00 00 00" required>
+        </div>
+      </div>
+      <div class="form-group">
+        <label>Email *</label>
+        <input type="email" id="clientEmail" placeholder="jean@exemple.com" required>
+      </div>
+
+      <div class="form-divider"></div>
+      <p class="form-section-title">DÃ©tails du trajet</p>
+
+      <div class="form-group">
+        <label>Type de service *</label>
+        <div class="options-grid">
+          <label class="option-card selected" onclick="selectService(this,'airport')">
+            <input type="radio" name="service" value="airport" checked>
+            <span class="icon">âï¸</span>
+            <span class="name">AÃ©roport</span>
+            <span class="desc">Marignane / Nice</span>
+          </label>
+          <label class="option-card" onclick="selectService(this,'gare')">
+            <input type="radio" name="service" value="gare">
+            <span class="icon">ð</span>
+            <span class="name">Gare</span>
+            <span class="desc">Saint-Charles</span>
+          </label>
+          <label class="option-card" onclick="selectService(this,'city')">
+            <input type="radio" name="service" value="city">
+            <span class="icon">ðï¸</span>
+            <span class="name">Trajet ville</span>
+            <span class="desc">Aix, Cassisâ¦</span>
+          </label>
+          <label class="option-card" onclick="selectService(this,'dispo')">
+            <input type="radio" name="service" value="dispo">
+            <span class="icon">â±ï¸</span>
+            <span class="name">Mise Ã  dispo</span>
+            <span class="desc">Ã l'heure</span>
+          </label>
+        </div>
+      </div>
+
+      <div class="field-row">
+        <div class="form-group">
+          <label>Date *</label>
+          <input type="date" id="tripDate" required>
+        </div>
+        <div class="form-group">
+          <label>Heure *</label>
+          <input type="time" id="tripTime" required>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label>Adresse de dÃ©part *</label>
+        <input type="text" id="departure" placeholder="Adresse, hÃ´tel, aÃ©roportâ¦" required>
+      </div>
+      <div class="form-group">
+        <label>Destination *</label>
+        <input type="text" id="destination" placeholder="Adresse, hÃ´tel, aÃ©roportâ¦" required>
+      </div>
+
+      <div class="field-row">
+        <div class="form-group">
+          <label>Distance estimÃ©e (km)</label>
+          <input type="number" id="distance" placeholder="ex: 28" min="1" max="500" oninput="updatePrice()">
+        </div>
+        <div class="form-group">
+          <label>Passagers</span>
+          <select id="passengers">
+            <option value="1">1 passager</option>
+            <option value="2">2 passagers</option>
+            <option value="3" selected>3 passagers</option>
+            <option value="4">4 passagers</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="field-row">
+        <div class="form-group">
+          <label>Passagers</span>
+          <select id="luggage">
+            <option value="0">Aucun</option>
+            <option value="1">1 valise</option>
+            <option value="2" selected>2 valises</option>
+            <option value="3">3 valises</option>
+            <option value="4">4 valises</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>NÂ° vol / train (optionnel)</label>
+          <input type="text" id="flightNum" placeholder="AF1234 / TGV 6201">
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label>Message / instructions spÃ©ciales</label>
+        <textarea id="notes" placeholder="SiÃ¨ge bÃ©bÃ©, heure d'atterrissage rÃ©elle, demandes particuliÃ¨resâ¦"></textarea>
+      </div>
+
+      <!-- PRICE PREVIEW -->
+      <div class="price-preview">
+        <div>
+          <div class="lbl">Prix estimÃ©</div>
+          <div class="amount" id="priceDisplay">dÃ¨s 50 â¬</div>
+          <div class="note-p" id="priceNote">Tarif minimum aÃ©roport Â· Prix dÃ©finitif confirmÃ©</div>
+        </div>
+        <div class="price-details">
+          <span>TESLA MODEL 3</span>
+          <span>4 PLACES MAX</span>
+          <span>1,70 â¬ / KM</span>
+        </div>
+      </div>
+
+      <button type="submit" class="btn-primary">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+        Confirmer la rÃ©servation
+      </button>
+      <a href="tel:+33687392632" class="btn-secondary">ð RÃ©server par tÃ©lÃ©phone</a>
+    </form>
+  </div>
+
+  <!-- SIDEBAR -->
+  <aside class="sidebar">
+    <div class="contact-block">
+      <p>Disponible 24h/24 Â· 7j/7</p>
+      <a href="tel:+33687392632" class="tel">+33 6 87 39 26 32</a>
+      <a href="https://wa.me/33687392632" class="wa">WhatsApp â</a>
+    </div>
+
+    <div class="info-card">
+      <h3>Tarifs indicatifs</h3>
+      <div class="tarif-row"><span class="dest">AÃ©roport â Marseille</span><span class="px">dÃ¨s 50 â¬</span></div>
+      <div class="tarif-row"><span class="dest">AÃ©roport â Aix-en-Provence</span><span class="px">dÃ¨s 50 â¬</span></div>
+      <div class="tarif-row"><span class="dest">Gare Saint-Charles</span><span class="px">dÃ¨s 30 â¬</span></div>
+      <div class="tarif-row"><span class="dest">Marseille â Cassis</span><span class="px">dÃ¨s 52 â¬</span></div>
+      <div class="tarif-row"><span class="dest">Marseille â Nice AÃ©rop.</span><span class="px">dÃ¨s 195 â¬</span></div>
+      <div class="tarif-row"><span class="dest">Mise Ã  disposition</span><span class="px">dÃ¨s 65 â¬/h</span></div>
+      <p class="km-note">Tarification : 1,70 â¬ / km Â· Minimum 50 â¬ aÃ©roport</p>
+    </div>
+
+    <div class="info-card">
+      <h3>Inclus dans le tarif</h3>
+      <ul class="info-list">
+        <li><i class="ic">â</i> Tesla Model 3 climatis&eacute;e</li>
+        <li><i class="ic">â</i> Eau min&eacute;rale &amp; chargeur USB</li>
+        <li><i class="ic">â</i> Suivi de vol / train en temps r&eacute;el</li>
+        <li><i class="ic">â</i> 30 min d'attente incluses</li>
+        <li><i class="ic">â</i> Paiement CB / esp&egrave;ces / virement</li>
+        <li><i class="ic">â</i> Bon de r&eacute;servation &amp; facture PDF</li>
+      </ul>
+    </div>
+
+    <div class="info-card">
+      <h3>Comment Ã§a marche</h3>
+      <ul class="info-list">
+        <li><i class="ic">1.</i> Remplissez le formulaire et validez</li>
+        <li><i class="ic">2.</i> Confirmation par votre chauffeur sous 15 min</li>
+        <li><i class="ic">3.</i> Paiement sÃ©curisÃ© en ligne (SumUp) ou sur place</li>
+        <li><i class="ic">4.</i> Bon de rÃ©servation PDF tÃ©lÃ©chargeable</li>
+      </ul>
+    </div>
+  </aside>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-inner">
+    <div class="footer-brand">
+      <a href="/" class="nav-logo" style="color:var(--white)">EDEN DRIVE</a>
+      <p>Votre chauffeur privÃ© de confiance Ã  Marseille. Service premium en Tesla Model 3. 24h/24, 7j/7.</p>
+    </div>
+    <div class="footer-col"><h4>Services</h4>
+      <a href="/#services">Transfert AÃ©roport</a>
+      <a href="/#services">Gare Saint-Charles</a>
+      <a href="/#services">Mise Ã  disposition</a>
+      <a href="/#services">ÃvÃ©nements</a>
+    </div>
+    <div class="footer-col"><h4>Destinations</h4>
+      <a href="#">Marseille Centre</a>
+      <a href="#">Aix-en-Provence</a>
+      <a href="#">Cassis</span>
+      <a href="#">Nice</a>
+    </div>
+    <div class="footer-col"><h4>Contact</h4>
+      <a href="tel:+33687392632">+33 6 87 39 26 32</a>
+      <a href="mailto:contact@eden-drive.fr">contact@eden-drive.fr</a>
+      <a href="https://wa.me/33687392632">WhatsApp</a>
+      <span style="color:rgba(255,255,255,0.3);font-size:0.85rem">Marseille, 13008</span>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span>Â© 2026 Eden Drive â Tous droits rÃ©servÃ©s</span>
+    <span>The L.E. Company Â· SIREN : 793 610 981</span>
+  </div>
+</footer>
+
+<!-- MODAL CONFIRMATION -->
+<div class="modal-overlay" id="modalOverlay">
+  <div class="modal">
+    <div class="modal-header">
+      <h2>RÃ©capitulatif</h2>
+      <button class="close-btn" onclick="closeModal()">â</button>
+    </div>
+    <div class="modal-body">
+      <p class="modal-ref" id="modalRef">RÃ©fÃ©rence : ED-2026-00001</p>
+
+      <div class="summary-block">
+        <h4>Client</h4>
+        <div class="summary-row"><span class="key">Nom</span><span class="val" id="summaryName">â</span></div>
+        <div class="summary-row"><span class="key">TÃ©lÃ©phone</span><span class="val" id="summaryPhone">â</span></div>
+        <div class="summary-row"><span class="key">Email</span><span class="val" id="summaryEmail">â</span></div>
+      </div>
+
+      <div class="summary-block">
+        <h4>Trajet</h4>
+        <div class="summary-row"><span class="key">Service</span><span class="val" id="summaryService">â</span></div>
+        <div class="summary-row"><span class="key">Date &amp; heure</span><span class="val" id="summaryDate">â</span></div>
+        <div class="summary-row"><span class="key">DÃ©part</span><span class="val" id="summaryDep">â</span></div>
+        <div class="summary-row"><span class="key">Destination</span><span class="val" id="summaryDest">â</span></div>
+        <div class="summary-row"><span class="key">Passagers</span><span class="val" id="summaryPax">â</span></div>
+        <div class="summary-row"><span class="key">Distance</span><span class="val" id="summaryKm">â</span></div>
+        <div class="summary-row"><span class="key">Vol / train</span><span class="val" id="summaryFlight">â</span></div>
+      </div>
+
+      <div class="summary-total">
+        <div>
+          <div class="t-label">Total estimÃ© TTC</div>
+          <div class="t-sub">Prix dÃ©finitif confirmÃ© par votre chauffeur</div>
+        </div>
+        <div class="t-price" id="summaryPrice">50 â¬</div>
+      </div>
+
+      <div class="modal-actions">
+        <!-- REMPLACER href PAR VOTRE LIEN SUMUP -->
+        <a href="VOTRE_LIEN_SUMUP_ICI" class="btn-pay" id="payBtn" target="_blank" rel="noopener">
+          ð³ &nbsp;Payer en ligne Â· SumUp
+        </a>
+        <button class="btn-doc" onclick="generatePDF('bon')">
+          ð¨ï¸ &nbsp;TÃ©lÃ©charger le bon de rÃ©servation (PDF)
+        </button>
+        <button class="btn-doc" onclick="generatePDF('facture')">
+          ð &nbsp;TÃ©lÃ©charger la facture (PDF)
+        </button>
+      </div>
+      <p class="modal-note">
+        Votre chauffeur vous contactera sous <strong>15 minutes</strong> pour confirmer.<br>
+        Urgence : <strong>+33 6 87 39 26 32</strong> Â· <a href="https://wa.me/33687392632" style="color:var(--gold)">WhatsApp</a>
+      </p>
+    </div>
+  </div>
+</div>
+
+<script>
+// ============================================================
+// TARIFICATION
+// ============================================================
+const TARIF_KM = 1.70;
+const MINIMUM_AIRPORT = 50;
+const MINIMUM_GARE = 30;
+const MINIMUM_CITY = 30;
+const TARIF_DISPO_H = 65;
+
+const serviceLabels = {
+  airport: 'Transfert AÃ©roport',
+  gare: 'Transfert Gare Saint-Charles',
+  city: 'Trajet Ville / RÃ©gion',
+  dispo: 'Mise Ã  disposition'
+};
+
+let selectedService = 'airport';
+let currentBooking = {};
+
+function selectService(el, value) {
+  document.querySelectorAll('.option-card').forEach(c => c.classList.remove('selected'));
+  el.classList.add('selected');
+  selectedService = value;
+  updatePrice();
+}
+
+function updatePrice() {
+  const km = parseFloat(document.getElementById('distance').value) || 0;
+  let price, note;
+
+  if (selectedService === 'dispo') {
+    price = TARIF_DISPO_H;
+    note = 'Tarif horaire Â· Au-delÃ  : ' + TARIF_KM.toFixed(2).replace('.',',') + ' â¬/km';
+    document.getElementById('priceDisplay').textContent = 'dÃ¨s ' + price + ' â¬/h';
+  } else {
+    const byKm = km > 0 ? Math.round(km * TARIF_KM) : 0;
+    const minimum = selectedService === 'airport' ? MINIMUM_AIRPORT : selectedService === 'gare' ? MINIMUM_GARE : MINIMUM_CITY;
+    price = km > 0 ? Math.max(byKm, minimum) : minimum;
+    note = km > 0
+      ? km + ' km Ã 1,70 â¬/km = ' + byKm + ' â¬ (min. ' + minimum + ' â¬)'
+      : 'Minimum ' + minimum + ' â¬ Â· Entrez la distance pour calculer';
+    document.getElementById('priceDisplay').textContent = 'dÃ¨s ' + price + ' â¬';
+  }
+  document.getElementById('priceNote').textContent = note;
+  return price;
+}
+
+// Min date = aujourd'hui
+document.getElementById('tripDate').min = new Date().toISOString().split('T')[0];
+document.getElementById('distance').addEventListener('input', updatePrice);
+
+// ============================================================
+// SOUMISSION
+// ============================================================
+function handleSubmit(e) {
+  e.preventDefault();
+  const now = new Date();
+  const ref = 'ED-' + now.getFullYear() + '-' + String(Math.floor(Math.random()*90000)+10000);
+  const price = updatePrice();
+  const km = document.getElementById('distance').value;
+  const date = document.getElementById('tripDate').value;
+  const time = document.getElementById('tripTime').value;
+  const dateObj = new Date(date + 'T' + time);
+  const dateStr = dateObj.toLocaleDateString('fr-FR', {weekday:'long',day:'2-digit',month:'long',year:'numeric'}) + ' Ã  ' + time;
+
+  currentBooking = {
+    ref, price, km, dateStr,
+    name: document.getElementById('clientName').value,
+    phone: document.getElementById('clientPhone').value,
+    email: document.getElementById('clientEmail').value,
+    service: serviceLabels[selectedService],
+    dep: document.getElementById('departure').value,
+    dest: document.getElementById('destination').value,
+    pax: document.getElementById('passengers').value,
+    luggage: document.getElementById('luggage').value,
+    flight: document.getElementById('flightNum').value || 'Non renseignÃ©',
+    notes: document.getElementById('notes').value || '',
+    emittedAt: now.toLocaleDateString('fr-FR')
+  };
+
+  document.getElementById('modalRef').textContent = 'RÃ©fÃ©rence : ' + ref;
+  document.getElementById('summaryName').textContent = currentBooking.name;
+  document.getElementById('summaryPhone').textContent = currentBooking.phone;
+  document.getElementById('summaryEmail').textContent = currentBooking.email;
+  document.getElementById('summaryService').textContent = currentBooking.service;
+  document.getElementById('summaryDate').textContent = dateStr;
+  document.getElementById('summaryDep').textContent = currentBooking.dep;
+  document.getElementById('summaryDest').textContent = currentBooking.dest;
+  document.getElementById('summaryPax').textContent = currentBooking.pax + ' passager(s)';
+  document.getElementById('summaryKm').textContent = km ? km + ' km (estimÃ©)' : 'Ã confirmer';
+  document.getElementById('summaryFlight').textContent = currentBooking.flight;
+  document.getElementById('summaryPrice').textContent = price + ' â¬';
+
+  document.getElementById('modalOverlay').classList.add('open');
+}
+
+function closeModal() {
+  document.getElementById('modalOverlay').classList.remove('open');
+}
+document.getElementById('modalOverlay').addEventListener('click', function(e) {
+  if (e.target === this) closeModal();
+});
+
+// ============================================================
+// GÃNÃRATION PDF avec jsPDF
+// ============================================================
+function generatePDF(type) {
+  const b = currentBooking;
+  const isFacture = type === 'facture';
+  const docTitle = isFacture ? 'FACTURE' : 'BON DE RESERVATION';
+  const { jsPDF } = window.jspdf;
+  const doc = new jsPDF({ orientation: 'portrait', unit: 'mm', format: 'a4' });
+  const W = 210, H = 297;
+  const margin = 20;
+  const col2 = W / 2;
+
+  // Couleurs
+  const gold = [201, 168, 76];
+  const dark = [26, 26, 26];
+  const lightGray = [240, 235, 224];
+  const medGray = [90, 90, 90];
+  const white = [255, 255, 255];
+
+  // === EN-TÃTE fond sombre ===
+  doc.setFillColor(...dark);
+  doc.rect(0, 0, W, 42, 'F');
+
+  // Logo
+  doc.setTextColor(...gold);
+  doc.setFontSize(22);
+  doc.setFont('helvetica', 'bold');
+  doc.text('EDEN DRIVE', margin, 20);
+
+  doc.setFontSize(8);
+  doc.setFont('helvetica', 'normal');
+  doc.setTextColor(180, 180, 180);
+  doc.text('Chauffeur Prive Â· Marseille Â· Tesla Model 3', margin, 27);
+
+  // Type de document (droite)
+  doc.setFontSize(10);
+  doc.setTextColor(...gold);
+  doc.setFont('helvetica', 'bold');
+  doc.text(docTitle, W - margin, 18, { align: 'right' });
+
+  doc.setFontSize(8);
+  doc.setFont('helvetica', 'normal');
+  doc.setTextColor(180, 180, 180);
+  doc.text('Ref : ' + b.ref, W - margin, 24, { align: 'right' });
+  doc.text('Emis le : ' + b.emittedAt, W - margin, 30, { align: 'right' });
+
+  // Statut badge
+  const statusText = isFacture ? 'PAYEE' : 'EN ATTENTE';
+  const statusColor = isFacture ? [42, 122, 58] : [168, 135, 46];
+  doc.setFillColor(...statusColor);
+  doc.roundedRect(W - margin - 35, 33, 35, 7, 1, 1, 'F');
+  doc.setTextColor(...white);
+  doc.setFontSize(7);
+  doc.text(statusText, W - margin - 17.5, 37.5, { align: 'center' });
+
+  let y = 52;
+
+  // === BLOC PRESTATAIRE / CLIENT ===
+  const blockH = 32;
+  doc.setFillColor(...lightGray);
+  doc.rect(margin, y, (W - 2 * margin) / 2 - 3, blockH, 'F');
+  doc.rect(col2 + 3, y, (W - 2 * margin) / 2 - 3, blockH, 'F');
+
+  // Labels
+  doc.setFontSize(7);
+  doc.setFont('helvetica', 'bold');
+  doc.setTextColor(...gold);
+  doc.text('PRESTATAIRE', margin + 4, y + 6);
+  doc.text('CLIENT', col2 + 7, y + 6);
+
+  doc.setFont('helvetica', 'normal');
+  doc.setTextColor(...dark);
+  doc.setFontSize(8.5);
+  const prestLines = ['Eden Drive', 'The L.E. Company', 'SIREN : 793 610 981', 'Marseille 13008', '+33 6 87 39 26 32'];
+  prestLines.forEach((line, i) => doc.text(line, margin + 4, y + 13 + i * 4));
+
+  const clientLines = [b.name, b.phone, b.email];
+  clientLines.forEach((line, i) => doc.text(line, col2 + 7, y + 13 + i * 4));
+
+  y += blockH + 10;
+
+  // === TITRE DU DOCUMENT ===
+  doc.setFontSize(16);
+  doc.setFont('helvetica', 'bold');
+  doc.setTextColor(...dark);
+  doc.text(isFacture ? 'Facture' : 'Bon de reservation', margin, y);
+  y += 8;
+
+  // Ligne or
+  doc.setDrawColor(...gold);
+  doc.setLineWidth(0.8);
+  doc.line(margin, y, W - margin, y);
+  y += 8;
+
+  // === TABLEAU DES PRESTATIONS ===
+  // En-tÃªte tableau
+  doc.setFillColor(...dark);
+  doc.rect(margin, y, W - 2 * margin, 8, 'F');
+  doc.setTextColor(...white);
+  doc.setFontSize(7.5);
+  doc.setFont('helvetica', 'bold');
+  doc.text('PRESTATION', margin + 4, y + 5.5);
+  doc.text('DETAILS', margin + 58, y + 5.5);
+  doc.text('QTE', margin + 115, y + 5.5);
+  doc.text('P.U. HT', margin + 130, y + 5.5);
+  doc.text('TVA', margin + 148, y + 5.5);
+  doc.text('TOTAL TTC', W - margin - 4, y + 5.5, { align: 'right' });
+  y += 8;
+
+  // Ligne de prestation
+  const ttc = b.price;
+  const tva = 0.10;
+  const ht = (ttc / (1 + tva)).toFixed(2);
+  const tvaAmt = (ttc - parseFloat(ht)).toFixed(2);
+  const km = b.km ? b.km + ' km' : 'A confirmer';
+  const detailLine = b.dep.length > 22 ? b.dep.substring(0, 22) + '...' : b.dep;
+  const detailLine2 = '-> ' + (b.dest.length > 22 ? b.dest.substring(0, 22) + '...' : b.dest);
+
+  doc.setFillColor(250, 247, 240);
+  doc.rect(margin, y, W - 2 * margin, 16, 'F');
+  doc.setDrawColor(224, 219, 210);
+  doc.setLineWidth(0.3);
+  doc.line(margin, y + 16, W - margin, y + 16);
+
+  doc.setTextColor(...dark);
+  doc.setFontSize(8);
+  doc.setFont('helvetica', 'bold');
+  doc.text(b.service, margin + 4, y + 6);
+  doc.setFont('helvetica', 'normal');
+  doc.setFontSize(7.5);
+  doc.setTextColor(...medGray);
+  doc.text(b.dateStr, margin + 4, y + 11);
+
+  doc.setTextColor(...dark);
+  doc.text(detailLine, margin + 58, y + 6);
+  doc.text(detailLine2, margin + 58, y + 11);
+
+  doc.text('1', margin + 118, y + 6);
+  doc.text(ht + ' EUR', margin + 130, y + 6);
+  doc.text('10%', margin + 148, y + 6);
+  doc.setFont('helvetica', 'bold');
+  doc.text(ttc + ' EUR', W - margin - 4, y + 6, { align: 'right' });
+  y += 22;
+
+  // Sous-total
+  doc.setFont('helvetica', 'normal');
+  doc.setFontSize(8);
+  doc.setTextColor(...medGray);
+  doc.text('Sous-total HT', W - margin - 50, y);
+  doc.text(ht + ' EUR', W - margin - 4, y, { align: 'right' });
+  y += 5;
+  doc.text('TVA (10%)', W - margin - 50, y);
+  doc.text(tvaAmt + ' EUR', W - margin - 4, y, { align: 'right' });
+  y += 3;
+
+  // Ligne or avant total
+  doc.setDrawColor(...gold);
+  doc.setLineWidth(0.5);
+  doc.line(W - margin - 60, y, W - margin, y);
+  y += 5;
+
+  // Total
+  doc.setFillColor(...dark);
+  doc.rect(W - margin - 62, y - 2, 62, 12, 'F');
+  doc.setTextColor(180, 180, 180);
+  doc.setFontSize(8);
+  doc.setFont('helvetica', 'bold');
+  doc.text('TOTAL TTC', W - margin - 58, y + 5);
+  doc.setTextColor(...gold);
+  doc.setFontSize(13);
+  doc.text(ttc + ' EUR', W - margin - 2, y + 6.5, { align: 'right' });
+  y += 18;
+
+  // === IOFOS TRAJET ===
+  doc.setFillColor(...lightGray);
+  doc.rect(margin, y, W - 2 * margin, 36, 'F');
+  doc.setTextColor(...gold);
+  doc.setFontSize(7);
+  doc.setFont('helvetica', 'bold');
+  doc.text('DETAILS DU TRAJET', margin + 4, y + 6);
+  doc.setFont('helvetica', 'normal');
+  doc.setTextColor(...dark);
+  doc.setFontSize(8);
+
+  const infoLeft = [
+    ['Date & heure', b.dateStr],
+    ['Depart', b.dep],
+    ['Destination', b.dest],
+  ];
+  const infoRight = [
+    ['Passagers', b.pax + ' personne(s)'],
+    ['Distance estimee', b.km ? b.km + ' km' : 'A confirmer'],
+    ['Vol / Train', b.flight],
+  ];
+
+  infoLeft.forEach(([k, v], i) => {
+    doc.setTextColor(...medGray);
+    doc.text(k + ' :', margin + 4, y + 13 + i * 7);
+    doc.setTextColor(...dark);
+    const vShort = v.length > 35 ? v.substring(0, 35) + 'â¦' : v;
+    doc.text(vShort, margin + 38, y + 13 + i * 7);
+  });
+
+  infoRight.forEach(([k, v], i) => {
+    doc.setTextColor(...medGray);
+    doc.text(k + ' :', col2 + 7, y + 13 + i * 7);
+    doc.setTextColor(...dark);
+    doc.text(v, col2 + 40, y + 13 + i * 7);
+  });
+
+  if (b.notes) {
+    y += 42;
+    doc.setTextColor(...medGray);
+    doc.setFontSize(7.5);
+    doc.text('Notes : ' + b.notes.substring(0, 100), margin, y);
+    y += 5;
+  } else {
+    y += 42;
+  }
+
+  // === PIED DE PAGE ===
+  const footerY = H - 25;
+  doc.setDrawColor(...gold);
+  doc.setLineWidth(0.4);
+  doc.line(margin, footerY, W - margin, footerY);
+
+  doc.setFontSize(7);
+  doc.setFont('helvetica', 'normal');
+  doc.setTextColor(...medGray);
+  if (isFacture) {
+    doc.text('Facture valable comme justificatif de paiement. Aucun escompte pour paiement anticipe.', margin, footerY + 5);
+    doc.text('The L.E. Company Â· SIREN : 793 610 981 Â· Non assujetti a la TVA (franchise de base, art. 293B CGI)', margin, footerY + 10);
+  } else {
+    doc.text('Bon de reservation non contractuel Â· Le prix definitif est confirme par votre chauffeur sous 15 min.', margin, footerY + 5);
+    doc.text('Annulation gratuite jusqu\'a 2h avant la course Â· The L.E. Company Â· SIREN : 793 610 981', margin, footerY + 10);
+  }
+  doc.text('eden-drive.vercel.app Â· +33 6 87 39 26 32 Â· Marseille 13008', margin, footerY + 15);
+
+  // NumÃ©ro de page
+  doc.setTextColor(...gold);
+  doc.setFontSize(8);
+  doc.text('1 / 1', W - margin, footerY + 10, { align: 'right' });
+
+  // TÃ©lÃ©chargement
+  const filename = (isFacture ? 'Facture' : 'Bon-reservation') + '-' + b.ref + '.pdf';
+  doc.save(filename);
+}
+</script>
+
+</body>
+</html>

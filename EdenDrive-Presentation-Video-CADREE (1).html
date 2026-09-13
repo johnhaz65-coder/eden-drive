@@ -1,0 +1,145 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="robots" content="noindex,nofollow">
+<title>Eden Drive — Présentation à bord</title>
+<style>
+:root{--gold:#e3c27f;--white:#fff;--ink:#05080b}
+*{box-sizing:border-box}html,body{margin:0;width:100%;height:100%;overflow:hidden;background:#05080b;color:#fff;font-family:Arial,Helvetica,sans-serif}
+.stage{position:relative;width:100vw;height:100vh;overflow:hidden;background:#05080b}
+video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center}
+.shade{position:absolute;inset:0;background:
+ linear-gradient(90deg,rgba(3,7,11,.88) 0%,rgba(3,7,11,.55) 38%,rgba(3,7,11,.10) 72%),
+ linear-gradient(0deg,rgba(2,5,8,.78) 0%,transparent 42%,rgba(2,5,8,.22) 100%)}
+.top{position:absolute;top:5vh;left:5vw;right:5vw;display:flex;justify-content:space-between;align-items:center;z-index:3}
+.brand{font-family:Georgia,serif;font-size:clamp(24px,2.8vw,42px);letter-spacing:.24em}.brand b{color:var(--gold);font-weight:400}
+.pill{border:1px solid rgba(227,194,127,.55);padding:10px 16px;font-size:clamp(10px,1vw,14px);letter-spacing:.16em;text-transform:uppercase;color:#f2dfb8;background:rgba(0,0,0,.18);backdrop-filter:blur(7px)}
+.copy{position:absolute;left:5vw;bottom:18vh;width:min(850px,70vw);z-index:3}
+.slide{position:absolute;left:0;bottom:0;width:100%;opacity:0;transform:translateY(18px);transition:opacity .9s ease,transform .9s ease;pointer-events:none}
+.slide.active{opacity:1;transform:none}
+.kicker{font-size:clamp(11px,1.1vw,16px);letter-spacing:.22em;text-transform:uppercase;color:var(--gold);margin-bottom:14px}
+h1{font-family:Georgia,serif;font-weight:400;font-size:clamp(42px,6.4vw,96px);line-height:.98;letter-spacing:-.045em;margin:0 0 18px;text-shadow:0 4px 30px rgba(0,0,0,.32)}
+h1 em{color:var(--gold);font-style:normal}
+p{margin:0;max-width:720px;font-size:clamp(17px,2vw,29px);line-height:1.38;color:rgba(255,255,255,.88);font-weight:300}
+.footer{position:absolute;z-index:4;left:5vw;right:5vw;bottom:5vh;border-top:1px solid rgba(255,255,255,.25);padding-top:18px;display:flex;justify-content:space-between;align-items:end;gap:20px}
+.url{font-family:Georgia,serif;color:var(--gold);font-size:clamp(25px,3vw,44px);letter-spacing:.02em}
+.contact{text-align:right;font-size:clamp(12px,1.2vw,17px);line-height:1.6;color:#eee}.contact strong{color:var(--gold);font-weight:500}
+.progress{position:absolute;left:0;bottom:0;height:3px;background:var(--gold);z-index:6;animation:progress 30s linear infinite}
+@keyframes progress{from{width:0}to{width:100%}}
+.sound{position:absolute;right:5vw;top:12vh;z-index:5;border:0;background:transparent;color:#ffffff88;font-size:11px;letter-spacing:.12em}
+@media(max-width:800px){.copy{width:88vw;bottom:22vh}.pill{display:none}.footer{align-items:flex-start;flex-direction:column}.contact{text-align:left}h1{font-size:clamp(40px,12vw,68px)}}
+</style>
+
+<style id="tesla-screen-framing-fix">
+/* Cadrage optimisé écran Tesla paysage */
+.copy{
+  left:6vw !important;
+  top:50% !important;
+  bottom:auto !important;
+  transform:translateY(-50%) !important;
+  width:min(720px,54vw) !important;
+  height:48vh !important;
+}
+.slide{
+  top:50% !important;
+  bottom:auto !important;
+  transform:translateY(calc(-50% + 16px)) !important;
+}
+.slide.active{
+  transform:translateY(-50%) !important;
+}
+h1{
+  font-size:clamp(36px,4.7vw,70px) !important;
+  line-height:1.02 !important;
+  max-width:700px !important;
+  margin-bottom:14px !important;
+}
+.copy p{
+  font-size:clamp(15px,1.55vw,23px) !important;
+  line-height:1.35 !important;
+  max-width:650px !important;
+}
+.kicker{
+  font-size:clamp(10px,.9vw,14px) !important;
+  margin-bottom:12px !important;
+}
+.top{top:4vh !important}
+.footer{bottom:4vh !important;padding-top:13px !important}
+.url{font-size:clamp(23px,2.5vw,36px) !important}
+.contact{font-size:clamp(11px,1vw,15px) !important}
+
+/* Le sujet vidéo reste davantage visible à droite */
+video{object-position:62% center !important}
+
+@media(max-width:900px){
+  .copy{width:62vw !important;left:5vw !important}
+  h1{font-size:clamp(34px,5.8vw,58px) !important}
+}
+</style>
+
+</head>
+<body>
+<main class="stage">
+  <!-- IMPORTANT : placez votre vidéo dans le même dossier GitHub et nommez-la edendrive-promo.mp4 -->
+  <video id="film" autoplay muted loop playsinline preload="auto">
+    <source src="edendrive-promo.mp4" type="video/mp4">
+  </video>
+  <div class="shade"></div>
+
+  <div class="top">
+    <div class="brand">EDEN <b>DRIVE</b></div>
+    <div class="pill">Chauffeur privé · Marseille & Provence</div>
+  </div>
+
+  <section class="copy" aria-live="polite">
+    <div class="slide active">
+      <div class="kicker">Bienvenue à bord</div>
+      <h1>Plus qu’un trajet.<br><em>Votre chauffeur privé.</em></h1>
+      <p>Un service élégant, ponctuel et personnalisé à Marseille et dans toute la Provence.</p>
+    </div>
+    <div class="slide">
+      <div class="kicker">Vos prochains déplacements</div>
+      <h1>Aéroport. Gare.<br><em>Rendez-vous.</em></h1>
+      <p>Marseille-Provence · Gare Saint-Charles · Aix TGV · Cassis · Aix-en-Provence.</p>
+    </div>
+    <div class="slide">
+      <div class="kicker">Eden Drive</div>
+      <h1>Réservez-moi<br><em>directement.</em></h1>
+      <p>Pour votre prochain trajet, évitez les recherches de dernière minute : contactez Eden Drive et voyagez sereinement.</p>
+    </div>
+    <div class="slide">
+      <div class="kicker">Service premium</div>
+      <h1>Votre temps<br><em>compte.</em></h1>
+      <p>Prise en charge planifiée, attente aéroport ou gare, déplacements professionnels et mise à disposition.</p>
+    </div>
+    <div class="slide">
+      <div class="kicker">À bientôt</div>
+      <h1>EDEN <em>DRIVE</em></h1>
+      <p>Scannez votre QR code à bord ou rendez-vous sur edendrive.fr pour votre prochaine réservation.</p>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <div>
+      <div class="url">edendrive.fr</div>
+    </div>
+    <div class="contact"><strong>Réservation directe</strong><br>06 87 39 26 32 · contact@edendrive.fr</div>
+  </footer>
+  <div class="progress"></div>
+</main>
+
+<script>
+const slides=[...document.querySelectorAll('.slide')];
+let i=0;
+setInterval(()=>{
+  slides[i].classList.remove('active');
+  i=(i+1)%slides.length;
+  slides[i].classList.add('active');
+},6000);
+const film=document.getElementById('film');
+film.play().catch(()=>{ document.addEventListener('click',()=>film.play(),{once:true}); });
+</script>
+</body>
+</html>

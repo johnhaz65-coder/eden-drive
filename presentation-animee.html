@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no" />
+<title>EDEN DRIVE — Présentation animée</title>
+<style>
+:root{--gold:#d8b77a;--white:#f7f4ee;--muted:#c8c3ba;--bg:#07090c}
+*{box-sizing:border-box} html,body{margin:0;width:100%;height:100%;overflow:hidden;background:#000;color:var(--white);font-family:Arial,Helvetica,sans-serif}
+body{touch-action:manipulation}
+.stage{position:fixed;inset:0;background:radial-gradient(circle at 72% 38%,#253140 0,#10151c 28%,#07090c 58%,#020304 100%);overflow:hidden}
+.ambient{position:absolute;inset:-20%;background:linear-gradient(115deg,transparent 20%,rgba(255,255,255,.06) 43%,transparent 57%);animation:sweep 8s linear infinite;will-change:transform}
+.road{position:absolute;left:-10%;right:-10%;bottom:-18%;height:52%;background:linear-gradient(180deg,rgba(18,22,27,.2),#090b0e 30%,#020304 100%);transform:skewY(-4deg)}
+.road:after{content:"";position:absolute;left:52%;top:18%;width:2px;height:100%;background:linear-gradient(#d8b77a00,#d8b77aaa,#d8b77a00);transform:rotate(62deg);box-shadow:0 0 18px #d8b77a66}
+.car{position:absolute;right:3%;bottom:7%;width:min(52vw,760px);height:38vh;filter:drop-shadow(0 28px 38px #000);animation:carFloat 5s ease-in-out infinite;will-change:transform}
+.car .body{position:absolute;left:5%;right:2%;bottom:12%;height:44%;border-radius:50% 32% 18% 24%/60% 52% 34% 36%;background:linear-gradient(155deg,#48505a 0,#15191e 32%,#050607 68%,#171b20 100%);box-shadow:inset 0 2px 2px #9aa4ad55,inset -50px -25px 55px #000,0 14px 35px #000}
+.car .roof{position:absolute;left:31%;right:15%;bottom:48%;height:31%;border-radius:70% 45% 8% 8%/100% 80% 15% 15%;background:linear-gradient(155deg,#293039,#080a0d 65%);transform:skewX(-16deg);box-shadow:inset 0 2px #8c96a033}
+.car .window{position:absolute;left:42%;right:22%;bottom:52%;height:21%;border-radius:70% 35% 10% 10%;background:linear-gradient(160deg,#263c50,#071019 70%);transform:skewX(-16deg);opacity:.9}
+.wheel{position:absolute;bottom:2%;width:18%;aspect-ratio:1;border-radius:50%;background:radial-gradient(circle,#15181c 0 20%,#4c535b 21% 28%,#090a0c 29% 62%,#1b1d20 63%);box-shadow:0 0 0 2px #3e444b,0 15px 20px #000}.w1{left:18%}.w2{right:8%}
+.light{position:absolute;right:2%;bottom:35%;width:16%;height:5%;border-radius:100%;background:#f8e7bd;filter:blur(2px);box-shadow:0 0 18px #fff0bd,0 0 45px #e5bd68;animation:pulse 2.4s ease-in-out infinite}
+.brand{position:absolute;left:5.5%;top:6%;letter-spacing:.36em;font-size:clamp(18px,2.2vw,36px);font-weight:500;z-index:3}.brand b{font-weight:500;color:var(--gold)}
+.copy{position:absolute;left:7%;top:27%;width:min(48%,720px);z-index:4}.eyebrow{color:var(--gold);font-size:clamp(10px,1vw,15px);font-weight:700;letter-spacing:.22em;margin-bottom:12px;animation:rise .9s .1s both}.headline{font-size:clamp(36px,5.1vw,78px);line-height:.96;letter-spacing:-.045em;font-weight:500;margin:0;animation:rise 1s .25s both}.headline span{color:#e9d0a1}.sub{max-width:620px;font-size:clamp(14px,1.45vw,22px);line-height:1.45;color:#ddd8cf;margin-top:22px;animation:rise 1s .45s both}.cta{display:flex;align-items:center;gap:18px;margin-top:30px;animation:rise 1s .65s both}.button{border:1px solid #d8b77a88;background:#d8b77a14;padding:13px 20px;border-radius:999px;color:#f7e5c0;font-weight:700;letter-spacing:.06em}.url{font-size:clamp(17px,1.6vw,26px);font-weight:700}.footer{position:absolute;left:7%;bottom:6%;z-index:4;color:#aaa49b;font-size:clamp(10px,.9vw,14px);line-height:1.55}.footer strong{color:#eee9e0}.slides{position:absolute;right:4%;top:6%;z-index:5;display:flex;gap:7px}.dot{width:26px;height:3px;background:#ffffff30;overflow:hidden}.dot i{display:block;height:100%;width:100%;background:var(--gold);transform-origin:left;animation:progress 12s linear infinite}.dot:nth-child(2) i{animation-delay:-8s}.dot:nth-child(3) i{animation-delay:-4s}
+.city{position:absolute;right:5%;top:18%;font-size:clamp(11px,1vw,15px);letter-spacing:.2em;color:#ffffff88;z-index:4;animation:city 12s ease-in-out infinite}.city:after{content:"MARSEILLE • AÉROPORT • PROVENCE"}
+@keyframes sweep{from{transform:translateX(-25%) rotate(2deg)}to{transform:translateX(45%) rotate(2deg)}}
+@keyframes carFloat{0%,100%{transform:translate3d(0,0,0) scale(1)}50%{transform:translate3d(-1.2%, -1.2%,0) scale(1.012)}}
+@keyframes pulse{0%,100%{opacity:.62}50%{opacity:1}}
+@keyframes rise{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:translateY(0)}}
+@keyframes progress{0%{transform:scaleX(0)}33%{transform:scaleX(1)}100%{transform:scaleX(1)}}
+@keyframes city{0%,100%{opacity:.35;transform:translateX(0)}50%{opacity:.8;transform:translateX(-12px)}}
+@media(max-width:800px){.copy{width:78%;top:22%}.car{width:72vw;right:-18%;bottom:5%;opacity:.68}.sub{max-width:70%}.footer{bottom:3%}}
+@media(prefers-reduced-motion:reduce){*{animation-duration:20s!important}}
+</style>
+</head>
+<body>
+<main class="stage" aria-label="Présentation Eden Drive">
+  <div class="ambient"></div><div class="road"></div>
+  <div class="brand">EDEN <b>DRIVE</b></div>
+  <div class="slides"><span class="dot"><i></i></span><span class="dot"><i></i></span><span class="dot"><i></i></span></div>
+  <div class="city"></div>
+  <section class="copy">
+    <div class="eyebrow">BIENVENUE À BORD</div>
+    <h1 class="headline">Plus qu’un trajet.<br><span>Votre chauffeur privé.</span></h1>
+    <p class="sub">Un service élégant, ponctuel et personnalisé à Marseille, vers l’aéroport et dans toute la Provence.</p>
+    <div class="cta"><div class="button">RÉSERVATION DIRECTE</div><div class="url">edendrive.fr</div></div>
+  </section>
+  <div class="car" aria-hidden="true"><div class="roof"></div><div class="window"></div><div class="body"></div><div class="wheel w1"></div><div class="wheel w2"></div><div class="light"></div></div>
+  <div class="footer"><strong>edendrive.fr</strong><br>Chauffeur privé • Marseille • Aéroport • Provence</div>
+</main>
+<script>
+// Animation 100% DOM/CSS : aucune balise video, aucun canvas, aucun audio.
+// Petite variation de perspective pour éviter un écran statique.
+let t=0; setInterval(()=>{t=(t+1)%3; document.documentElement.style.setProperty('--gold', ['#d8b77a','#e0c58e','#cfaa68'][t]);},4000);
+</script>
+</body>
+</html>

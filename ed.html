@@ -1,0 +1,80 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Eden Drive — Marseille Showcase</title>
+<style>
+:root{--gold:#e3c27f;--white:#fff;--ink:#05080b}
+*{box-sizing:border-box}
+html,body{margin:0;width:100%;height:100%;overflow:hidden;background:#05080b;color:#fff;font-family:Arial,Helvetica,sans-serif}
+.stage{position:relative;width:100vw;height:100vh;overflow:hidden;background:#05080b}
+.scene{position:absolute;inset:0;opacity:0;transition:opacity 2.2s ease}
+.scene.active{opacity:1}
+.photo{position:absolute;inset:-5%;width:110%;height:110%;object-fit:cover;filter:saturate(1.05) contrast(1.04) brightness(.82);animation:drift 14s ease-in-out infinite alternate}
+.scene:nth-child(even) .photo{animation-name:drift2}
+@keyframes drift{from{transform:scale(1.02) translate3d(-1.5%,0,0)}to{transform:scale(1.10) translate3d(1.5%,-1%,0)}}
+@keyframes drift2{from{transform:scale(1.09) translate3d(1%,0,0)}to{transform:scale(1.02) translate3d(-1.5%,1%,0)}}
+.veil{position:absolute;inset:0;background:linear-gradient(90deg,rgba(2,5,8,.48),transparent 52%),linear-gradient(0deg,rgba(2,5,8,.82) 0%,transparent 42%,rgba(2,5,8,.18) 100%)}
+.brand{position:absolute;z-index:10;top:5vh;left:5vw;font-family:Georgia,serif;font-size:clamp(24px,2.8vw,42px);letter-spacing:.24em;text-shadow:0 2px 18px #000}.brand b{color:var(--gold);font-weight:400}
+.caption{position:absolute;z-index:8;left:5vw;bottom:18vh;text-shadow:0 3px 24px rgba(0,0,0,.7)}
+.caption .small{font-size:clamp(10px,1vw,15px);letter-spacing:.24em;text-transform:uppercase;color:var(--gold);margin-bottom:8px}
+.caption h1{font-family:Georgia,serif;font-weight:400;font-size:clamp(42px,5.7vw,86px);line-height:.96;letter-spacing:-.035em;margin:0}
+.caption h1 em{font-style:normal;color:var(--gold)}
+.footer{position:absolute;z-index:12;left:5vw;right:5vw;bottom:4.5vh;border-top:1px solid rgba(255,255,255,.42);padding-top:14px;display:flex;align-items:end;justify-content:space-between;gap:20px}
+.footer .url{font-family:Georgia,serif;color:var(--gold);font-size:clamp(22px,2.5vw,36px)}
+.footer .line{font-size:clamp(10px,1vw,15px);letter-spacing:.04em;text-align:right}
+.progress{position:absolute;z-index:14;left:5vw;bottom:2.6vh;width:28vw;height:2px;background:rgba(255,255,255,.2);overflow:hidden}
+.progress i{display:block;height:100%;background:var(--gold);animation:bar 84s linear infinite}
+@keyframes bar{from{width:0}to{width:100%}}
+</style>
+</head>
+<body>
+<main class="stage" id="stage">
+  <div class="brand">EDEN <b>DRIVE</b></div>
+
+  <section class="scene active">
+    <img class="photo" src="https://www.tourmag.com/photo/art/grande/81313926-58595096.jpg?v=1719936206">
+    <div class="veil"></div><div class="caption"><div class="small">Marseille</div><h1>Vieux-Port<br><em>& Fort Saint-Jean</em></h1></div>
+  </section>
+  <section class="scene">
+    <img class="photo" src="https://lea-martel.students-laplateforme.io/projets/ville-marseille/src/img/pictures/notre-dame-de-la-garde.jpg">
+    <div class="veil"></div><div class="caption"><div class="small">Marseille</div><h1>Notre-Dame<br><em>de la Garde</em></h1></div>
+  </section>
+  <section class="scene">
+    <img class="photo" src="https://cdn.getyourguide.com/image/format%3Dauto%2Cfit%3Dcrop%2Cgravity%3Dauto%2Cquality%3D80%2Cwidth%3D1600/tour_img/65ee926190fa975909145b8dd24f9fe325867c8c54d0a467bbc83fa069798648.jpg">
+    <div class="veil"></div><div class="caption"><div class="small">La Corniche</div><h1>Vallon<br><em>des Auffes</em></h1></div>
+  </section>
+  <section class="scene">
+    <img class="photo" src="https://www.lejournaldesentreprises.com/sites/lejournaldesentreprises.com/files/styles/landscape_web_lg_2x/public/2024-02/Aroport-Marseille-Provence-20589031.jpeg?itok=zfxQjpr4">
+    <div class="veil"></div><div class="caption"><div class="small">Votre départ · Votre arrivée</div><h1>Aéroport<br><em>Marseille-Provence</em></h1></div>
+  </section>
+  <section class="scene">
+    <img class="photo" src="https://www.photo-aerienne-france.fr/images900/13marseille-137-1108.jpg">
+    <div class="veil"></div><div class="caption"><div class="small">Marseille centre</div><h1>Gare<br><em>Saint-Charles</em></h1></div>
+  </section>
+  <section class="scene">
+    <img class="photo" src="https://www.drone-pictures.fr/img/s/v-10/p3436831277-4.jpg">
+    <div class="veil"></div><div class="caption"><div class="small">Provence</div><h1>Aix-en-<em>Provence</em></h1></div>
+  </section>
+  <section class="scene">
+    <img class="photo" src="https://images.pexels.com/photos/32402921/pexels-photo-32402921.jpeg?auto=compress&cs=tinysrgb&w=1920">
+    <div class="veil"></div><div class="caption"><div class="small">Eden Drive</div><h1>Marseille<br><em>autrement.</em></h1></div>
+  </section>
+
+  <footer class="footer">
+    <div class="url">edendrive.fr</div>
+    <div class="line">CHAUFFEUR PRIVÉ · MARSEILLE · AIX · AÉROPORT · GARE &nbsp;·&nbsp; 06 87 39 26 32</div>
+  </footer>
+  <div class="progress"><i></i></div>
+</main>
+<script>
+const scenes=[...document.querySelectorAll('.scene')];
+let n=0;
+setInterval(()=>{
+  scenes[n].classList.remove('active');
+  n=(n+1)%scenes.length;
+  scenes[n].classList.add('active');
+},12000);
+</script>
+</body></html>

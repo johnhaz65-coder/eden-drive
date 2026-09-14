@@ -1,0 +1,103 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="robots" content="noindex,nofollow">
+<title>Eden Drive — Chauffeur privé</title>
+<style>
+:root{--gold:#e3c27f;--white:#fff;--dark:#05080b}
+*{box-sizing:border-box}
+html,body{margin:0;width:100%;height:100%;overflow:hidden;background:#05080b;color:#fff;font-family:Arial,Helvetica,sans-serif}
+.stage{position:relative;width:100vw;height:100vh;overflow:hidden;background:#05080b}
+.scene{position:absolute;inset:0;opacity:0;transition:opacity 1.25s ease;will-change:opacity}
+.scene.active{opacity:1}
+.photo{position:absolute;inset:-7%;width:114%;height:114%;object-fit:cover;filter:brightness(.72) saturate(1.08) contrast(1.06);will-change:transform}
+.scene.active .photo{animation:fly 9s ease-out both}
+.scene:nth-of-type(even).active .photo{animation-name:fly2}
+@keyframes fly{from{transform:scale(1.02) translate3d(-2%,1%,0)}to{transform:scale(1.14) translate3d(2%,-1.5%,0)}}
+@keyframes fly2{from{transform:scale(1.14) translate3d(2%,-1%,0)}to{transform:scale(1.03) translate3d(-2%,1%,0)}}
+.overlay{position:absolute;inset:0;background:
+linear-gradient(90deg,rgba(1,4,8,.78) 0%,rgba(1,4,8,.38) 43%,rgba(1,4,8,.05) 75%),
+linear-gradient(0deg,rgba(1,4,8,.88) 0%,transparent 48%,rgba(1,4,8,.18) 100%)}
+.brand{position:absolute;z-index:30;left:5vw;top:4.5vh;font-family:Georgia,serif;font-size:clamp(24px,2.7vw,42px);letter-spacing:.24em;text-shadow:0 2px 20px #000}
+.brand b{color:var(--gold);font-weight:400}
+.badge{position:absolute;z-index:30;right:5vw;top:4.5vh;border:1px solid rgba(227,194,127,.65);padding:10px 15px;color:#f3dfb7;letter-spacing:.15em;font-size:clamp(9px,.9vw,13px);background:rgba(0,0,0,.25)}
+.copy{position:absolute;z-index:20;left:5vw;top:47%;transform:translateY(-50%);width:60vw}
+.eyebrow{color:var(--gold);text-transform:uppercase;letter-spacing:.23em;font-size:clamp(10px,1vw,15px);margin-bottom:12px}
+h1{font-family:Georgia,serif;font-size:clamp(42px,5.6vw,84px);font-weight:400;line-height:.96;letter-spacing:-.04em;margin:0 0 16px;text-shadow:0 4px 30px rgba(0,0,0,.55)}
+h1 em{font-style:normal;color:var(--gold)}
+.sub{font-size:clamp(15px,1.55vw,23px);line-height:1.35;max-width:720px;color:rgba(255,255,255,.92)}
+.scene.active .eyebrow,.scene.active h1,.scene.active .sub{animation:reveal .85s ease both}
+.scene.active h1{animation-delay:.12s}.scene.active .sub{animation-delay:.25s}
+@keyframes reveal{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:none}}
+.route{position:absolute;z-index:28;left:5vw;right:5vw;bottom:12.5vh;display:flex;gap:8px;align-items:center;white-space:nowrap;overflow:hidden;color:#eee;font-size:clamp(9px,.88vw,13px);letter-spacing:.07em}
+.route span{color:var(--gold)}
+.footer{position:absolute;z-index:30;left:5vw;right:5vw;bottom:4.2vh;border-top:1px solid rgba(255,255,255,.35);padding-top:13px;display:flex;justify-content:space-between;align-items:end}
+.url{font-family:Georgia,serif;color:var(--gold);font-size:clamp(23px,2.6vw,38px)}
+.contact{text-align:right;font-size:clamp(10px,1vw,15px);line-height:1.5}
+.contact strong{color:var(--gold);font-weight:500}
+.progress{position:absolute;z-index:40;left:0;bottom:0;height:3px;background:var(--gold);animation:progress 81s linear infinite}
+@keyframes progress{from{width:0}to{width:100%}}
+</style>
+</head>
+<body>
+<main class="stage">
+<div class="brand">EDEN <b>DRIVE</b></div>
+<div class="badge">CHAUFFEUR PRIVÉ · VTC</div>
+
+<section class="scene active">
+<img class="photo" src="https://images.pexels.com/photos/32402921/pexels-photo-32402921.jpeg?auto=compress&cs=tinysrgb&w=1920">
+<div class="overlay"></div><div class="copy"><div class="eyebrow">Eden Drive · Marseille</div><h1>Votre chauffeur privé.<br><em>Votre trajet, autrement.</em></h1><div class="sub">Transferts privés, gares, aéroport, rendez-vous professionnels et longues distances.</div></div>
+</section>
+
+<section class="scene">
+<img class="photo" src="https://www.tourmag.com/photo/art/grande/81313926-58595096.jpg?v=1719936206">
+<div class="overlay"></div><div class="copy"><div class="eyebrow">Marseille</div><h1>Du Vieux-Port<br><em>à votre destination.</em></h1><div class="sub">Départs et arrivées dans Marseille · hôtel · domicile · rendez-vous · port.</div></div>
+</section>
+
+<section class="scene">
+<img class="photo" src="https://www.lejournaldesentreprises.com/sites/lejournaldesentreprises.com/files/styles/landscape_web_lg_2x/public/2024-02/Aroport-Marseille-Provence-20589031.jpeg?itok=zfxQjpr4">
+<div class="overlay"></div><div class="copy"><div class="eyebrow">Transfert aéroport</div><h1>Aéroport<br><em>Marseille-Provence.</em></h1><div class="sub">Votre chauffeur vous conduit à l'aéroport ou vous récupère à votre arrivée.</div></div>
+</section>
+
+<section class="scene">
+<img class="photo" src="https://www.photo-aerienne-france.fr/images900/13marseille-137-1108.jpg">
+<div class="overlay"></div><div class="copy"><div class="eyebrow">Transfert gare</div><h1>Gare<br><em>Saint-Charles.</em></h1><div class="sub">Une prise en charge planifiée pour vos départs et vos arrivées en train.</div></div>
+</section>
+
+<section class="scene">
+<img class="photo" src="https://www.drone-pictures.fr/img/s/v-10/p3436831277-4.jpg">
+<div class="overlay"></div><div class="copy"><div class="eyebrow">Aix-en-Provence</div><h1>Marseille ↔ Aix.<br><em>En toute sérénité.</em></h1><div class="sub">Chauffeur privé pour vos déplacements à Aix-en-Provence, professionnels comme personnels.</div></div>
+</section>
+
+<section class="scene">
+<img class="photo" src="https://images.pexels.com/photos/3225531/pexels-photo-3225531.jpeg?auto=compress&cs=tinysrgb&w=1920">
+<div class="overlay"></div><div class="copy"><div class="eyebrow">Connexion TGV</div><h1>Gare<br><em>Aix-en-Provence TGV.</em></h1><div class="sub">Marseille · Aix · Aéroport : votre correspondance privée, sans stress.</div></div>
+</section>
+
+<section class="scene">
+<img class="photo" src="https://images.pexels.com/photos/3250613/pexels-photo-3250613.jpeg?auto=compress&cs=tinysrgb&w=1920">
+<div class="overlay"></div><div class="copy"><div class="eyebrow">Destination Méditerranée</div><h1>Cassis.<br><em>La côte en privé.</em></h1><div class="sub">Transfert privé depuis Marseille, l'aéroport, les gares ou votre hôtel.</div></div>
+</section>
+
+<section class="scene">
+<img class="photo" src="https://images.pexels.com/photos/161815/santorini-oia-greece-water-161815.jpeg?auto=compress&cs=tinysrgb&w=1920">
+<div class="overlay"></div><div class="copy"><div class="eyebrow">Destination Méditerranée</div><h1>La Ciotat.<br><em>Saint-Cyr-sur-Mer.</em></h1><div class="sub">Vos déplacements sur le littoral avec Eden Drive, sur réservation.</div></div>
+</section>
+
+<section class="scene">
+<img class="photo" src="https://cdn.getyourguide.com/image/format%3Dauto%2Cfit%3Dcrop%2Cgravity%3Dauto%2Cquality%3D80%2Cwidth%3D1600/tour_img/65ee926190fa975909145b8dd24f9fe325867c8c54d0a467bbc83fa069798648.jpg">
+<div class="overlay"></div><div class="copy"><div class="eyebrow">Réservation directe</div><h1>Votre prochain trajet ?<br><em>Eden Drive.</em></h1><div class="sub">Réservez directement votre chauffeur privé à Marseille et en Provence.</div></div>
+</section>
+
+<div class="route"><strong>VTC</strong>&nbsp; · &nbsp;MARSEILLE <span>→</span> AÉROPORT <span>→</span> SAINT-CHARLES <span>→</span> AIX <span>→</span> AIX TGV <span>→</span> CASSIS <span>→</span> LA CIOTAT <span>→</span> SAINT-CYR-SUR-MER</div>
+<footer class="footer"><div class="url">edendrive.fr</div><div class="contact"><strong>Réservation directe</strong><br>06 87 39 26 32 · contact@edendrive.fr</div></footer>
+<div class="progress"></div>
+</main>
+<script>
+const scenes=[...document.querySelectorAll('.scene')];
+let i=0;
+setInterval(()=>{scenes[i].classList.remove('active');i=(i+1)%scenes.length;scenes[i].classList.add('active')},9000);
+</script>
+</body></html>

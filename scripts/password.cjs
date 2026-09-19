@@ -1,0 +1,1 @@
+const {passwordHash}=require('../server/security.cjs');let s='';process.stdin.on('data',c=>s+=c);process.stdin.on('end',()=>{s=s.trim();if(s.length<16)throw Error('16 caractères minimum');console.log(passwordHash(s));});

@@ -1,0 +1,1 @@
+const {Pool}=require('pg');const fs=require('node:fs');const pool=new Pool({connectionString:process.env.DATABASE_URL});(async()=>{if(!process.env.DATABASE_URL)throw Error('DATABASE_URL manquant');await pool.query(fs.readFileSync('server/schema.sql','utf8'));await pool.end();console.log('Schéma prêt.');})().catch(e=>{console.error(e.message);process.exit(1);});

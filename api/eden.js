@@ -1,10 +1,11 @@
+const quotes=require('../server/quote.cjs');const notifications=require('../server/notifications.cjs');
 const db=require('../server/db.cjs');const {token,hash,passwordOK,limit}=require('../server/security.cjs');const {createService,profile,legalReady,fail,publicBooking}=require('../server/domain.cjs');const {pdf}=require('../server/documents.cjs');const payment=require('../server/payment.cjs');
 const service=createService(db);
 module.exports=async(req,res)=>{
  res.setHeader('Cache-Control','no-store');res.setHeader('X-Content-Type-Options','nosniff');res.setHeader('Referrer-Policy','no-referrer');
  try{
  const p=profile();const ready=!!(process.env.DATABASE_URL&&process.env.ADMIN_PASSWORD_HASH&&process.env.APP_ORIGIN&&legalReady(p)&&process.env.EDEN_BOOKING_ENABLED==='true');
- if(req.method==='GET'){return res.status(200).json({ready,payment:ready&&!!process.env.SUMUP_API_KEY&&!!process.env.SUMUP_MERCHANT_CODE,phone:p.phone||'+33687392632'});}
+ if(req.method==='GET'){return res.status(200).json({ready,payment:ready&&!!process.env.SUMUP_API_KEY&&!!process.env.SUMUP_MERCHANT_CODE,instantPricing:!!process.env.GOOGLE_ROUTES_API_KEY,email:notifications.configured(),phone:p.phone||'+33687392632'});}
  if(req.method!=='POST')fail('Méthode non autorisée.',405);
  if(!ready)fail('Les réservations en ligne seront bientôt disponibles. Contactez EdenDrive par téléphone.',503);
  if(req.headers.origin!==process.env.APP_ORIGIN)fail('Origine non autorisée.',403);
@@ -16,10 +17,14 @@ module.exports=async(req,res)=>{
  const secure=process.env.APP_ORIGIN.startsWith('https:')?'; Secure':'';
  if(body.action==='login'){await limit(db,'login:'+hash(ip),8);if(!passwordOK(body.password,process.env.ADMIN_PASSWORD_HASH))fail('Identifiants incorrects.',401);const access=token();await db.query("INSERT INTO eden_sessions VALUES($1,now()+interval '12 hours')",[hash(access)]);res.setHeader('Set-Cookie',`eden_session=${access}; HttpOnly; SameSite=Strict; Path=/api; Max-Age=43200${secure}`);return res.status(200).json({ok:true});}
  if(body.action==='logout'){if(cookie)await db.query('DELETE FROM eden_sessions WHERE token_hash=$1',[hash(cookie)]);res.setHeader('Set-Cookie',`eden_session=; HttpOnly; SameSite=Strict; Path=/api; Max-Age=0${secure}`);return res.status(200).json({ok:true});}
- if(body.action==='create'){await limit(db,'create:'+hash(ip),6);if(body.website)fail('Demande refusée.');const b=await service.create(body);return res.status(201).json(b);}
+ if(body.action==='quote'){await limit(db,'quote:'+hash(ip),30);return res.status(200).json(await quotes.quote(body));}
+ if(body.action==='create-quoted'){await limit(db,'create:'+hash(ip),6);if(body.website)fail('Demande refusée.');const q=quotes.verifyQuote(body.quoteToken,body),access=quotes.accessFor(q);const b=await service.createQuoted(body,q,access);const notification=await notifications.send(db,b,p,access);return res.status(201).json({...b,notification});}
+ if(body.action==='create'){await limit(db,'create:'+hash(ip),6);if(body.website)fail('Demande refusée.');const b=await service.create(body);const notification=await notifications.send(db,b,p,b.token);return res.status(201).json({...b,notification});}
  if(body.action==='list'){if(!admin)fail('Connectez-vous à votre espace chauffeur.',401);return res.status(200).json({bookings:(await service.list()).map(publicBooking)});}
  const b=await service.get(body.id,body.token,admin);
  if(body.action==='get')return res.status(200).json(publicBooking(b));
+ if(body.action==='send-email'){await limit(db,'mail:'+b.id,5);if(!body.token)fail('Ouvrez le lien privé client pour envoyer les documents.');return res.status(200).json(await notifications.send(db,b,p,body.token));}
+ if(body.action==='request-invoice'){await limit(db,'invoice:'+b.id,5);const updated=await service.change(b.id,'invoice',{},p);const notification=await notifications.send(db,updated,p,body.token,'invoice');return res.status(200).json({...publicBooking(updated),notification});}
  if(body.action==='checkout')return res.status(200).json({url:await payment.checkout(db,b)});
  if(body.action==='payment-status')return res.status(200).json(publicBooking(await payment.reconcile(db,b)));
  if(body.action==='document'){if(!['voucher','invoice'].includes(body.type))fail('Document inconnu.');const file=await pdf(b,body.type,p);res.setHeader('Content-Type','application/pdf');res.setHeader('Content-Disposition',`attachment; filename="EdenDrive-${body.type}-${b.ref}.pdf"`);return res.status(200).send(file);}

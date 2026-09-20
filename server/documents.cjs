@@ -7,7 +7,7 @@ function pdf(b,type,p,{demo=false}={}){return new Promise((resolve,reject)=>{
  if(!demo&&!legalReady(p))return reject(Object.assign(new Error('Informations entreprise incomplètes.'),{status:503}));
  const inv=type==='invoice',snapshot=b.invoice_snapshot; if(inv)p=snapshot.company;
  const data=inv?snapshot.booking.data:b.data,price=inv?snapshot.booking.amount:b.amount;
- const d=new PDFDocument({size:'A4',margin:46,info:{Title:inv?'Facture EdenDrive':'Bon de réservation EdenDrive'}}),chunks=[];d.on('data',c=>chunks.push(c));d.on('end',()=>resolve(Buffer.concat(chunks)));d.on('error',reject);
+ const d=new PDFDocument({size:'A4',margin:46,info:{Title:inv?'Facture EdenDrive':'Bon de réservation EdenDrive',CreationDate:new Date(inv?snapshot.issuedAt:b.created_at)}}),chunks=[];d.on('data',c=>chunks.push(c));d.on('end',()=>resolve(Buffer.concat(chunks)));d.on('error',reject);
  d.rect(0,0,595,106).fill('#191b19');d.fillColor('#c9a84c').font('Times-Roman').fontSize(25).text('E D E N  D R I V E',46,32);d.fillColor('#ffffff').font('Helvetica').fontSize(10).text(inv?'FACTURE':'BON DE RÉSERVATION',46,72);
  d.y=125;d.fillColor('#292b29');if(demo)d.fontSize(16).fillColor('#b14835').text('DÉMONSTRATION — SANS VALEUR COMMERCIALE').moveDown().fillColor('#292b29');
  d.fontSize(10).text('Référence : '+(inv?snapshot.number:b.ref));d.text('Émis le : '+date(inv?snapshot.issuedAt:b.created_at));if(!inv)d.text('Réservation préalable enregistrée le : '+date(b.created_at));d.moveDown();

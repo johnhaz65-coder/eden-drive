@@ -666,7 +666,7 @@ footer { background: #111; padding: 4rem 2rem 2rem; }
     <ul class="nav-links" id="navLinks">
         <li><a href="#services" data-i18n="nav_services">Services</a></li>
         <li><a href="#vehicule" data-i18n="nav_vehicle">Véhicule</a></li>
-        <li><a href="#booking" data-i18n="nav_book">Réserver</a></li>
+        <li><a href="/reservation-eden/" data-i18n="nav_book">Réserver</a></li>
         <li><a href="#confiance" data-i18n="nav_trust">Confiance</a></li>
         <li><a href="tel:+33687392632" class="nav-cta">+33 6 87 39 26 32</a></li>
     </ul>
@@ -702,7 +702,7 @@ footer { background: #111; padding: 4rem 2rem 2rem; }
 
         <!-- DROITE : module réservation -->
         <div class="hero-right" id="booking">
-            <div class="bk-box">
+            <div class="bk-box"><div style="padding:18px 22px 0;color:#93712c;font-weight:500">Réservez votre trajet · 1,70 €/km</div>
 
                 <!-- BARRE ÉTAPES -->
                 <div class="bk-steps">
@@ -762,10 +762,10 @@ footer { background: #111; padding: 4rem 2rem 2rem; }
                         <div class="bk-ctr"><span>Bagages</span><button onclick="bkCnt('bag',-1)">−</button><b id="bkc-bag">0</b><button onclick="bkCnt('bag',1)">+</button></div>
                     </div>
 
-                    <button class="bk-btn" onclick="bkStep2()">Voir le tarif →</button>
+                    <button class="bk-btn" onclick="bkStep2()">Calculer mon prix et réserver →</button>
                 </div>
 
-                <!-- ÉTAPE 2 : TARIF -->
+                <p id="edenHomeStatus" role="status" style="padding:0 22px;color:#93712c"></p><!-- ÉTAPE 2 : TARIF -->
                 <div class="bk-panel" id="bkp-2">
                     <div class="bk-recap" id="bk-recap"></div>
                     <div class="bk-pricebox">
@@ -1923,5 +1923,5 @@ function initBkMap() {
 })();
 </script>
 
-</body>
+<script src="/assets/eden/home-booking.js?v=2"></script><a class="eden-reserve-fixed" href="/reservation-eden/">Réserver · Voir mon prix →</a><style>.eden-reserve-fixed{position:fixed;bottom:18px;left:50%;transform:translateX(-50%);z-index:900;background:#1e2b25;color:#fff;padding:14px 24px;border:1px solid #c9a84c;border-radius:40px;text-decoration:none;font:500 15px Outfit,sans-serif;box-shadow:0 5px 24px #0003;white-space:nowrap}@media(max-width:600px){.eden-reserve-fixed{bottom:calc(12px + env(safe-area-inset-bottom));left:12px;transform:none;font-size:13px;padding:13px 18px}}</style></body>
 </html>

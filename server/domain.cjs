@@ -16,6 +16,12 @@ function amounts(cents,p){const ht=p.vatMode==='exempt'?cents:Math.round(cents/(
 function paymentMatches(check,b,merchant){return check.id===b.checkout_id&&check.status==='PAID'&&check.currency==='EUR'&&Math.round(Number(check.amount)*100)===b.amount&&check.checkout_reference===b.id&&check.merchant_code===merchant;}
 function createService(db){return {
  async create(input){const data=validate(input);const id=randomUUID(),access=token(),ref='ED-'+id.slice(0,8).toUpperCase();await db.query('INSERT INTO eden_bookings(id,ref,token_hash,data) VALUES($1,$2,$3,$4)',[id,ref,hash(access),JSON.stringify(data)]);return {id,ref,token:access,status:'requested',data};},
+ async createQuoted(input,q,access){const data=validate(input);data.pricing={distanceKm:q.distanceMeters/1000,rateCents:170,durationSeconds:q.durationSeconds};const ref='ED-'+q.id.slice(0,8).toUpperCase();return db.transaction(async c=>{
+ await c.query("SELECT pg_advisory_xact_lock(170170)");
+ const existing=(await c.query('SELECT * FROM eden_bookings WHERE id=$1',[q.id])).rows[0];if(existing)return {...publicBooking(existing),token:access};
+ const occupied=await c.query("SELECT 1 FROM eden_bookings WHERE status='confirmed' AND (data->>'pickupAt')::timestamptz < $2::timestamptz AND (data->>'pickupAt')::timestamptz + make_interval(secs => COALESCE((data->'pricing'->>'durationSeconds')::int,3600)+1800) > $1::timestamptz",[data.pickupAt,new Date(Date.parse(data.pickupAt)+(q.durationSeconds+1800)*1000).toISOString()]);
+ if(occupied.rows.length)fail('Ce créneau est déjà réservé. Choisissez un autre horaire ou appelez EdenDrive.',409);
+ const result=await c.query("INSERT INTO eden_bookings(id,ref,token_hash,data,status,amount) VALUES($1,$2,$3,$4,'confirmed',$5) RETURNING *",[q.id,ref,hash(access),JSON.stringify(data),q.amount]);return {...publicBooking(result.rows[0]),token:access};});},
  async get(id,access,admin=false){if(!/^[0-9a-f-]{36}$/i.test(id||''))fail('Réservation introuvable.',404);const r=await db.query('SELECT * FROM eden_bookings WHERE id=$1'+(admin?'':' AND token_hash=$2'),admin?[id]:[id,hash(access||'')]);if(!r.rows[0])fail('Réservation introuvable.',404);return r.rows[0];},
  async list(){return (await db.query('SELECT * FROM eden_bookings ORDER BY created_at DESC LIMIT 200')).rows;},
  async change(id,action,input,p){return db.transaction(async c=>{const r=await c.query('SELECT * FROM eden_bookings WHERE id=$1 FOR UPDATE',[id]);const b=r.rows[0];if(!b)fail('Réservation introuvable.',404);

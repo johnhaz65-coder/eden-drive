@@ -1,3 +1,4 @@
+const telegram=require('../server/telegram.cjs');
 const quotes=require('../server/quote.cjs');const notifications=require('../server/notifications.cjs');
 const db=require('../server/db.cjs');const {token,hash,passwordOK,limit}=require('../server/security.cjs');const {createService,profile,legalReady,fail,publicBooking}=require('../server/domain.cjs');const {pdf}=require('../server/documents.cjs');const payment=require('../server/payment.cjs');
 const service=createService(db);
@@ -18,8 +19,8 @@ module.exports=async(req,res)=>{
  if(body.action==='login'){await limit(db,'login:'+hash(ip),8);if(!passwordOK(body.password,process.env.ADMIN_PASSWORD_HASH))fail('Identifiants incorrects.',401);const access=token();await db.query("INSERT INTO eden_sessions VALUES($1,now()+interval '12 hours')",[hash(access)]);res.setHeader('Set-Cookie',`eden_session=${access}; HttpOnly; SameSite=Strict; Path=/api; Max-Age=43200${secure}`);return res.status(200).json({ok:true});}
  if(body.action==='logout'){if(cookie)await db.query('DELETE FROM eden_sessions WHERE token_hash=$1',[hash(cookie)]);res.setHeader('Set-Cookie',`eden_session=; HttpOnly; SameSite=Strict; Path=/api; Max-Age=0${secure}`);return res.status(200).json({ok:true});}
  if(body.action==='quote'){await limit(db,'quote:'+hash(ip),30);return res.status(200).json(await quotes.quote(body));}
- if(body.action==='create-quoted'){await limit(db,'create:'+hash(ip),6);if(body.website)fail('Demande refusée.');const q=quotes.verifyQuote(body.quoteToken,body),access=quotes.accessFor(q);const b=await service.createQuoted(body,q,access);const notification=await notifications.send(db,b,p,access);return res.status(201).json({...b,notification});}
- if(body.action==='create'){await limit(db,'create:'+hash(ip),6);if(body.website)fail('Demande refusée.');const b=await service.create(body);const notification=await notifications.send(db,b,p,b.token);return res.status(201).json({...b,notification});}
+ if(body.action==='create-quoted'){await limit(db,'create:'+hash(ip),6);if(body.website)fail('Demande refusée.');const q=quotes.verifyQuote(body.quoteToken,body),access=quotes.accessFor(q);const b=await service.createQuoted(body,q,access);await telegram.notify(db,b);const notification=await notifications.send(db,b,p,access);return res.status(201).json({...b,notification});}
+ if(body.action==='create'){await limit(db,'create:'+hash(ip),6);if(body.website)fail('Demande refusée.');const b=await service.create(body);await telegram.notify(db,b);const notification=await notifications.send(db,b,p,b.token);return res.status(201).json({...b,notification});}
  if(body.action==='list'){if(!admin)fail('Connectez-vous à votre espace chauffeur.',401);return res.status(200).json({bookings:(await service.list()).map(publicBooking)});}
  const b=await service.get(body.id,body.token,admin);
  if(body.action==='get')return res.status(200).json(publicBooking(b));

@@ -1,7 +1,14 @@
 const {pdf}=require('./documents.cjs');
-const configured=()=>!!(process.env.RESEND_API_KEY&&process.env.EMAIL_FROM);
+const resendConfigured=()=>!!(process.env.RESEND_API_KEY&&process.env.EMAIL_FROM);
+const configured=()=>true;
+function browserEmails(b,access,type){
+ const link=process.env.APP_ORIGIN+'/reservation-eden/#'+b.id+'.'+access;
+ const d=b.data,date=new Date(d.pickupAt);
+ const params={client_name:d.name,client_email:d.email,client_phone:d.phone,type_trajet:(type==='invoice'?'Facture disponible':b.status==='requested'?'Demande à confirmer':'Réservation confirmée')+' — '+b.ref,depart:d.pickup,arrivee:d.dropoff,date_trajet:new Intl.DateTimeFormat('fr-FR',{timeZone:'Europe/Paris'}).format(date),heure:new Intl.DateTimeFormat('fr-FR',{timeZone:'Europe/Paris',hour:'2-digit',minute:'2-digit'}).format(date),passagers:String(d.passengers),bagages:String(d.bags),prix:b.amount==null?'À confirmer':(b.amount/100).toFixed(2)+' €',notes:[d.notes,b.paid?'Paiement reçu':d.paymentPreference==='cash'?'Paiement en espèces à la fin de la course':'Paiement par carte ou en espèces à la fin de la course', 'Référence : '+b.ref,'Bon, facture disponible et suivi privé : '+link].filter(Boolean).join('\n')};
+ return {sent:false,provider:'emailjs',jobs:(type==='invoice'?[['client','template_c2wsbae']]:[['driver','template_v7s6t29'],['client','template_c2wsbae']]).map(([recipient,template])=>({recipient,service_id:'service_jebbd83',template_id:template,user_id:'BM6wporc9EBwplhGn',template_params:params}))};
+}
 async function send(db,b,p,access,type='reservation'){
- if(!configured())return {sent:false,reason:'not_configured'};
+ if(!resendConfigured())return access?browserEmails(b,access,type):{sent:false,reason:'private_link_required'};
  try{return await db.transaction(async c=>{
  await c.query('SELECT pg_advisory_xact_lock(hashtext($1))',['mail:'+b.id]);
  const origin=process.env.APP_ORIGIN,link=access?origin+'/reservation-eden/#'+b.id+'.'+access:origin+'/espace-chauffeur/';

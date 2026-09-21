@@ -5,6 +5,7 @@ function pdf(b,type,p,{demo=false}={}){return new Promise((resolve,reject)=>{
  if(type==='invoice'&&!b.invoice_snapshot)return reject(Object.assign(new Error('La facture n’a pas encore été émise.'),{status:409}));
  if(type==='voucher'&&!['confirmed','completed'].includes(b.status))return reject(Object.assign(new Error('Le bon sera disponible après confirmation.'),{status:409}));
  if(!demo&&!legalReady(p))return reject(Object.assign(new Error('Informations entreprise incomplètes.'),{status:503}));
+ if(type==='voucher'&&!demo){require('./voucher.cjs')(b,p).then(resolve,reject);return;}
  const inv=type==='invoice',snapshot=b.invoice_snapshot; if(inv)p=snapshot.company;
  const data=inv?snapshot.booking.data:b.data,price=inv?snapshot.booking.amount:b.amount;
  const d=new PDFDocument({size:'A4',margin:46,info:{Title:inv?'Facture EdenDrive':'Bon de réservation EdenDrive',CreationDate:new Date(inv?snapshot.issuedAt:b.created_at)}}),chunks=[];d.on('data',c=>chunks.push(c));d.on('end',()=>resolve(Buffer.concat(chunks)));d.on('error',reject);
@@ -18,7 +19,7 @@ function pdf(b,type,p,{demo=false}={}){return new Promise((resolve,reject)=>{
  section('CHAUFFEUR ET VÉHICULE',[driver.name+' · '+driver.phone,'Carte professionnelle : '+driver.card,driver.vehicle+' · '+driver.plate]);
  section('CLIENT',[data.company,data.name,data.billingAddress,data.company&&data.siren&&'SIREN client : '+data.siren,data.email+' · '+data.phone]);
  if(data.notes&&!inv)section('INSTRUCTIONS',[data.notes]);
- const t=inv?snapshot.totals:amounts(price,p);section('TRANSPORT PRIVÉ — 1 PRESTATION',[`HT : ${euro(t.ht)} · TVA ${t.rate}% : ${euro(t.tax)}`,'TOTAL TTC : '+euro(t.ttc),b.paid?'Règlement enregistré le '+date(b.paid_at)+' · '+b.payment_method:'À régler — paiement non enregistré',p.vatMode==='exempt'?'TVA non applicable, art. 293 B du CGI.':'']);
+ const t=inv?snapshot.totals:amounts(price,p);section('TRANSPORT PRIVÉ — 1 PRESTATION',[`HT : ${euro(t.ht)} · TVA ${t.rate}% : ${euro(t.tax)}`,'TOTAL TTC : '+euro(t.ttc),b.paid?'Règlement enregistré le '+date(b.paid_at)+' · '+b.payment_method:data.paymentPreference==='cash'?'À régler en espèces à la fin de la course — non encaissé':'À régler — paiement non enregistré',p.vatMode==='exempt'?'TVA non applicable, art. 293 B du CGI.':'']);
  if(inv)section('CONDITIONS',['Échéance : à réception. Escompte pour paiement anticipé : néant.',data.company?p.latePaymentTerms+' Indemnité forfaitaire de recouvrement : 40 EUR (clients professionnels).':'']);
  d.fontSize(8).fillColor('#6a6a63').text('EdenDrive · edendrive.fr · Document à conserver.');d.end();
 });}

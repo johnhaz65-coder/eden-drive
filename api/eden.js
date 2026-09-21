@@ -24,12 +24,14 @@ module.exports=async(req,res)=>{
  const b=await service.get(body.id,body.token,admin);
  if(body.action==='get')return res.status(200).json(publicBooking(b));
  if(body.action==='send-email'){await limit(db,'mail:'+b.id,5);if(!body.token)fail('Ouvrez le lien privé client pour envoyer les documents.');return res.status(200).json(await notifications.send(db,b,p,body.token));}
- if(body.action==='request-invoice'){await limit(db,'invoice:'+b.id,5);const updated=await service.change(b.id,'invoice',{},p);const notification=await notifications.send(db,updated,p,body.token,'invoice');return res.status(200).json({...publicBooking(updated),notification});}
+ if(body.action==='request-invoice'){await limit(db,'invoice:'+b.id,5);const updated=await service.change(b.id,'invoice',{billingAddress:body.billingAddress},p);const notification=await notifications.send(db,updated,p,body.token,'invoice');return res.status(200).json({...publicBooking(updated),notification});}
+ if(body.action==='cash-preference'){const current=await payment.reconcile(db,b);if(current.paid)fail('Ce trajet est déjà réglé.',409);return res.status(200).json(publicBooking(await service.change(b.id,'cash-preference',{},p)));}
  if(body.action==='checkout')return res.status(200).json({url:await payment.checkout(db,b)});
  if(body.action==='payment-status')return res.status(200).json(publicBooking(await payment.reconcile(db,b)));
  if(body.action==='document'){if(!['voucher','invoice'].includes(body.type))fail('Document inconnu.');const file=await pdf(b,body.type,p);res.setHeader('Content-Type','application/pdf');res.setHeader('Content-Disposition',`attachment; filename="EdenDrive-${body.type}-${b.ref}.pdf"`);return res.status(200).send(file);}
  if(body.action==='client-link'){if(!admin)fail('Connexion requise.',401);const access=token();await db.query('UPDATE eden_bookings SET token_hash=$2 WHERE id=$1',[b.id,hash(access)]);return res.status(200).json({url:process.env.APP_ORIGIN+'/reservation-eden/#'+b.id+'.'+access});}
  if(!admin)fail('Connexion requise.',401);
+ if(body.action==='paid'&&b.checkout_id){const current=await payment.reconcile(db,b);if(current.paid)fail('Le paiement SumUp est déjà enregistré.',409);}
  const result=await service.change(body.id,body.action,body,p);return res.status(200).json(publicBooking(result));
  }catch(e){const status=e.status||500;return res.status(status).json({error:status===500?'Le service est momentanément indisponible. Réessayez ou contactez EdenDrive.':e.message});}
 };

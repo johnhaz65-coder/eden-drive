@@ -17,3 +17,14 @@ test('Instant booking uses verified price, prevents duplicates and rejects overl
  const b=await svc.createQuoted({...data,amount:1},q,'private-test-token');assert.equal(b.amount,4879);assert.equal(b.status,'confirmed');assert.equal((await svc.createQuoted(data,q,'private-test-token')).id,b.id);await assert.rejects(()=>svc.createQuoted(data,{...q,id:require('node:crypto').randomUUID()},'another-token'),/créneau/);
  const later={...data,pickupAt:new Date(Date.parse(data.pickupAt)+3*3600000).toISOString()};assert.equal((await svc.createQuoted(later,{...q,id:require('node:crypto').randomUUID()},'later-token')).status,'confirmed');
 });
+test('Choosing cash preserves unpaid status until driver records receipt',async()=>{
+ const b=await service.create(input());await service.change(b.id,'confirm',{amount:5500},profile);
+ const cash=await service.change(b.id,'cash-preference',{},profile);assert.equal(cash.data.paymentPreference,'cash');assert.equal(cash.paid,false);assert.equal(cash.status,'confirmed');
+ const paid=await service.change(b.id,'paid',{method:'cash'},profile);assert.equal(paid.paid,true);assert.equal(paid.payment_method,'cash');await assert.rejects(()=>service.change(b.id,'cash-preference',{},profile));
+});
+test('Billing address is optional to book and collected only when issuing invoice',async()=>{
+ const b=await service.create({...input(),billingAddress:''});await service.change(b.id,'confirm',{amount:3000},profile);
+ const saved=await service.get(b.id,b.token);saved.data.pickupAt=new Date(Date.now()-3600000).toISOString();await db.query('UPDATE eden_bookings SET data=$2 WHERE id=$1',[b.id,JSON.stringify(saved.data)]);await service.change(b.id,'complete',{},profile);
+ await assert.rejects(()=>service.change(b.id,'invoice',{},profile),/adresse/);
+ const inv=await service.change(b.id,'invoice',{billingAddress:'Adresse client fictive, Marseille'},profile);assert.equal(inv.invoice_snapshot.booking.data.billingAddress,'Adresse client fictive, Marseille');
+});

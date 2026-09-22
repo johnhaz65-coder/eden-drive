@@ -4,8 +4,8 @@ const zones={
  marseille:{label:'Marseille centre',polygon:[[5.358,43.3135],[5.373,43.3135],[5.384,43.307],[5.390,43.300],[5.391,43.285],[5.384,43.284],[5.373,43.289],[5.359,43.291]]},
  aix:{label:'Aix centre',polygon:[[5.439,43.533],[5.443,43.523],[5.450,43.522],[5.458,43.524],[5.456,43.534],[5.447,43.537]]},
  cassis:{label:'Cassis centre et port',polygon:[[5.531,43.218],[5.533,43.210],[5.543,43.210],[5.547,43.215],[5.544,43.221],[5.535,43.222]]},
- airport:{label:'Aéroport Marseille-Provence',polygon:[[5.208,43.444],[5.224,43.444],[5.227,43.435],[5.214,43.432],[5.208,43.437]]},
- charles:{label:'Gare Saint-Charles',polygon:[[5.378,43.3015],[5.378,43.3047],[5.383,43.306],[5.383,43.302]]},
+ airport:{label:'Aéroport Marseille-Provence',polygon:[[5.208,43.448],[5.230,43.448],[5.230,43.441],[5.224,43.435],[5.214,43.432],[5.208,43.437]]},
+ charles:{label:'Gare Saint-Charles',polygon:[[5.3775,43.3008],[5.378,43.3047],[5.383,43.306],[5.383,43.301]]},
  tgv:{label:'Gare Aix TGV',polygon:[[5.313,43.458],[5.313,43.452],[5.321,43.451],[5.322,43.457]]}
 };
 const fares=[['marseille','charles',2500],['marseille','airport',5000],['marseille','aix',6000],['marseille','cassis',5500],['aix','airport',5000],['aix','tgv',3500]];

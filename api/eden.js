@@ -24,6 +24,7 @@ module.exports=async(req,res)=>{
  if(body.action==='create'){await limit(db,'create:'+hash(ip),6);if(body.website)fail('Demande refusée.');const b=await service.create(body);await telegram.notify(db,b);const notification=await notifications.send(db,b,p,b.token);return res.status(201).json({...b,notification});}
  if(body.action==='list'){if(!admin)fail('Connectez-vous à votre espace chauffeur.',401);return res.status(200).json({bookings:(await service.list()).map(publicBooking)});}
  const b=await service.get(body.id,body.token,admin);
+ if(body.action==='archive'){if(!admin)fail('Connexion requise.',401);return res.status(200).json(await payment.archive(db,b));}
  if(body.action==='get')return res.status(200).json(publicBooking(b));
  if(body.action==='send-email'){await limit(db,'mail:'+b.id,5);if(!body.token)fail('Ouvrez le lien privé client pour envoyer les documents.');return res.status(200).json(await notifications.send(db,b,p,body.token));}
  if(body.action==='request-invoice'){await limit(db,'invoice:'+b.id,5);const updated=await service.change(b.id,'invoice',{billingAddress:body.billingAddress},p);const notification=await notifications.send(db,updated,p,body.token,'invoice');return res.status(200).json({...publicBooking(updated),notification});}

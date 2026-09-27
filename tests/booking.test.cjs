@@ -36,3 +36,12 @@ test('Billing address is optional to book and collected only when issuing invoic
  await assert.rejects(()=>service.change(b.id,'invoice',{},profile),/adresse/);
  const inv=await service.change(b.id,'invoice',{billingAddress:'Adresse client fictive, Marseille'},profile);assert.equal(inv.invoice_snapshot.booking.data.billingAddress,'Adresse client fictive, Marseille');
 });
+
+test('Missing quote can be calculated once, confirmed and followed from either private link',async()=>{
+ const b=await service.create(input());const q={amount:6000,distanceMeters:30470,durationSeconds:1860,pricing:{baseAmount:5000,nightSurcharge:1000,kind:'fixed'}};
+ const priced=await service.saveEstimate(b.id,q);assert.equal(priced.amount,6000);assert.equal(priced.status,'requested');assert.equal(priced.data.pricing.source,'driver-estimate');
+ await assert.rejects(()=>service.saveEstimate(b.id,{...q,amount:7000}),/déjà/);
+ const confirmed=await service.change(b.id,'confirm',{},profile);assert.equal(confirmed.amount,6000);assert.equal(confirmed.status,'confirmed');
+ const {hash}=require('../server/security.cjs');await db.query("UPDATE eden_bookings SET data=jsonb_set(data,'{confirmationAccessHash}',$2::jsonb) WHERE id=$1",[b.id,JSON.stringify(hash('second-private-token'))]);
+ assert.equal((await service.get(b.id,b.token)).id,b.id);const second=await service.get(b.id,'second-private-token');assert.equal(second.id,b.id);assert.equal(publicBooking(second).data.confirmationAccessHash,undefined);await assert.rejects(()=>service.get(b.id,'wrong-token'),/introuvable/);
+});

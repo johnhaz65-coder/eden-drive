@@ -24,6 +24,7 @@ module.exports=async(req,res)=>{
  if(body.action==='create'){await limit(db,'create:'+hash(ip),6);if(body.website)fail('Demande refusée.');const b=await service.create(body);await telegram.notify(db,b);const notification=await notifications.send(db,b,p,b.token);return res.status(201).json({...b,notification});}
  if(body.action==='list'){if(!admin)fail('Connectez-vous à votre espace chauffeur.',401);return res.status(200).json({bookings:(await service.list()).map(publicBooking)});}
  const b=await service.get(body.id,body.token,admin);
+ if(body.action==='calculate-booking'){if(!admin)fail('Connexion requise.',401);await limit(db,'quote:'+hash(ip),30);if(b.status!=='requested'||b.amount!=null)fail('Actualisez cette demande : elle possède déjà un prix ou a été traitée.',409);const q=await quotes.quote(b.data);return res.status(200).json(publicBooking(await service.saveEstimate(b.id,q)));}
  if(body.action==='archive'){if(!admin)fail('Connexion requise.',401);return res.status(200).json(await payment.archive(db,b));}
  if(body.action==='get')return res.status(200).json(publicBooking(b));
  if(body.action==='send-email'){await limit(db,'mail:'+b.id,5);if(!body.token)fail('Ouvrez le lien privé client pour envoyer les documents.');return res.status(200).json(await notifications.send(db,b,p,body.token));}
@@ -36,7 +37,7 @@ module.exports=async(req,res)=>{
  if(!admin)fail('Connexion requise.',401);
  if(body.action==='paid'&&b.checkout_id){const current=await payment.reconcile(db,b);if(current.paid)fail('Le paiement SumUp est déjà enregistré.',409);}
  const result=await service.change(body.id,body.action,body,p);let notification;
- if(body.action==='confirm'&&result.data.pricing?.source==='quote'){const access=quotes.accessFor(result);if(hash(access)===result.token_hash)notification=await notifications.send(db,result,p,access,'confirmation');}
+ if(body.action==='confirm'){const access=quotes.accessFor(result);if(hash(access)!==result.token_hash)await db.query("UPDATE eden_bookings SET data=jsonb_set(data,'{confirmationAccessHash}',$2::jsonb) WHERE id=$1",[result.id,JSON.stringify(hash(access))]);notification=await notifications.send(db,result,p,access,'confirmation');}
  return res.status(200).json({...publicBooking(result),...(notification?{notification}:{})});
  }catch(e){const status=e.status||500;return res.status(status).json({error:status===500?'Le service est momentanément indisponible. Réessayez ou contactez EdenDrive.':e.message});}
 };

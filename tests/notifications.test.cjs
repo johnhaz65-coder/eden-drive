@@ -11,3 +11,10 @@ test('Client email distinguishes a request from confirmation and escapes submitt
  const pending=emailContent(b,'https://www.edendrive.fr/reservation-eden/#test');assert.match(pending.subject,/demande/);assert.match(pending.text,/Rien à payer/);assert(!pending.html.includes('<img src=x>'));assert(pending.html.includes('&lt;img src=x&gt;'));
  const confirmed=emailContent({...b,status:'confirmed'},'https://www.edendrive.fr/reservation-eden/#test');assert.match(confirmed.html,/Voir ma réservation et payer/);assert.match(confirmed.text,/espèces ou par carte/);
 });
+test('Payment choice emails inform both parties, distinguish unpaid and deduplicate acknowledged sends',async()=>{
+ const {emailContent}=require('../server/email-content.cjs');const b={id:'test-id',ref:'ED-TEST',status:'confirmed',amount:6000,paid:false,data:{name:'Test',email:'test@example.invalid',phone:'0000000000',pickupAt:new Date().toISOString(),pickup:'Marseille',dropoff:'Aéroport',passengers:1,bags:0,paymentPreference:'onboard',paymentChoiceRevision:1}};
+ const db={query:async()=>({rows:[]})};const n=await notifications.send(db,b,{},'test-token','payment-choice:1');assert.equal(n.jobs.length,2);assert.match(n.jobs[0].template_params.email_subject,/Mode de paiement choisi/);assert.match(n.jobs[1].template_params.email_html,/Rien à payer en ligne/);
+ const done={query:async()=>({rows:n.jobs.map(j=>({action:j.noticeId}))})};assert.equal((await notifications.send(done,b,{},'test-token','payment-choice:1')).jobs.length,0);
+ const online=emailContent({...b,data:{...b.data,paymentPreference:'online'}},'https://example.invalid','payment-choice:2');assert.match(online.text,/reste à effectuer/);assert(!online.title.includes('reçu'));
+ const paid=emailContent({...b,paid:true},'https://example.invalid','payment-received');assert.match(paid.title,/paiement a bien été reçu/);
+});

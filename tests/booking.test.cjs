@@ -50,3 +50,10 @@ test('Choosing onboard payment accepts cash or terminal card without marking it 
  const onboard=await service.change(b.id,'onboard-preference',{},profile);assert.equal(onboard.data.paymentPreference,'onboard');assert.equal(onboard.paid,false);
  const paid=await service.change(b.id,'paid',{method:'card'},profile);assert.equal(paid.paid,true);assert.equal(paid.payment_method,'card');
 });
+test('Payment choices are versioned only when changed and never imply payment',async()=>{
+ const b=await service.create(input());await service.change(b.id,'confirm',{amount:6000},profile);
+ const a=await service.change(b.id,'online-preference',{},profile);assert.equal(a.paid,false);assert.equal(a.data.paymentChoiceRevision,1);
+ const same=await service.change(b.id,'online-preference',{},profile);assert.equal(same.data.paymentChoiceRevision,1);
+ const onboard=await service.change(b.id,'onboard-preference',{},profile);assert.equal(onboard.data.paymentChoiceRevision,2);assert.equal(onboard.paid,false);
+ await service.change(b.id,'paid',{method:'cash'},profile);await assert.rejects(()=>service.change(b.id,'online-preference',{},profile),/disponible/);
+});

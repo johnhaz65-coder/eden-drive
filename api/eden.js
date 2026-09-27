@@ -32,9 +32,11 @@ module.exports=async(req,res)=>{
  if(body.action==='checkout')return res.status(200).json({url:await payment.checkout(db,b)});
  if(body.action==='payment-status')return res.status(200).json(publicBooking(await payment.reconcile(db,b)));
  if(body.action==='document'){if(!['voucher','invoice'].includes(body.type))fail('Document inconnu.');const file=await pdf(b,body.type,p);res.setHeader('Content-Type','application/pdf');res.setHeader('Content-Disposition',`attachment; filename="EdenDrive-${body.type}-${b.ref}.pdf"`);return res.status(200).send(file);}
- if(body.action==='client-link'){if(!admin)fail('Connexion requise.',401);const access=token();await db.query('UPDATE eden_bookings SET token_hash=$2 WHERE id=$1',[b.id,hash(access)]);return res.status(200).json({url:process.env.APP_ORIGIN+'/reservation-eden/#'+b.id+'.'+access});}
+ if(body.action==='client-link'){if(!admin)fail('Connexion requise.',401);if(b.data.pricing?.source==='quote'){const access=quotes.accessFor(b);if(hash(access)===b.token_hash)return res.status(200).json({url:process.env.APP_ORIGIN+'/reservation-eden/#'+b.id+'.'+access});}const access=token();await db.query('UPDATE eden_bookings SET token_hash=$2 WHERE id=$1',[b.id,hash(access)]);return res.status(200).json({url:process.env.APP_ORIGIN+'/reservation-eden/#'+b.id+'.'+access});}
  if(!admin)fail('Connexion requise.',401);
  if(body.action==='paid'&&b.checkout_id){const current=await payment.reconcile(db,b);if(current.paid)fail('Le paiement SumUp est déjà enregistré.',409);}
- const result=await service.change(body.id,body.action,body,p);return res.status(200).json(publicBooking(result));
+ const result=await service.change(body.id,body.action,body,p);let notification;
+ if(body.action==='confirm'&&result.data.pricing?.source==='quote'){const access=quotes.accessFor(result);if(hash(access)===result.token_hash)notification=await notifications.send(db,result,p,access,'confirmation');}
+ return res.status(200).json({...publicBooking(result),...(notification?{notification}:{})});
  }catch(e){const status=e.status||500;return res.status(status).json({error:status===500?'Le service est momentanément indisponible. Réessayez ou contactez EdenDrive.':e.message});}
 };

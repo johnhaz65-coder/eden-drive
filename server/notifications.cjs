@@ -1,10 +1,11 @@
+const {emailContent}=require('./email-content.cjs');
 const {pdf}=require('./documents.cjs');
 const resendConfigured=()=>!!(process.env.RESEND_API_KEY&&process.env.EMAIL_FROM);
 const configured=()=>true;
 function browserEmails(b,access,type){
  const link=process.env.APP_ORIGIN+'/reservation-eden/#'+b.id+'.'+access;
- const d=b.data,date=new Date(d.pickupAt);
- const params={client_name:d.name,client_email:d.email,client_phone:d.phone,type_trajet:(type==='invoice'?'Facture disponible':b.status==='requested'?'Demande à confirmer':'Réservation confirmée')+' — '+b.ref,depart:d.pickup,arrivee:d.dropoff,date_trajet:new Intl.DateTimeFormat('fr-FR',{timeZone:'Europe/Paris'}).format(date),heure:new Intl.DateTimeFormat('fr-FR',{timeZone:'Europe/Paris',hour:'2-digit',minute:'2-digit'}).format(date),passagers:String(d.passengers),bagages:String(d.bags),prix:b.amount==null?'À confirmer':(b.amount/100).toFixed(2)+' €',notes:[d.notes,b.paid?'Paiement reçu':d.paymentPreference==='cash'?'Paiement en espèces à la fin de la course':'Paiement par carte ou en espèces à la fin de la course', 'Référence : '+b.ref,'Bon, facture disponible et suivi privé : '+link].filter(Boolean).join('\n')};
+ const content=emailContent(b,link,type);const d=b.data,date=new Date(d.pickupAt);
+ const params={client_name:d.name,client_email:d.email,client_phone:d.phone,type_trajet:(type==='invoice'?'Facture disponible':b.status==='requested'?'Demande à confirmer':'Réservation confirmée')+' — '+b.ref,depart:d.pickup,arrivee:d.dropoff,date_trajet:new Intl.DateTimeFormat('fr-FR',{timeZone:'Europe/Paris'}).format(date),heure:new Intl.DateTimeFormat('fr-FR',{timeZone:'Europe/Paris',hour:'2-digit',minute:'2-digit'}).format(date),passagers:String(d.passengers),bagages:String(d.bags),prix:b.amount==null?'À confirmer':(b.amount/100).toFixed(2)+' €',notes:[content.cta+' :',link,'',content.note,d.notes].filter(x=>x!==undefined).join('\n'),email_subject:content.subject,email_html:content.html,booking_url:link,button_label:content.cta};
  return {sent:false,provider:'emailjs',jobs:(type!=='reservation'?[['client','template_c2wsbae']]:[['driver','template_v7s6t29'],['client','template_c2wsbae']]).map(([recipient,template])=>({recipient,service_id:'service_jebbd83',template_id:template,user_id:'BM6wporc9EBwplhGn',template_params:params}))};
 }
 async function send(db,b,p,access,type='reservation'){
@@ -12,9 +13,10 @@ async function send(db,b,p,access,type='reservation'){
  try{return await db.transaction(async c=>{
  await c.query('SELECT pg_advisory_xact_lock(hashtext($1))',['mail:'+b.id]);
  const origin=process.env.APP_ORIGIN,link=access?origin+'/reservation-eden/#'+b.id+'.'+access:origin+'/espace-chauffeur/';
+ const content=emailContent(b,link,type);
  const when=new Intl.DateTimeFormat('fr-FR',{dateStyle:'long',timeStyle:'short',timeZone:'Europe/Paris'}).format(new Date(b.data.pickupAt));
  const text=`${b.ref}\n${when}\n${b.data.pickup} → ${b.data.dropoff}\n${b.amount==null?'Tarif à confirmer':(b.amount/100).toFixed(2)+' EUR'}\n${b.data.name} · ${b.data.phone}\n${b.paid?'Paiement reçu':'Paiement non enregistré'}`;
- const items=[{to:b.data.email,key:'client',subject:type==='invoice'?'Votre facture':b.status==='requested'?'Votre demande de trajet':'Votre bon de réservation',body:text+'\n\nSuivi privé, documents et paiement :\n'+link}];
+ const items=[{to:b.data.email,key:'client',subject:content.subject,body:content.text,html:content.html}];
  if(type==='reservation')items.push({to:process.env.NOTIFICATION_EMAIL||p.email,key:'driver',subject:'Nouvelle réservation',body:text+'\n\nEspace chauffeur : '+origin+'/espace-chauffeur/'});
  let success=true;
  for(const item of items){
@@ -26,7 +28,7 @@ async function send(db,b,p,access,type='reservation'){
  attachments=[{filename:`EdenDrive-${type}-${b.ref}.pdf`,content:file.toString('base64')}];
  }
  try{
- const r=await fetch('https://api.resend.com/emails',{method:'POST',headers:{Authorization:'Bearer '+process.env.RESEND_API_KEY,'Content-Type':'application/json','Idempotency-Key':b.id+'-'+event},body:JSON.stringify({from:process.env.EMAIL_FROM,to:[item.to],subject:item.subject+' EdenDrive — '+b.ref,text:item.body,attachments}),signal:AbortSignal.timeout(7000)});
+ const r=await fetch('https://api.resend.com/emails',{method:'POST',headers:{Authorization:'Bearer '+process.env.RESEND_API_KEY,'Content-Type':'application/json','Idempotency-Key':b.id+'-'+event},body:JSON.stringify({from:process.env.EMAIL_FROM,to:[item.to],subject:item.key==='client'?item.subject:item.subject+' EdenDrive — '+b.ref,text:item.body,html:item.html,attachments}),signal:AbortSignal.timeout(7000)});
  if(!r.ok)throw Error('delivery');
  await c.query('INSERT INTO eden_events(booking_id,action) VALUES($1,$2)',[b.id,event]);
  }catch{success=false;}

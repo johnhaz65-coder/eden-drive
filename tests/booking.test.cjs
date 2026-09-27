@@ -45,3 +45,8 @@ test('Missing quote can be calculated once, confirmed and followed from either p
  const {hash}=require('../server/security.cjs');await db.query("UPDATE eden_bookings SET data=jsonb_set(data,'{confirmationAccessHash}',$2::jsonb) WHERE id=$1",[b.id,JSON.stringify(hash('second-private-token'))]);
  assert.equal((await service.get(b.id,b.token)).id,b.id);const second=await service.get(b.id,'second-private-token');assert.equal(second.id,b.id);assert.equal(publicBooking(second).data.confirmationAccessHash,undefined);await assert.rejects(()=>service.get(b.id,'wrong-token'),/introuvable/);
 });
+test('Choosing onboard payment accepts cash or terminal card without marking it paid',async()=>{
+ const b=await service.create(input());await service.change(b.id,'confirm',{amount:6000},profile);
+ const onboard=await service.change(b.id,'onboard-preference',{},profile);assert.equal(onboard.data.paymentPreference,'onboard');assert.equal(onboard.paid,false);
+ const paid=await service.change(b.id,'paid',{method:'card'},profile);assert.equal(paid.paid,true);assert.equal(paid.payment_method,'card');
+});

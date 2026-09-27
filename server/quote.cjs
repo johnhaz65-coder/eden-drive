@@ -19,7 +19,7 @@ async function quote(input){
  const r=await fetch('https://routes.googleapis.com/directions/v2:computeRoutes',{method:'POST',headers:{'Content-Type':'application/json','X-Goog-Api-Key':process.env.GOOGLE_ROUTES_API_KEY,'X-Goog-FieldMask':'routes.distanceMeters,routes.duration,routes.polyline.encodedPolyline,routes.legs.startLocation,routes.legs.endLocation'},body:JSON.stringify({origin:{address:pickup},destination:{address:dropoff},travelMode:'DRIVE',routingPreference:'TRAFFIC_UNAWARE',languageCode:'fr-FR',units:'METRIC',routeModifiers:{avoidFerries:true}}),signal:AbortSignal.timeout(10000)});
  if(!r.ok)fail('Google Maps ne peut pas calculer ce trajet pour le moment. Contactez EdenDrive.',502);
  const route=(await r.json()).routes?.[0];if(!route||!Number.isFinite(route.distanceMeters)||route.distanceMeters<600||route.distanceMeters>1500000||!Number.isFinite(parseFloat(route.duration))||parseFloat(route.duration)<=0)fail('Trajet non disponible en réservation automatique. Contactez EdenDrive.');
- let pricing;try{pricing=tariff(route.distanceMeters,route.legs?.[0]?.startLocation?.latLng,route.legs?.at(-1)?.endLocation?.latLng);}catch(e){fail(e.message,502);}
+ let pricing;try{pricing=tariff(route.distanceMeters,route.legs?.[0]?.startLocation?.latLng,route.legs?.at(-1)?.endLocation?.latLng,input.pickupAt);}catch(e){fail(e.message,502);}
  const q={id:randomUUID(),pickup,dropoff,pickupAt:input.pickupAt,service:input.service,distanceMeters:route.distanceMeters,durationSeconds:Math.ceil(parseFloat(route.duration)),pricing,amount:pricing.amount,expires:Date.now()+15*60000};
  const payload=Buffer.from(JSON.stringify(q)).toString('base64url');return {...q,polyline:route.polyline?.encodedPolyline,token:payload+'.'+sign(payload)};
 }

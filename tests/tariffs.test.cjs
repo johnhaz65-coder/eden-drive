@@ -9,15 +9,15 @@ test('Named central areas and station areas are included; no unverified airport-
 test('Google road access points belong to airport and station zones',()=>{const a=p(43.44424,5.22607),s=p(43.3014,5.38014);assert.ok(memberships(a).includes('airport'));assert.ok(memberships(s).includes('charles'));assert.equal(tariff(28400,a,port).amount,5000);assert.equal(tariff(1600,port,s).kind,'fixed');assert.equal(tariff(28400,a,port).waitingMinutes,45);});
 
 test('Verified Google road endpoints receive their airport forfait in both directions',()=>{
- const rows=[[5.38301,43.2787,5000],[5.39155,43.27259,5000],[5.37379,43.2666,6000],[5.38134,43.25426,6000],[5.40506,43.25065,6000],[5.37445,43.24066,6000],[5.48261,43.29992,6000],[5.44045,43.35109,6000],[5.48227,43.33556,6000],[5.43441,43.27799,6000],[5.36596,43.30362,5000],[5.36317,43.37146,5000],[5.31693,43.36165,5000]];
+ const rows=[[5.38301,43.2787,5000],[5.39155,43.27259,5000],[5.37379,43.2666,5000],[5.38134,43.25426,5000],[5.40506,43.25065,5000],[5.37445,43.24066,5000],[5.48261,43.29992,6000],[5.44045,43.35109,6000],[5.48227,43.33556,6000],[5.43441,43.27799,6000],[5.36596,43.30362,5000],[5.36317,43.37146,6000],[5.31693,43.36165,6000]];
  for(const [lon,lat,cents] of rows)for(const [a,b] of [[p(lat,lon),airport],[airport,p(lat,lon)]]){assert.equal(tariff(48000,a,b).amount,cents);assert.equal(tariff(48000,a,b).kind,'fixed');}
 });
 test('Special access uses distance with 60 euro floor, without affecting Aix TGV',()=>{for(const q of [p(43.21554,5.34708),p(43.21287,5.35437)])for(const [a,b] of [[q,airport],[airport,q]]){assert.equal(tariff(30000,a,b).amount,6000);assert.equal(tariff(45000,a,b).amount,7650);assert.equal(tariff(30000,a,b).kind,'distance');}assert.equal(tariff(15000,tgv,airport).amount,2550);});
-test('Prado southern boundary is deterministic and airport only',()=>{assert.equal(tariff(30000,p(43.271,5.39),airport).amount,5000);assert.equal(tariff(30000,p(43.27099,5.39),airport).amount,6000);assert.equal(tariff(30000,p(43.27101,5.39),airport).amount,5000);assert.equal(tariff(20000,p(43.271,5.39),station).kind,'distance');});
+test('Nearby south uses 50 euro forfait while distant north and special access remain separate',()=>{assert.equal(tariff(30000,p(43.2666,5.37379),airport).amount,5000);assert.equal(tariff(30000,p(43.37146,5.36317),airport).amount,6000);assert.equal(tariff(30000,p(43.21554,5.34708),airport).kind,'distance');assert.equal(tariff(20000,p(43.2666,5.37379),station).kind,'distance');});
 
 test('Night supplement follows Paris winter/summer time and exact 22h/6h limits',()=>{
  for(const [date,extra] of [['2026-09-29T19:59:00Z',0],['2026-09-29T20:00:00Z',1000],['2026-09-30T03:59:00Z',1000],['2026-09-30T04:00:00Z',0],['2026-12-01T21:00:00Z',1000],['2026-12-02T05:00:00Z',0],['2026-10-25T00:30:00Z',1000],['2026-10-25T01:30:00Z',1000]]){
   const q=tariff(30000,port,airport,date);assert.equal(q.nightSurcharge,extra);assert.equal(q.amount,5000+extra);assert.equal(q.baseAmount,5000);
  }
- const at='2026-09-30T02:00:00Z';assert.equal(tariff(40000,p(43.25426,5.38134),airport,at).amount,7000);assert.equal(tariff(2000,port,station,at).amount,3500);assert.equal(tariff(45000,p(43.21554,5.34708),airport,at).amount,8650);
+ const at='2026-09-30T02:00:00Z';assert.equal(tariff(40000,p(43.25426,5.38134),airport,at).amount,6000);assert.equal(tariff(2000,port,station,at).amount,3500);assert.equal(tariff(45000,p(43.21554,5.34708),airport,at).amount,8650);
 });

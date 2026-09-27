@@ -10,8 +10,10 @@ const zones={
 };
 // Airport catchments are independent of the smaller station/city forfait zones.
 // Commercial boundaries checked against Google road endpoints, not arrondissement names.
-zones.airport50={label:'Marseille centre et axes directs',polygon:[[5.305,43.375],[5.370,43.385],[5.386,43.350],[5.397,43.315],[5.400,43.288],[5.399,43.271],[5.380,43.271],[5.354,43.279],[5.345,43.302],[5.345,43.345],[5.305,43.350]]};
-zones.airport60={label:'Marseille sud, est et Allauch',polygon:[[5.354,43.230],[5.400,43.230],[5.432,43.250],[5.510,43.285],[5.520,43.340],[5.460,43.370],[5.400,43.370],[5.350,43.320]]};
+// Base-area catchment: centre and accessible southern neighbourhoods near the driver's base.
+// Far northern/eastern pickups remain in the extended catchment; Goudes/Callelongue stay outside.
+zones.airport50={label:'Marseille centre et secteur proche',polygon:[[5.345,43.317],[5.397,43.317],[5.411,43.288],[5.420,43.265],[5.415,43.242],[5.390,43.232],[5.365,43.232],[5.354,43.250],[5.345,43.279]]};
+zones.airport60={label:'Marseille secteurs éloignés et Allauch',polygon:[[5.354,43.230],[5.400,43.230],[5.432,43.250],[5.510,43.285],[5.520,43.340],[5.460,43.380],[5.370,43.385],[5.305,43.375],[5.305,43.350],[5.345,43.320]]};
 // Local outer catchment: avoids imposing a Marseille minimum on Aix or other towns.
 zones.airportOuter={label:'Marseille et périphérie — accès particuliers',polygon:[[5.300,43.205],[5.435,43.205],[5.550,43.280],[5.550,43.385],[5.300,43.395]]};
 const fares=[['marseille','charles',2500],['airport50','airport',5000],['airport60','airport',6000],['marseille','aix',6000],['marseille','cassis',5500],['aix','airport',5000],['aix','tgv',3500]];
@@ -23,5 +25,5 @@ function nightSupplement(pickupAt){
  const hour=Number(new Intl.DateTimeFormat('en-GB',{timeZone:'Europe/Paris',hour:'2-digit',hourCycle:'h23'}).format(date));
  return hour>=22||hour<6?1000:0;
 }
-function tariff(meters,start,end,pickupAt){if(!Number.isFinite(meters)||meters<=0)throw Error('Distance invalide.');const from=memberships(start),to=memberships(end);const fare=fares.find(([a,b])=>(from.includes(a)&&to.includes(b))||(from.includes(b)&&to.includes(a)));const localAirport=(from.includes('airport')&&to.includes('airportOuter'))||(to.includes('airport')&&from.includes('airportOuter'));const minimum=localAirport?6000:2500;const baseAmount=fare?fare[2]:Math.max(minimum,Math.round(meters*170/1000));const nightSurcharge=nightSupplement(pickupAt);return {version:'zones-2026-09-v3',baseAmount,nightSurcharge,amount:baseAmount+nightSurcharge,kind:fare?'fixed':'distance',label:fare?`Forfait ${zones[fare[0]].label} ↔ ${zones[fare[1]].label}`:`Tarif trajet · minimum ${minimum/100} €`,fromZones:from,toZones:to,waitingMinutes:from.includes('airport')?45:10,waitingBlockMinutes:15,waitingBlockCents:1000};}
+function tariff(meters,start,end,pickupAt){if(!Number.isFinite(meters)||meters<=0)throw Error('Distance invalide.');const from=memberships(start),to=memberships(end);const fare=fares.find(([a,b])=>(from.includes(a)&&to.includes(b))||(from.includes(b)&&to.includes(a)));const localAirport=(from.includes('airport')&&to.includes('airportOuter'))||(to.includes('airport')&&from.includes('airportOuter'));const minimum=localAirport?6000:2500;const baseAmount=fare?fare[2]:Math.max(minimum,Math.round(meters*170/1000));const nightSurcharge=nightSupplement(pickupAt);return {version:'zones-2026-09-v4',baseAmount,nightSurcharge,amount:baseAmount+nightSurcharge,kind:fare?'fixed':'distance',label:fare?`Forfait ${zones[fare[0]].label} ↔ ${zones[fare[1]].label}`:`Tarif trajet · minimum ${minimum/100} €`,fromZones:from,toZones:to,waitingMinutes:from.includes('airport')?45:10,waitingBlockMinutes:15,waitingBlockCents:1000};}
 module.exports={tariff,memberships,zones,nightSupplement};

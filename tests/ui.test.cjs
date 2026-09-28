@@ -14,7 +14,8 @@ test('Quote form displays road price, invalidates edits and keeps manual fallbac
  d.getElementById('calculatePrice').click();await new Promise(r=>setImmediate(r));
  assert.match(d.getElementById('quotePrice').textContent,/48,79/);assert.match(d.getElementById('quoteStatus').textContent,/28,7 km/);assert(!d.getElementById('customerFields').disabled);
  d.getElementById('customerFields').scrollIntoView=()=>{};d.getElementById('manualRequest').click();assert.equal(w.edenQuote.token,'signed');assert.equal(w.edenManual,false);
- d.getElementById('pickup').dispatchEvent(new w.Event('input'));assert.equal(w.edenQuote,null);assert(d.getElementById('customerFields').disabled);
+ d.getElementById('name').value='Client Test';d.getElementById('pickup').dispatchEvent(new w.Event('input'));assert.equal(w.edenQuote.token,'signed');assert(!d.getElementById('customerFields').hidden);
+ d.getElementById('pickup').value='Nouvelle adresse Marseille';d.getElementById('pickup').dispatchEvent(new w.Event('input'));assert.equal(w.edenQuote,null);assert(!d.getElementById('customerFields').disabled);assert(!d.getElementById('customerFields').hidden);assert.equal(d.getElementById('name').value,'Client Test');
  d.getElementById('manualRequest').click();assert(w.edenManual);assert(!d.getElementById('customerFields').disabled);
  dom.window.close();
 });

@@ -27,6 +27,18 @@ module.exports=async(req,res)=>{
  if(body.action==='list'){if(!admin)fail('Connectez-vous à votre espace chauffeur.',401);return res.status(200).json({bookings:(await service.list()).map(publicBooking)});}
  const b=await service.get(body.id,body.token,admin);
  if(body.action==='calculate-booking'){if(!admin)fail('Connexion requise.',401);await limit(db,'quote:'+hash(ip),30);if(b.status!=='requested'||b.amount!=null)fail('Actualisez cette demande : elle possède déjà un prix ou a été traitée.',409);const q=await quotes.quote(b.data);return res.status(200).json(publicBooking(await service.saveEstimate(b.id,q)));}
+ if(body.action==='archive-test'){
+  if(!admin)fail('Connexion requise.',401);
+  if(body.confirmTest!==b.ref)fail('Confirmez la référence de la réservation d’essai.',400);
+  if(b.checkout_id||b.invoice_no)fail('Une réservation liée à un paiement en ligne ou une facture doit être conservée.',409);
+  await db.transaction(async c=>{
+   const current=(await c.query('SELECT * FROM eden_bookings WHERE id=$1 FOR UPDATE',[b.id])).rows[0];
+   if(current.checkout_id||current.invoice_no)fail('Paiement ou facture associé : archivage refusé.',409);
+   await c.query("UPDATE eden_bookings SET data=data || '{\"archived\":true,\"testBooking\":true}'::jsonb,updated_at=now() WHERE id=$1",[b.id]);
+   await c.query('INSERT INTO eden_events(booking_id,action) VALUES($1,$2)',[b.id,'archive-test-preserve-payment']);
+  });
+  return res.status(200).json({ok:true});
+ }
  if(body.action==='archive'){if(!admin)fail('Connexion requise.',401);return res.status(200).json(await payment.archive(db,b));}
  if(body.action==='email-delivered'){const allowed=['payment-choice:'+b.data.paymentChoiceRevision,...(b.paid?['payment-received']:[])].flatMap(type=>['client','driver'].map(who=>'emailjs:'+type+':'+who));if(!allowed.includes(body.noticeId))fail('Notification inconnue.');await db.query('INSERT INTO eden_events(booking_id,action) SELECT $1,$2 WHERE NOT EXISTS (SELECT 1 FROM eden_events WHERE booking_id=$1 AND action=$2)',[b.id,body.noticeId]);return res.status(200).json({ok:true});}
  if(body.action==='get'){const kind=b.paid?'payment-received':b.data.paymentChoiceRevision?'payment-choice:'+b.data.paymentChoiceRevision:null;const notification=kind&&body.token?await notifications.send(db,b,p,body.token,kind):undefined;return res.status(200).json({...publicBooking(b),...(notification?{notification}:{})});}

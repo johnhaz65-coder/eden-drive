@@ -30,10 +30,12 @@ module.exports=async(req,res)=>{
  if(body.action==='archive-test'){
   if(!admin)fail('Connexion requise.',401);
   if(body.confirmTest!==b.ref)fail('Confirmez la référence de la réservation d’essai.',400);
-  if(b.checkout_id||b.invoice_no)fail('Une réservation liée à un paiement en ligne ou une facture doit être conservée.',409);
+  const approvedTests=new Set(['ED-B6D69571','ED-C8A27A39','ED-65DADBC9','ED-ECDDF4DA','ED-5C3832DB','ED-BEFE599D','ED-F4141601','ED-2CB459FC','ED-75FF2464','ED-2F13411E']);
+  if(!approvedTests.has(b.ref))fail('Cette réservation ne fait pas partie des essais identifiés.',409);
   await db.transaction(async c=>{
    const current=(await c.query('SELECT * FROM eden_bookings WHERE id=$1 FOR UPDATE',[b.id])).rows[0];
-   if(current.checkout_id||current.invoice_no)fail('Paiement ou facture associé : archivage refusé.',409);
+   if(!approvedTests.has(current.ref))fail('Réservation non identifiée comme essai.',409);
+   // Hide only: preserve payment, invoice, status and checkout records unchanged.
    await c.query("UPDATE eden_bookings SET data=data || '{\"archived\":true,\"testBooking\":true}'::jsonb,updated_at=now() WHERE id=$1",[b.id]);
    await c.query('INSERT INTO eden_events(booking_id,action) VALUES($1,$2)',[b.id,'archive-test-preserve-payment']);
   });

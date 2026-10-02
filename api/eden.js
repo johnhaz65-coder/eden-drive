@@ -54,7 +54,7 @@ module.exports=async(req,res)=>{
  if(body.action==='paid'&&b.checkout_id){const current=await payment.reconcile(db,b);if(current.paid)fail('Le paiement SumUp est déjà enregistré.',409);}
  const result=await service.change(body.id,body.action,body,p);let notification;
  if(body.action==='paid')await telegram.notify(db,result,'payment-received');
- if(body.action==='confirm'){const access=quotes.accessFor(result);if(hash(access)!==result.token_hash)await db.query("UPDATE eden_bookings SET data=jsonb_set(data,'{confirmationAccessHash}',$2::jsonb) WHERE id=$1",[result.id,JSON.stringify(hash(access))]);notification=await notifications.send(db,result,p,access,'confirmation');}
+ if(['confirm','invoice'].includes(body.action)){const access=quotes.accessFor(result);if(hash(access)!==result.token_hash)await db.query("UPDATE eden_bookings SET data=jsonb_set(data,'{confirmationAccessHash}',$2::jsonb) WHERE id=$1",[result.id,JSON.stringify(hash(access))]);notification=await notifications.send(db,result,p,access,body.action==='invoice'?'invoice':'confirmation');}
  return res.status(200).json({...publicBooking(result),...(notification?{notification}:{})});
  }catch(e){const status=e.status||500;return res.status(status).json({error:status===500?'Le service est momentanément indisponible. Réessayez ou contactez EdenDrive.':e.message});}
 };
